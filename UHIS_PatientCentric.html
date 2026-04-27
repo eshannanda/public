@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UHIS: From Disease Records to Living Care — Medtronic Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════ RESET & ROOT ═══════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:        #0d1117;
+  --paper:      #f6f3ee;
+  --cream:      #ece8df;
+  --teal:       #1a6b5a;
+  --teal-m:     #2d9478;
+  --teal-l:     #4db896;
+  --teal-pale:  #e6f4f0;
+  --amber:      #c8782a;
+  --amber-pale: #fdf3e7;
+  --slate:      #4a5568;
+  --rule:       #d8d3ca;
+  --white:      #ffffff;
+  --slide-w: 1100px;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  background: #1a1a1a;
+  color: var(--ink);
+}
+
+/* ═══════════════════ SLIDE SHELL ═══════════════════ */
+.slide-wrapper {
+  display: none;
+  flex-direction: column;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+.slide-wrapper.active { display: flex; }
+
+/* ═══════════════════ SLIDE STAGE ═══════════════════ */
+.slide {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Content slides fill available height */
+.slide-fill {
+  justify-content: center;
+}
+
+/* ═══════════════════ SPEAKER NOTES ═══════════════════ */
+.notes {
+  background: #111;
+  color: #aaa;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  padding: 16px 40px;
+  border-top: 1px solid #2a2a2a;
+  flex-shrink: 0;
+  max-height: 90px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  cursor: pointer;
+}
+.notes:hover { max-height: 300px; overflow-y: auto; }
+.notes::before {
+  content: 'SPEAKER NOTES ▸ hover to expand';
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: #444;
+  margin-bottom: 6px;
+}
+.notes strong { color: #e0e0e0; }
+
+/* ═══════════════════ NAV ═══════════════════ */
+#nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 50px;
+  background: rgba(10,10,10,0.96);
+  border-top: 1px solid #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 24px;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+#nav button {
+  background: #2a2a2a;
+  border: none;
+  color: #aaa;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  padding: 8px 20px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+#nav button:hover { background: var(--teal); color: #fff; }
+#nav button:disabled { opacity: 0.3; cursor: default; }
+#nav button:disabled:hover { background: #2a2a2a; color: #aaa; }
+#slide-counter {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #555;
+  min-width: 80px;
+  text-align: center;
+}
+#toc-btn {
+  background: transparent !important;
+  border: 1px solid #333 !important;
+  color: #666 !important;
+}
+#toc-btn:hover { border-color: var(--teal) !important; color: var(--teal) !important; background: transparent !important; }
+
+.slide-wrapper { padding-bottom: 0; }
+
+/* ═══════════════════ TOC OVERLAY ═══════════════════ */
+#toc-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 60px 40px;
+}
+#toc-overlay.open { display: block; }
+#toc-close {
+  position: fixed;
+  top: 20px; right: 24px;
+  background: #2a2a2a;
+  border: none;
+  color: #aaa;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 8px 18px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.toc-item {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  padding: 16px 18px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+.toc-item:hover { border-color: var(--teal); }
+.toc-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--teal); margin-bottom: 6px; }
+.toc-label { font-size: 13px; color: #ccc; line-height: 1.4; }
+
+/* ═══════════════════ SHARED ELEMENTS ═══════════════════ */
+.act-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.act-tag.teal { color: var(--teal-m); }
+.act-tag.light { color: var(--teal-l); }
+.act-tag.muted { color: rgba(255,255,255,0.35); }
+
+.slide-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+/* ═══════════════════════════════════════════
+   SLIDE THEMES
+═══════════════════════════════════════════ */
+
+/* ── DARK (cover / chapter / close) ── */
+.theme-dark {
+  background: var(--ink);
+  color: #fff;
+}
+/* ── LIGHT (content) ── */
+.theme-light {
+  background: var(--paper);
+  color: var(--ink);
+}
+/* ── CREAM (alternating content) ── */
+.theme-cream {
+  background: var(--cream);
+  color: var(--ink);
+}
+/* ── TEAL (accent) ── */
+.theme-teal {
+  background: var(--teal);
+  color: #fff;
+}
+
+/* ═══════════════════ GRID HELPERS ═══════════════════ */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.four-col-dark { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07); }
+
+.card {
+  background: #fff;
+  padding: 24px 22px;
+  border: 1px solid var(--rule);
+  position: relative;
+}
+.card-teal-bar::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px; height: 100%;
+  background: var(--teal);
+}
+.card-amber-bar::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 4px; height: 100%;
+  background: var(--amber);
+}
+
+.dark-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 22px;
+}
+
+.stat-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 52px;
+  line-height: 1;
+}
+.stat-big span { color: var(--teal-m); }
+.stat-big.light span { color: var(--teal-l); }
+
+.lead-text {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--slate);
+}
+
+.body-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--slate);
+}
+
+.caption {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: rgba(74,85,104,0.5);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.caption-dark {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+}
+
+.label-small {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.label-small-light {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-l);
+  margin-bottom: 8px;
+}
+
+h2.display {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 3.8vw, 48px);
+  font-weight: 300;
+  line-height: 1.1;
+}
+h2.display em { font-style: italic; color: var(--teal-m); }
+h2.display-dark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 3.4vw, 44px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #fff;
+}
+h2.display-dark em { font-style: italic; color: var(--teal-l); }
+
+h3.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+h3.card-title-dark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+/* ═══════════════════ COMPARISON TABLE ═══════════════════ */
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.cmp-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--ink);
+}
+.cmp-table th:last-child { color: var(--teal); border-bottom-color: var(--teal); }
+.cmp-table th:nth-child(2) { color: #999; }
+.cmp-table tr { border-bottom: 1px solid var(--rule); }
+.cmp-table tr:hover td { background: var(--teal-pale); }
+.cmp-table td { padding: 11px 16px; vertical-align: top; line-height: 1.5; }
+.cmp-table td:first-child { font-weight: 500; font-size: 12px; color: #666; }
+.cmp-table td:nth-child(2) { color: #999; font-style: italic; }
+.cmp-table td:last-child { color: var(--teal); font-weight: 500; }
+
+/* ═══════════════════ FLOW ARROWS ═══════════════════ */
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.flow-from { color: var(--teal-l); font-weight: 500; min-width: 160px; }
+.flow-to { color: rgba(255,255,255,0.55); min-width: 180px; }
+.flow-ai { color: rgba(255,255,255,0.38); font-size: 12px; flex: 1; }
+.flow-arrow { color: rgba(255,255,255,0.2); font-size: 16px; }
+
+/* ═══════════════════ PHASE ROADMAP ═══════════════════ */
+.phase-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 0;
+  position: relative;
+}
+.phase-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4px;
+}
+.phase-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--teal);
+  background: var(--paper);
+  z-index: 1;
+  flex-shrink: 0;
+}
+.phase-dot.filled { background: var(--teal); }
+.phase-line {
+  width: 2px;
+  flex: 1;
+  background: rgba(26,107,90,0.25);
+  margin: 4px 0;
+}
+.phase-content { padding: 0 0 28px 0; }
+.phase-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.phase-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.phase-items { list-style: none; font-size: 12.5px; color: var(--slate); }
+.phase-items li { padding: 2px 0; }
+.phase-items li::before { content: '— '; color: var(--teal); opacity: 0.6; }
+
+/* ═══════════════════ PROOF BOX ═══════════════════ */
+.proof-box {
+  background: var(--teal-pale);
+  border: 1px solid rgba(26,107,90,0.2);
+  border-left: 4px solid var(--teal);
+  padding: 18px 22px;
+}
+.proof-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+
+/* ═══════════════════ ANIMATIONS ═══════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide-wrapper.active .slide {
+  animation: fadeUp 0.4s ease both;
+}
+
+/* ═══════════════════ RESPONSIVE ═══════════════════ */
+@media (max-width: 720px) {
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .four-col, .four-col-dark { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 1 — COVER
+════════════════════════════════════════════ -->
+<div class="slide-wrapper active" id="slide-1">
+<div class="slide theme-dark slide-fill" style="min-height:0; justify-content:space-between;">
+
+  <!-- grid texture -->
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,90,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,90,0.07) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;"></div>
+  <!-- glow -->
+  <div style="position:absolute;top:-140px;right:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(26,107,90,0.22) 0%,transparent 68%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:0;left:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(200,120,42,0.10) 0%,transparent 70%);pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:1;padding:72px 80px 0;">
+    <div class="act-tag muted" style="margin-bottom:28px;">Medtronic Labs &nbsp;·&nbsp; UHIS Strategic Vision &nbsp;·&nbsp; BRAC Bangladesh &nbsp;·&nbsp; April 2026</div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,76px);font-weight:300;line-height:1.04;color:#fff;margin-bottom:22px;">
+      From Disease Records<br>to <em style="font-style:italic;color:var(--teal-l);">Living Care</em>
+    </h1>
+    <p style="font-size:17px;color:rgba(255,255,255,0.5);max-width:540px;line-height:1.65;margin-bottom:40px;">
+      A patient-centric, AI-powered reimagining of UHIS on SPICE — designed for the people BRAC serves in rural Bangladesh.
+    </p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:5px 13px;border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.4);border-radius:2px;">Patient-Centric Architecture</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:5px 13px;border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.4);border-radius:2px;">AI at the Edge</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:5px 13px;border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.4);border-radius:2px;">NCD · Maternal · Child Health</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:5px 13px;border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.4);border-radius:2px;">Cognitive Load Reduction</span>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;padding:28px 80px;border-top:1px solid rgba(255,255,255,0.07);display:flex;justify-content:space-between;align-items:center;margin-top:40px;">
+    <span style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.25);">SPICE Platform &nbsp;|&nbsp; Confidential</span>
+    <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:rgba(255,255,255,0.4);">Medtronic Labs</span>
+  </div>
+</div>
+<div class="notes"><strong>30 seconds.</strong> Let the title land. Frame the conversation: "We've been building UHIS as a disease-services system — this is a conversation about what it becomes when the patient is the centre."</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 2 — THE QUESTION WE ASK
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-2">
+<div class="slide theme-light" style="padding:64px 80px;">
+  <div class="act-tag teal" style="margin-bottom:20px;">The Core Reframe</div>
+  <h2 class="display" style="max-width:680px;margin-bottom:28px;">
+    Every design decision flows from<br><em>the question the system asks</em>
+  </h2>
+
+  <div class="two-col" style="margin-top:32px;gap:40px;">
+    <div>
+      <div style="background:#fff3f3;border:1px solid #f0d0d0;border-left:4px solid #c0392b;padding:28px 26px;margin-bottom:20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#c0392b;margin-bottom:10px;">Disease-Centric System asks</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;line-height:1.25;color:var(--ink);">"What condition does<br>this patient have?"</p>
+      </div>
+      <p class="body-text">Result: the system sees three separate records — NCD, maternal, child. A woman with hypertension who is also pregnant appears as two cases in two modules. Comorbidities are invisible. Care plans conflict. The person is lost.</p>
+    </div>
+    <div>
+      <div style="background:var(--teal-pale);border:1px solid rgba(26,107,90,0.2);border-left:4px solid var(--teal);padding:28px 26px;margin-bottom:20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">Patient-Centric System asks</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;line-height:1.25;color:var(--ink);">"Who is this person,<br>and what do they need<br>to stay well?"</p>
+      </div>
+      <p class="body-text">Result: one longitudinal record. Conditions, visits, medications, family context, and social determinants attached to a single person over time. Care is continuous, not episodic. The system sees the person before the disease.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> This is the philosophical anchor for everything that follows. The reframe is not cosmetic — it changes the data model, the workflows, and what "success" looks like. Make the contrast visceral: "BRAC's shasthya kormi knows Fatema as a person. Our system currently doesn't."</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 3 — THE PROBLEM: FOUR FAILURE MODES
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-3">
+<div class="slide theme-cream" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Act I · The Problem</div>
+  <h2 class="display" style="margin-bottom:36px;">Four failure modes of a<br><em>disease-centric system</em></h2>
+
+  <div class="two-col" style="gap:20px;">
+    <div class="card card-amber-bar">
+      <div style="font-size:22px;margin-bottom:10px;">🧩</div>
+      <h3 class="card-title">Fragmented patient identity</h3>
+      <p class="body-text">The same person appears as different records across NCD, maternal, and child modules. Comorbidities are invisible. A hypertensive pregnant woman is managed by two teams with no shared view.</p>
+    </div>
+    <div class="card card-amber-bar">
+      <div style="font-size:22px;margin-bottom:10px;">🔕</div>
+      <h3 class="card-title">Silent defaulters</h3>
+      <p class="body-text">Patients who miss follow-ups disappear without a signal — disease-wise or otherwise. CHWs carry flat lists. No one knows who fell through until the next visit, which may never come.</p>
+    </div>
+    <div class="card card-amber-bar">
+      <div style="font-size:22px;margin-bottom:10px;">📋</div>
+      <h3 class="card-title">Cognitive overload on workers</h3>
+      <p class="body-text">Clinicians navigate multiple modules for one patient. CHWs manually synthesise information across disease programmes. Every interaction requires mental work the system should do instead.</p>
+    </div>
+    <div class="card card-amber-bar">
+      <div style="font-size:22px;margin-bottom:10px;">📊</div>
+      <h3 class="card-title">Dashboards that report, not act</h3>
+      <p class="body-text">Current dashboards count consultations per disease. They don't surface: which patients are at risk today, which follow-ups are overdue, or whether last month's interventions actually worked.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1.5 minutes.</strong> These four failures compound each other — a fragmented record causes cognitive overload, which causes missed follow-ups, which the dashboard never surfaces. Frame this as a system design problem, not a people problem. BRAC's workers are excellent; the system makes them work around it.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 4 — EVIDENCE
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-4">
+<div class="slide theme-dark" style="padding:60px 80px;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,90,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,90,0.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="act-tag muted" style="margin-bottom:18px;">Act I · Evidence</div>
+    <h2 class="display-dark" style="margin-bottom:36px;">The case for change<br><em>is already in the data</em></h2>
+
+    <div class="four-col-dark" style="margin-bottom:32px;">
+      <div style="background:rgba(255,255,255,0.03);padding:26px 20px;">
+        <div class="stat-big light"><span>½</span></div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;line-height:1.5;">of NCDs in Bangladesh remain undiagnosed — the invisible burden CHWs face daily</p>
+        <div class="caption-dark">BRAC NCD360° Data</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:26px 20px;">
+        <div class="stat-big light"><span>3×</span></div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;line-height:1.5;">Hypertension control rates achieved by NCD360° — by adding continuity and follow-up, before any AI</p>
+        <div class="caption-dark">BRAC USA / Medtronic Labs</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:26px 20px;">
+        <div class="stat-big light"><span>75%</span></div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;line-height:1.5;">of SDG health gains achievable through strengthened PHC — yet fragmented systems dilute every investment</p>
+        <div class="caption-dark">WHO / Frontiers Digital Health, 2025</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:26px 20px;">
+        <div class="stat-big light"><span>11M</span></div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:8px;line-height:1.5;">additional health workers needed globally by 2030 — AI and workflow efficiency are not optional</p>
+        <div class="caption-dark">WHO Global Health Workforce, 2024</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(26,107,90,0.12);border:1px solid rgba(26,107,90,0.25);border-left:4px solid var(--teal-l);padding:18px 22px;max-width:760px;">
+      <div class="label-small-light">Published evidence</div>
+      <p style="font-size:14px;color:rgba(255,255,255,0.65);line-height:1.6;">Research in <em>Frontiers in Public Health</em> (2023) found that as multi-morbidity grows across South Asia, systems must shift from disease-centred to patient-centred care to avoid treatment burden and care that addresses the protocol but not the person. The majority of adult healthcare users already have more than one condition.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> The NCD360° stat is your strongest proof point — it shows the model works. The shift to patient-centric care is not experimental; it is what NCD360° already demonstrated at programme level. UHIS must now encode it architecturally.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 5 — THE SHIFT TABLE
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-5">
+<div class="slide theme-light" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Act II · The Shift</div>
+  <h2 class="display" style="margin-bottom:28px;">What changes — <em>specifically</em></h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Disease-Centric (now)</th>
+        <th>Patient-Centric (target)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Data model</td><td>Condition as primary record</td><td>Longitudinal person profile</td></tr>
+      <tr><td>Workflow entry</td><td>Select a disease module</td><td>Search for a person — see everything</td></tr>
+      <tr><td>Follow-up tracking</td><td>Disease-wise, siloed per programme</td><td>Unified follow-up queue, whole person</td></tr>
+      <tr><td>Triage</td><td>Manual, based on walk-in queue</td><td>AI-assisted risk triage before patient arrives</td></tr>
+      <tr><td>CHW worklist</td><td>Flat household list</td><td>Risk-ranked, route-optimised, actionable</td></tr>
+      <tr><td>Between visits</td><td>Patient invisible to system</td><td>Adherence tracked, alerts auto-fired</td></tr>
+      <tr><td>Dashboards</td><td>Activity counts per disease</td><td>Outcome metrics, care gaps, actions due today</td></tr>
+      <tr><td>Clinician experience</td><td>Re-enters data, navigates modules</td><td>Pre-filled, one view, ambient documentation</td></tr>
+      <tr><td>Patient's role</td><td>Passive subject of a service</td><td>Informed participant in their own care</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="notes"><strong>1.5 minutes.</strong> Walk down the table row by row. The follow-up and triage rows are the new additions — emphasise that "unified follow-up" means a CHW or clinician sees ONE overdue list, not six separate ones from six disease modules. The dashboard row is the pivot from reporting to action.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 6 — CHAPTER: AI PRINCIPLES
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-6">
+<div class="slide theme-teal" style="padding:72px 80px;justify-content:center;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;"></div>
+  <div style="position:relative;z-index:1;max-width:680px;">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:24px;">Act III · AI Design</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;line-height:1.08;color:#fff;margin-bottom:28px;">
+      AI must reduce what<br>the user has to <em style="font-style:italic;color:rgba(255,255,255,0.7);">do</em>,<br>not add new things to <em style="font-style:italic;color:rgba(255,255,255,0.7);">learn.</em>
+    </h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;">
+      <div style="background:rgba(255,255,255,0.1);padding:16px 18px;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:6px;">CONSTRAINT</div>
+        <p style="font-size:13px;color:#fff;line-height:1.5;">Every AI feature works offline or degrades gracefully. No server required for clinical safety.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);padding:16px 18px;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:6px;">CONSTRAINT</div>
+        <p style="font-size:13px;color:#fff;line-height:1.5;">Every AI action has a manual fallback. AI assists; humans decide. Always.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);padding:16px 18px;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:6px;">CONSTRAINT</div>
+        <p style="font-size:13px;color:#fff;line-height:1.5;">UI/UX follows existing workflows — field workers should feel less burden, not learn new patterns.</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);padding:16px 18px;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.5);margin-bottom:6px;">CONSTRAINT</div>
+        <p style="font-size:13px;color:#fff;line-height:1.5;">Summaries surface what requires action — not comprehensive data dumps that clinicians must parse.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>30 seconds.</strong> This slide sets the design philosophy for all three apps. The key sentence is: "UI/UX follows existing workflows." ASHAs should open the app and see it working the way they already think about their day. Clinicians should see a patient and immediately have context — not navigate to find it.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 7 — AI: COMMUNITY APP
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-7">
+<div class="slide theme-light" style="padding:52px 80px;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+    <div style="width:42px;height:42px;background:var(--teal-pale);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🏘️</div>
+    <div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;">Community App</h2>
+      <div class="label-small" style="margin:2px 0 0;">ASHA / Shasthya Kormi &nbsp;·&nbsp; On-device AI &nbsp;·&nbsp; Offline-first</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="card card-teal-bar">
+      <h3 class="card-title">AI Triage & Visit Prioritisation</h3>
+      <p class="body-text">CHW opens the app each morning and sees <em>one ranked list</em> — not six disease-programme lists. AI scores every household member by risk (overdue, danger sign pattern, critical medication missed) and orders visits accordingly. Route-optimised. CHW just follows the list.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Voice → Structured Visit Record</h3>
+      <p class="body-text">After a household visit, CHW speaks in local language. On-device model converts speech to a structured record — weight, symptom, medication, patient linked. No typing. Works offline. Syncs when connected. Follows the existing verbal reporting habit.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Unified Follow-up Queue</h3>
+      <p class="body-text">Overdue patients surface in one list across all conditions — not split by NCD, maternal, child health. A mother with hypertension who is also overdue for ANC appears once, with full context. CHW acts once, not three times.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Smart Survey Nudges</h3>
+      <p class="body-text">AI detects inconsistency during surveys — child reported "eating well" but weight dropped three consecutive visits — and automatically prompts a follow-up question. Catches what a tired CHW might miss without adding cognitive load.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1.5 minutes.</strong> The most important point here is "one ranked list." A CHW today might be juggling separate NCD follow-up lists, maternal registers, child nutrition registers. AI collapses this to a single actionable queue — same workflow, radically less cognitive overhead. This is what "UI follows existing workflow" looks like in practice.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 8 — AI: FACILITY APP
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-8">
+<div class="slide theme-cream" style="padding:52px 80px;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+    <div style="width:42px;height:42px;background:#e8f0ec;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🏥</div>
+    <div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;">Facility App</h2>
+      <div class="label-small" style="margin:2px 0 0;">Doctor · Nurse · Pharmacist &nbsp;·&nbsp; 40–80 patients/day</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+    <div class="card card-teal-bar">
+      <h3 class="card-title">AI-Assisted Triage</h3>
+      <p class="body-text">Before the patient enters the room, AI pre-scores urgency from CHW notes, last vitals, and flagged symptoms. Clinician sees a brief "reason to prioritise" — not raw data to parse. High-risk patients surface to top of queue automatically.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Ambient Documentation</h3>
+      <p class="body-text">Clinician speaks during consultation. AI drafts the SOAP note in the background. Review and approve in 10 seconds. Eliminates 3–4 minutes of typing per patient — at 60 patients a day, that is 3–4 hours returned to care.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Smart Pre-Fill</h3>
+      <p class="body-text">Returning patients arrive with forms pre-filled from history — conditions, medications, last vitals. Clinician corrects exceptions only. Estimated 60% reduction in data entry for follow-up visits. Follows the existing review-and-confirm mental model.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Unified Patient Summary</h3>
+      <p class="body-text">One screen: active conditions, current medications, overdue tasks, last CHW visit note, pending referrals. No module-switching. AI summarises the relevant history so the clinician asks the next question — not searches for context.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">Prescription Safety + Protocol Nudge</h3>
+      <p class="body-text">Silent checks for drug interactions, allergy conflicts, dosing errors. National protocol surfaced inline — clinician sees the recommendation in context, not in a separate guidelines app. Flags, never blocks. Clinician always decides.</p>
+    </div>
+    <div class="card card-teal-bar">
+      <h3 class="card-title">One-Tap Referral + Closed Loop</h3>
+      <p class="body-text">AI generates referral letter from consultation context. Referral status tracked until completion — if no return signal in 7 days, CHW is alerted. The system closes the loop, not memory or paper.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>2 minutes.</strong> The "unified patient summary" and "ambient documentation" are the two features that most directly address cognitive load. Frame the triage point clearly: the clinician should never have to mentally sort urgency — the system should present patients in the order that makes clinical sense. Pre-fill follows an existing "review" habit, which is why adoption is likely to be high.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 9 — AI: PATIENT APP
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-9">
+<div class="slide theme-light" style="padding:52px 80px;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+    <div style="width:42px;height:42px;background:var(--teal-pale);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📱</div>
+    <div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;">Patient App</h2>
+      <div class="label-small" style="margin:2px 0 0;">Low-literacy · Vernacular-first · SMS-capable · No app required for basics</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="gap:20px;">
+    <div>
+      <div class="card card-teal-bar" style="margin-bottom:16px;">
+        <h3 class="card-title">Plain-Language Visit Summary</h3>
+        <p class="body-text">After every facility visit, AI generates a 3-line summary: what was found, medicines to take, when to return. Delivered via SMS or WhatsApp in local language. No app required. Patient understands their own care — not just follows instructions.</p>
+      </div>
+      <div class="card card-teal-bar" style="margin-bottom:16px;">
+        <h3 class="card-title">Between-Visit Symptom Triage</h3>
+        <p class="body-text">Conversational AI flow — patient speaks or types how they feel. AI triages: safe to wait, visit facility, or call CHW now. Reduces costly and exhausting unnecessary travel while catching danger signs early.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-teal-bar" style="margin-bottom:16px;">
+        <h3 class="card-title">Vernacular Voice Health Assistant</h3>
+        <p class="body-text">Patient speaks in their language — <em>"Yeh dawai kab leni hai?"</em> AI responds in audio. No reading or typing needed. Works for patients with shared phones or low digital literacy. Designed for the actual user, not the idealised one.</p>
+      </div>
+      <div class="card card-teal-bar">
+        <h3 class="card-title">Adherence Capture via Simple Reply</h3>
+        <p class="body-text">Medication reminders in local language. Patient's free-text reply (<em>"aaj nahi li"</em>) is parsed as a missed dose, logged, and escalated to CHW if critical medication. Meets patients in their own communication habits — SMS, WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> Key point: "No app required for basics." The most important patient-facing AI features (visit summary, reminders) work over SMS/WhatsApp — the patient doesn't need to download or learn anything. This is what it means to design for the actual user, not the idealised one.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 10 — COGNITIVE LOAD & UX PRINCIPLES
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-10">
+<div class="slide theme-dark" style="padding:56px 80px;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,90,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,90,0.05) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="act-tag muted" style="margin-bottom:18px;">Design Philosophy · UX</div>
+    <h2 class="display-dark" style="margin-bottom:8px;">Reduce cognitive load.<br><em>Follow the workflow, don't fight it.</em></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.45);margin-bottom:36px;max-width:620px;">The hardest part of digital health is not building the feature — it is making the feature invisible. The best system is the one workers stop noticing because it just works.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+      <div class="dark-card">
+        <div class="label-small-light">Principle 1</div>
+        <h3 class="card-title-dark">One view per role</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">CHW sees a ranked visit list. Clinician sees a unified patient summary. Supervisor sees a population panel. No one should navigate to find the thing they need for their job.</p>
+      </div>
+      <div class="dark-card">
+        <div class="label-small-light">Principle 2</div>
+        <h3 class="card-title-dark">Summarise to action</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">Every summary ends with "what to do next" — not a data review. A patient profile doesn't list 20 data points; it says "3 things require attention today." AI does the synthesis; the worker makes the decision.</p>
+      </div>
+      <div class="dark-card">
+        <div class="label-small-light">Principle 3</div>
+        <h3 class="card-title-dark">Defaults over decisions</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">Pre-fill rather than blank forms. Suggested diagnosis rather than empty field. Pre-drafted referral letter rather than blank template. Workers confirm and correct — they don't construct from scratch.</p>
+      </div>
+      <div class="dark-card">
+        <div class="label-small-light">Principle 4</div>
+        <h3 class="card-title-dark">Alerts that matter only</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">Alert fatigue kills adherence. The system surfaces one category of alert: "something requires your action now." Informational noise is suppressed. Every alert implies a clear next step.</p>
+      </div>
+      <div class="dark-card">
+        <div class="label-small-light">Principle 5</div>
+        <h3 class="card-title-dark">Familiar interaction patterns</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">CHWs already give verbal reports after home visits — voice capture extends that habit. Clinicians already review before confirming — pre-fill extends that habit. New features map to existing mental models.</p>
+      </div>
+      <div class="dark-card">
+        <div class="label-small-light">Principle 6</div>
+        <h3 class="card-title-dark">Graceful offline fallback</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">Every AI feature degrades to a usable manual mode when connectivity fails. Rural CHWs cannot depend on network reliability. The system must be trusted before it can be relied upon.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>2 minutes.</strong> This is the design system behind all AI features. "Summarise to action" is the antidote to the current dashboard problem — dashboards that show data but don't tell you what to do. Principle 3 (defaults over decisions) is the key mechanism behind pre-fill and ambient documentation. Principle 5 is why voice capture and pre-fill are the right first AI features — they extend habits that already exist.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 11 — DASHBOARDS THAT ACT
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-11">
+<div class="slide theme-cream" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Dashboards · Population Health</div>
+  <h2 class="display" style="margin-bottom:10px;">Dashboards that <em>drive action</em>,<br>not just report activity</h2>
+  <p class="lead-text" style="max-width:680px;margin-bottom:36px;">The shift from "how many consultations happened" to "what needs to happen next" — for the clinician, the supervisor, and the programme.</p>
+
+  <div class="two-col" style="gap:24px;">
+    <div>
+      <div style="background:#fff3f3;border:1px solid #f0d0d0;padding:20px 22px;margin-bottom:16px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#c0392b;margin-bottom:10px;">Current — Activity Reporting</div>
+        <ul style="font-size:13px;color:#888;line-height:2;list-style:none;">
+          <li>→ 342 NCD consultations this month</li>
+          <li>→ 128 ANC visits conducted</li>
+          <li>→ 87 new diabetes screenings</li>
+          <li>→ 14 referrals made</li>
+        </ul>
+        <p style="font-size:12px;color:#bbb;margin-top:12px;font-style:italic;">Tells you what happened. Says nothing about what to do.</p>
+      </div>
+    </div>
+    <div>
+      <div style="background:var(--teal-pale);border:1px solid rgba(26,107,90,0.2);padding:20px 22px;margin-bottom:16px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">Target — Action Dashboards</div>
+        <ul style="font-size:13px;color:var(--slate);line-height:2;list-style:none;">
+          <li>→ <strong style="color:var(--ink);">38 patients</strong> overdue for follow-up across all conditions</li>
+          <li>→ <strong style="color:var(--ink);">12 hypertensives</strong> with uncontrolled BP this quarter</li>
+          <li>→ <strong style="color:var(--ink);">6 referrals</strong> with no return signal — action needed</li>
+          <li>→ <strong style="color:var(--ink);">4 high-risk</strong> pregnancies in your catchment area</li>
+        </ul>
+        <p style="font-size:12px;color:var(--teal);margin-top:12px;font-style:italic;">Tells you what needs to happen. Surfaces the work, not just the history.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:8px;">
+    <div style="border:1px solid var(--rule);background:#fff;padding:16px 18px;">
+      <div class="label-small">Clinician view</div>
+      <p class="body-text">Today's panel: who is high risk, who is overdue, who has a care gap. Surfaced before the day starts — not discovered in the consultation.</p>
+    </div>
+    <div style="border:1px solid var(--rule);background:#fff;padding:16px 18px;">
+      <div class="label-small">Supervisor view</div>
+      <p class="body-text">Control rates, not visit counts. % hypertensives with BP controlled. % ANC completions. Trends over time. Catchment-level gaps visible at a glance.</p>
+    </div>
+    <div style="border:1px solid var(--rule);background:#fff;padding:16px 18px;">
+      <div class="label-small">CHW view</div>
+      <p class="body-text">Today's 8 priority visits, ranked. 3 medication alerts. 1 referral follow-up pending. Everything for the day in one screen — not assembled from multiple registers.</p>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>2 minutes.</strong> This slide addresses the dashboard problem directly. The contrast (left vs right) should land clearly — same underlying data, completely different utility. The key phrase is "surfaces the work, not just the history." A supervisor who looks at a dashboard should leave knowing what three things to act on. If they leave knowing only what happened last month, the dashboard has failed.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 12 — THE CONNECTED THREAD
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-12">
+<div class="slide theme-dark" style="padding:56px 80px;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,90,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,90,0.05) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;"></div>
+  <div style="position:relative;z-index:1;">
+    <div class="act-tag muted" style="margin-bottom:18px;">The Connective Thread</div>
+    <h2 class="display-dark" style="margin-bottom:8px;">Every interaction feeds<br><em>one longitudinal record.</em></h2>
+    <p style="font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:32px;">AI reads the whole story — not just the last chapter. Signals from all three apps connect.</p>
+
+    <div style="border:1px solid rgba(255,255,255,0.07);padding:8px 0;">
+      <div class="flow-row" style="padding:14px 20px;">
+        <span class="flow-from">CHW visit note</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Facility record + patient profile</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Risk score updated · follow-up task assigned to care team</span>
+      </div>
+      <div class="flow-row" style="padding:14px 20px;">
+        <span class="flow-from">Facility consultation</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Patient SMS + CHW worklist</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Plain-language summary sent · next action assigned with due date</span>
+      </div>
+      <div class="flow-row" style="padding:14px 20px;">
+        <span class="flow-from">Patient adherence reply</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Facility dashboard + CHW alert</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Missed dose pattern detected · defaulter flag raised</span>
+      </div>
+      <div class="flow-row" style="padding:14px 20px;">
+        <span class="flow-from">Lab result entered</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Clinician view + patient SMS</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Plain-language annotation added · protocol nudge triggered</span>
+      </div>
+      <div class="flow-row" style="padding:14px 20px;">
+        <span class="flow-from">Referral dispatched</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Receiving facility + CHW</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Completion tracked · gap flagged if no signal in 7 days</span>
+      </div>
+      <div class="flow-row" style="padding:14px 20px;border-bottom:none;">
+        <span class="flow-from">Maternal ANC visit</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-to">Child health module (on birth)</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-ai">Mother–child continuity preserved · household risk updated</span>
+      </div>
+    </div>
+
+    <div class="four-col-dark" style="margin-top:24px;">
+      <div style="background:rgba(255,255,255,0.03);padding:20px 16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--teal-l);line-height:1;">3×</div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.5;">Hypertension control — NCD360°, before AI</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:20px 16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--teal-l);line-height:1;">38%</div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.5;">Maternal mortality reduction, AI-assisted triage in LMICs</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:20px 16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--teal-l);line-height:1;">~60%</div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.5;">Reduction in data entry for follow-up visits via smart pre-fill</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);padding:20px 16px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--teal-l);line-height:1;">1</div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.5;">Unified patient record — not six disease-specific modules</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1.5 minutes.</strong> The flow table is the architecture of a patient-centric system in six rows. Each row represents a signal that currently gets lost — a CHW note that never reaches the clinician, a referral that vanishes, a missed dose that no one notices. The system doesn't add new work; it closes existing gaps.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 13 — AI ARCHITECTURE FOR RURAL REALITY
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-13">
+<div class="slide theme-light" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Technical Architecture</div>
+  <h2 class="display" style="margin-bottom:8px;">Built for <em>rural reality</em> —<br>not urban assumptions</h2>
+  <p class="lead-text" style="max-width:660px;margin-bottom:32px;">Every architectural decision is constrained by the reality of rural Bangladesh: low-end Android devices, intermittent connectivity, semi-literate users, high stakes.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
+    <div style="border:1px solid var(--rule);background:#fff;padding:18px 16px;">
+      <div class="label-small">On-device</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:8px;">Edge AI</h3>
+      <p class="body-text">Small speech model, offline risk scoring, form pre-fill cache. No server call required. Works in zero connectivity.</p>
+    </div>
+    <div style="border:1px solid var(--rule);background:#fff;padding:18px 16px;">
+      <div class="label-small">WiFi sync</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:8px;">Edge Sync</h3>
+      <p class="body-text">AI processes queued data when facility WiFi available. Results cached locally. Sync is opportunistic, not blocking.</p>
+    </div>
+    <div style="border:1px solid var(--rule);background:#fff;padding:18px 16px;">
+      <div class="label-small">Server-side</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:8px;">Cloud AI</h3>
+      <p class="body-text">LLM for ambient documentation, population analytics, complex risk modelling. Used when connected; gracefully absent when not.</p>
+    </div>
+    <div style="border:1px solid var(--rule);background:#fff;padding:18px 16px;">
+      <div class="label-small">Always</div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:8px;">Manual Fallback</h3>
+      <p class="body-text">Every AI feature degrades to a usable manual flow. The system is trusted before it is relied upon. No clinical pathway blocked by AI failure.</p>
+    </div>
+  </div>
+
+  <div class="proof-box">
+    <div class="proof-label">Language — non-negotiable</div>
+    <p style="font-size:14px;color:var(--ink);line-height:1.6;">All voice and text AI must support Bengali and relevant regional dialects. AI built on English-primary models that poorly handle local language is not fit for purpose. Indic language support is a prerequisite, not a feature request.</p>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> The architecture choices here are directly driven by user reality — not engineering convenience. The language point is politically and practically important: a voice assistant that mishears Bengali or switches to English under pressure will be abandoned immediately. This is a make-or-break requirement.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 14 — ROADMAP
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-14">
+<div class="slide theme-cream" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Act IV · The Path</div>
+  <h2 class="display" style="margin-bottom:8px;">Sequenced for <em>trust</em>,<br>not big-bang disruption</h2>
+  <p class="lead-text" style="max-width:620px;margin-bottom:36px;">Each phase delivers value independently. No phase requires the next to be useful. Trust is built before dependency is introduced.</p>
+
+  <div class="two-col" style="gap:40px;align-items:start;">
+    <div>
+      <div class="phase-row" style="margin-bottom:0;">
+        <div class="phase-num-col">
+          <div class="phase-dot filled"></div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Phase 1 · Months 1–4</div>
+          <div class="phase-name">Unified Person Profile</div>
+          <ul class="phase-items">
+            <li>Merge NCD, maternal, child modules into single patient timeline</li>
+            <li>One unified follow-up queue across all conditions</li>
+            <li>Role-based views for CHW, clinician, supervisor</li>
+          </ul>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);margin-top:8px;letter-spacing:0.05em;">No AI required. Immediate clinical value from structural change alone.</div>
+        </div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-num-col">
+          <div class="phase-dot"></div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Phase 2 · Months 4–9</div>
+          <div class="phase-name">AI Data Entry & Triage</div>
+          <ul class="phase-items">
+            <li>Voice-to-visit-record for CHW (on-device, Bengali)</li>
+            <li>Smart pre-fill for returning patients</li>
+            <li>AI triage ranking in CHW worklist and facility queue</li>
+            <li>Offline risk scoring deployed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="phase-row" style="margin-bottom:0;">
+        <div class="phase-num-col">
+          <div class="phase-dot"></div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Phase 3 · Months 9–16</div>
+          <div class="phase-name">Clinical Intelligence</div>
+          <ul class="phase-items">
+            <li>Ambient documentation pilot at facilities</li>
+            <li>Prescription safety layer + protocol nudges</li>
+            <li>Action dashboards replacing activity reports</li>
+            <li>Referral closed-loop tracking</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase-row">
+        <div class="phase-num-col">
+          <div class="phase-dot"></div>
+        </div>
+        <div class="phase-content">
+          <div class="phase-label">Phase 4 · Months 16–24</div>
+          <div class="phase-name">Patient Engagement + Population</div>
+          <ul class="phase-items">
+            <li>Vernacular voice assistant + SMS adherence capture</li>
+            <li>Between-visit symptom triage for patients</li>
+            <li>Population health panels: control rates, care gaps</li>
+            <li>Predictive risk model across all programmes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1.5 minutes.</strong> Phase 1 is deliberately AI-free. This is intentional — the structural change (unified record) delivers value immediately and builds the data foundation that all subsequent AI depends on. The sequencing also builds trust: workers see the system improve their lives before it asks them to rely on AI features they don't yet understand.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 15 — PROOF POINT
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-15">
+<div class="slide theme-light" style="padding:56px 80px;">
+  <div class="act-tag teal" style="margin-bottom:18px;">Why We Know This Works</div>
+  <h2 class="display" style="margin-bottom:28px;">NCD360° is the <em>proof of concept</em>.<br>UHIS is the infrastructure to scale it.</h2>
+
+  <div class="two-col" style="gap:32px;align-items:start;">
+    <div>
+      <div class="proof-box" style="margin-bottom:20px;">
+        <div class="proof-label">What NCD360° demonstrated</div>
+        <p style="font-size:14px;color:var(--ink);line-height:1.7;">By adding community follow-up, patient-centred monitoring, and care continuity — without AI — BRAC and Medtronic Labs tripled hypertension control rates (31% → 72%) and doubled diabetes control rates (23% → 47%) in Bangladesh.</p>
+      </div>
+      <p class="body-text">The patient-centric model works. The question is not whether to shift — it is how to systematise and scale what NCD360° validated at programme level, across all of BRAC's health programming, and into every UHIS interaction.</p>
+      <p class="body-text" style="margin-top:12px;">AI does not create this model. AI removes the barriers to sustaining it at scale — the documentation burden, the follow-up memory load, the triage judgment under time pressure.</p>
+    </div>
+
+    <div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:20px;">
+        <div style="background:var(--paper);padding:22px 18px;">
+          <div class="stat-big"><span>31%</span></div>
+          <div style="font-size:12px;color:var(--slate);margin-top:4px;">→ 72% hypertension control</div>
+          <div class="caption">NCD360° Bangladesh</div>
+        </div>
+        <div style="background:var(--paper);padding:22px 18px;">
+          <div class="stat-big"><span>23%</span></div>
+          <div style="font-size:12px;color:var(--slate);margin-top:4px;">→ 47% diabetes control</div>
+          <div class="caption">NCD360° Bangladesh</div>
+        </div>
+      </div>
+      <div style="border:1px solid var(--rule);background:#fff;padding:18px 20px;">
+        <div class="label-small">The mechanism</div>
+        <p class="body-text">These gains came from systematic community follow-up and adherence support — precisely the workflows that UHIS with AI can encode, automate, and scale to every CHW and every patient, not just the NCD360° cohort.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> This slide is the strategic anchor. The NCD360° results are BRAC + Medtronic Labs' own evidence. The argument is clean: we know the model works because we have already proved it. UHIS with AI is not an experiment — it is the infrastructure to make the NCD360° model the default experience for every patient in the system.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SLIDE 16 — CLOSING
+════════════════════════════════════════════ -->
+<div class="slide-wrapper" id="slide-16">
+<div class="slide theme-dark" style="min-height:0;justify-content:center;align-items:center;text-align:center;padding:72px 80px;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(26,107,90,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,90,0.07) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;"></div>
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(26,107,90,0.14) 0%,transparent 65%);pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
+    <div class="act-tag muted" style="margin-bottom:24px;display:block;text-align:center;">The Vision</div>
+    <blockquote style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.8vw,42px);font-weight:300;font-style:italic;color:#fff;line-height:1.25;margin-bottom:28px;">"A system that knows the patient — not just their last diagnosis — and helps every worker do less administration and more care."</blockquote>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-bottom:52px;">UHIS &nbsp;·&nbsp; BRAC Bangladesh &nbsp;·&nbsp; Medtronic Labs</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.07);text-align:left;">
+      <div style="background:rgba(255,255,255,0.02);padding:24px 20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--teal-l);letter-spacing:0.1em;margin-bottom:8px;">01</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:6px;">Architecture alignment</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;">Agree on unified patient profile as the core structural change — the foundation for everything else.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.02);padding:24px 20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--teal-l);letter-spacing:0.1em;margin-bottom:8px;">02</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:6px;">Phase 1 scope & resource</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;">Commit to NCD + maternal + child module unification. Delivers value immediately with no AI dependency.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.02);padding:24px 20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--teal-l);letter-spacing:0.1em;margin-bottom:8px;">03</div>
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:6px;">AI pilot design</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;">Select voice-to-record (CHW) and smart pre-fill (clinician) as first AI pilots in a defined geography.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="notes"><strong>1 minute.</strong> End on the ask — three concrete decisions that can be made in this meeting. The quote frames the goal at the human level: less administration, more care. The three asks are specific enough to act on and sequenced so the first can begin immediately without waiting for consensus on the full vision.</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     NAV & TOC
+════════════════════════════════════════════ -->
+<nav id="nav">
+  <button id="toc-btn" onclick="toggleTOC()">☰ All Slides</button>
+  <button id="prev-btn" onclick="navigate(-1)" disabled>← Prev</button>
+  <span id="slide-counter">1 / 16</span>
+  <button id="next-btn" onclick="navigate(1)">Next →</button>
+</nav>
+
+<div id="toc-overlay">
+  <button id="toc-close" onclick="toggleTOC()">✕ Close</button>
+  <div style="max-width:960px;margin:0 auto;">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#555;margin-bottom:24px;text-align:center;">All Slides</div>
+    <div class="toc-grid" id="toc-grid"></div>
+  </div>
+</div>
+
+<script>
+const TOTAL = 16;
+let current = 1;
+
+const titles = [
+  "Cover — From Disease Records to Living Care",
+  "The Core Reframe — The Question We Ask",
+  "Act I — Four Failure Modes",
+  "Act I — The Case for Change (Evidence)",
+  "Act II — What Changes Specifically",
+  "Act III — AI Design Principles",
+  "AI — Community App (CHW)",
+  "AI — Facility App (Clinician)",
+  "AI — Patient App",
+  "UX — Reduce Cognitive Load",
+  "Dashboards That Drive Action",
+  "The Connected Thread",
+  "Technical Architecture (Rural Reality)",
+  "Act IV — Roadmap",
+  "Proof Point — NCD360°",
+  "Closing & The Ask"
+];
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  document.getElementById('slide-' + current).classList.remove('active');
+  current = next;
+  document.getElementById('slide-' + current).classList.add('active');
+  document.getElementById('slide-counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('prev-btn').disabled = current === 1;
+  document.getElementById('next-btn').disabled = current === TOTAL;
+  // scroll the slide content back to top
+  const slideEl = document.getElementById('slide-' + current).querySelector('.slide');
+  if (slideEl) slideEl.scrollTop = 0;
+}
+
+function goTo(n) {
+  document.getElementById('slide-' + current).classList.remove('active');
+  current = n;
+  document.getElementById('slide-' + current).classList.add('active');
+  document.getElementById('slide-counter').textContent = current + ' / ' + TOTAL;
+  document.getElementById('prev-btn').disabled = current === 1;
+  document.getElementById('next-btn').disabled = current === TOTAL;
+  toggleTOC();
+  const slideEl = document.getElementById('slide-' + current).querySelector('.slide');
+  if (slideEl) slideEl.scrollTop = 0;
+}
+
+function toggleTOC() {
+  document.getElementById('toc-overlay').classList.toggle('open');
+}
+
+// Build TOC
+const grid = document.getElementById('toc-grid');
+titles.forEach((t, i) => {
+  const el = document.createElement('div');
+  el.className = 'toc-item';
+  el.innerHTML = '<div class="toc-num">0' + (i + 1 < 10 ? '0' : '') + (i + 1) + '</div><div class="toc-label">' + t + '</div>';
+  el.onclick = () => goTo(i + 1);
+  grid.appendChild(el);
+});
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+  if (e.key === 'Escape') document.getElementById('toc-overlay').classList.remove('open');
+});
+</script>
+</body>
+</html>

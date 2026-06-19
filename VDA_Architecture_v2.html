@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VDA — AI-Powered Health Navigation Platform | Architecture Document v2.0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap');
+
+  :root {
+    --deep-blue: #0A1628;
+    --blue-mid: #1A3A7C;
+    --blue-light: #2563EB;
+    --blue-soft: #3B82F6;
+    --purple: #5B21B6;
+    --purple-light: #7C3AED;
+    --purple-soft: #8B5CF6;
+    --teal: #0D9488;
+    --teal-light: #14B8A6;
+    --amber: #D97706;
+    --rose: #E11D48;
+    --emerald: #059669;
+    --cyan: #0891B2;
+    --bg: #F0F4F8;
+    --bg-card: #FFFFFF;
+    --bg-section: #EBF1FB;
+    --text-primary: #0A1628;
+    --text-body: #1E293B;
+    --text-muted: #64748B;
+    --border: #D1DCF0;
+    --border-light: #E8EEF8;
+    --gradient-hero: linear-gradient(140deg, #0A1628 0%, #162C5C 35%, #1E40AF 65%, #5B21B6 100%);
+    --gradient-card: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
+    --gradient-teal: linear-gradient(135deg, #ECFDF5 0%, #F0FDFA 100%);
+    --gradient-accent: linear-gradient(90deg, #2563EB, #7C3AED);
+    --shadow-card: 0 2px 16px rgba(10,22,40,0.07);
+    --shadow-hover: 0 8px 36px rgba(10,22,40,0.14);
+    --shadow-ragas: 0 4px 24px rgba(13,148,136,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-body);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--gradient-hero);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -180px; right: -180px;
+    width: 580px; height: 580px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,33,182,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: -80px;
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(13,148,136,0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cover-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; z-index: 2;
+  }
+
+  .cover-logo {
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+  .cover-logo span { color: #5EEAD4; }
+
+  .cover-badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: rgba(255,255,255,0.82);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .cover-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative; z-index: 2;
+    padding: 80px 0 40px;
+  }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #5EEAD4;
+    margin-bottom: 20px;
+  }
+
+  .cover-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 76px;
+    color: white;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+  }
+  .cover-title span {
+    background: linear-gradient(90deg, #5EEAD4, #A78BFA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cover-subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 48px;
+    max-width: 640px;
+    line-height: 1.55;
+  }
+
+  .cover-new-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, rgba(13,148,136,0.25), rgba(91,33,182,0.25));
+    border: 1px solid rgba(94,234,212,0.35);
+    color: #5EEAD4;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    width: fit-content;
+  }
+
+  .cover-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .cover-pill {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: rgba(255,255,255,0.88);
+    padding: 7px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .cover-pill.new {
+    background: rgba(13,148,136,0.2);
+    border-color: rgba(94,234,212,0.4);
+    color: #5EEAD4;
+  }
+
+  .cover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative; z-index: 2;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 28px;
+  }
+  .cover-meta { color: rgba(255,255,255,0.5); font-size: 13px; }
+  .cover-meta strong { color: rgba(255,255,255,0.82); display: block; font-size: 14px; margin-bottom: 2px; }
+  .cover-version {
+    background: linear-gradient(90deg, var(--teal), var(--purple-soft));
+    color: white;
+    padding: 8px 22px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ── Page layout ── */
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 80px 60px;
+  }
+
+  /* ── TOC ── */
+  .toc-page {
+    background: white;
+    padding: 80px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .toc-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 36px;
+    color: var(--deep-blue);
+    margin-bottom: 48px;
+  }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 48px; }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    text-decoration: none;
+  }
+  .toc-num { font-size: 11px; font-weight: 700; color: var(--blue-light); letter-spacing: 1px; min-width: 28px; }
+  .toc-label { font-size: 14px; font-weight: 500; color: var(--text-primary); flex: 1; }
+  .toc-new {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--teal);
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Section ── */
+  .section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 12px;
+  }
+  .section-eyebrow.teal { color: var(--teal); }
+
+  .section-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: 44px;
+    color: var(--deep-blue);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-muted);
+    max-width: 720px;
+    line-height: 1.55;
+    margin-bottom: 48px;
+  }
+
+  /* ── Typography ── */
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--deep-blue);
+    margin: 44px 0 16px;
+    letter-spacing: -0.3px;
+  }
+  h4 { font-size: 16px; font-weight: 700; color: var(--deep-blue); margin: 28px 0 10px; }
+  p { color: var(--text-body); margin-bottom: 16px; max-width: 800px; }
+  strong { color: var(--deep-blue); }
+  code {
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    background: #F1F5F9;
+    color: var(--deep-blue);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* ── Cards ── */
+  .card-grid { display: grid; gap: 20px; margin: 32px 0; }
+  .card-grid-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-hover); }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .icon-blue { background: #EFF6FF; }
+  .icon-purple { background: #F5F3FF; }
+  .icon-teal { background: #F0FDFA; }
+  .icon-amber { background: #FFF7ED; }
+  .icon-rose { background: #FFF1F2; }
+  .icon-emerald { background: #ECFDF5; }
+
+  .card-title { font-size: 15px; font-weight: 700; color: var(--deep-blue); margin-bottom: 8px; }
+  .card-body { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0; max-width: 100%; }
+
+  /* ── RAGAS Card special ── */
+  .ragas-card {
+    background: linear-gradient(135deg, #F0FDFA, #ECFDF5);
+    border: 2px solid #99F6E4;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow-ragas);
+  }
+  .ragas-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ── Use Case Cards ── */
+  .use-case-card {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 32px;
+  }
+  .use-case-header {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .use-case-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .use-case-title { font-size: 18px; font-weight: 700; color: var(--deep-blue); }
+  .use-case-persona { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .use-case-body { padding: 0 32px 28px; }
+  .use-case-divider { height: 1px; background: var(--border-light); margin: 0 32px 24px; }
+
+  .conversation {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .msg {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .msg-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .msg-user .msg-avatar { background: #EFF6FF; }
+  .msg-vda .msg-avatar { background: linear-gradient(135deg, var(--teal), var(--blue-light)); color: white; font-size: 11px; font-weight: 700; }
+  .msg-bubble {
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 80%;
+  }
+  .msg-user .msg-bubble { background: #EFF6FF; color: var(--deep-blue); border-bottom-left-radius: 4px; }
+  .msg-vda .msg-bubble { background: var(--deep-blue); color: rgba(255,255,255,0.92); border-bottom-left-radius: 4px; }
+  .msg-vda .msg-bubble em { color: #5EEAD4; font-style: normal; font-weight: 600; }
+  .msg-system {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    letter-spacing: 0.5px;
+    padding: 6px 16px;
+    background: #F0FDFA;
+    border-radius: 999px;
+    align-self: center;
+  }
+
+  .agents-flow {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .agent-chip {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .agent-chip.intent { background: #EFF6FF; color: var(--blue-light); }
+  .agent-chip.ncd { background: #F0FDF4; color: var(--emerald); }
+  .agent-chip.report { background: #FFF7ED; color: var(--amber); }
+  .agent-chip.facility { background: #F5F3FF; color: var(--purple-light); }
+  .agent-chip.emergency { background: #FFF1F2; color: var(--rose); }
+  .agent-chip.teleconsult { background: #ECFEFF; color: var(--cyan); }
+  .agent-chip.scheme { background: #F0FDFA; color: var(--teal); }
+  .agent-chip.education { background: #FAFAF9; color: #78716C; }
+  .arrow-chip { font-size: 14px; color: var(--text-muted); padding-top: 4px; }
+
+  /* ── Stat cards ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 32px 0; }
+  .stat-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 38px;
+    font-weight: 900;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ── Highlight boxes ── */
+  .highlight-box {
+    background: var(--gradient-hero);
+    border-radius: 20px;
+    padding: 48px;
+    color: white;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .highlight-box::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(91,33,182,0.3);
+  }
+  .highlight-box h3 { color: white; margin-top: 0; font-size: 26px; }
+  .highlight-box p { color: rgba(255,255,255,0.78); max-width: 100%; }
+
+  .teal-box {
+    background: linear-gradient(135deg, #F0FDFA, #ECFDF5);
+    border: 2px solid #A7F3D0;
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+  }
+  .teal-box h3 { color: var(--teal); margin-top: 0; }
+  .teal-box p { color: #065F46; max-width: 100%; }
+
+  /* ── Tags ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .tag { background: var(--bg-section); color: var(--blue-mid); border: 1px solid #DBEAFE; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .tag-purple { background: #F5F3FF; color: var(--purple); border-color: #EDE9FE; }
+  .tag-teal { background: #F0FDFA; color: var(--teal); border-color: #99F6E4; }
+  .tag-amber { background: #FFF7ED; color: var(--amber); border-color: #FED7AA; }
+  .tag-emerald { background: #ECFDF5; color: var(--emerald); border-color: #A7F3D0; }
+  .tag-rose { background: #FFF1F2; color: var(--rose); border-color: #FECDD3; }
+
+  /* ── Tables ── */
+  .data-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+  .data-table th {
+    background: var(--deep-blue);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .data-table th:first-child { border-radius: 8px 0 0 0; }
+  .data-table th:last-child { border-radius: 0 8px 0 0; }
+  .data-table td { padding: 12px 16px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+  .data-table tr:nth-child(even) td { background: #F8FAFF; }
+
+  /* ── RAGAS metric table special ── */
+  .ragas-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; }
+  .ragas-table th {
+    background: var(--teal);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .ragas-table th:first-child { border-radius: 8px 0 0 0; }
+  .ragas-table th:last-child { border-radius: 0 8px 0 0; }
+  .ragas-table td { padding: 13px 16px; border-bottom: 1px solid #CCFBF1; vertical-align: top; }
+  .ragas-table tr:nth-child(even) td { background: #F0FDFA; }
+  .metric-score {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .score-green { background: #DCFCE7; color: #166534; }
+  .score-amber { background: #FEF9C3; color: #854D0E; }
+  .score-red { background: #FEE2E2; color: #991B1B; }
+
+  /* ── Diagram containers ── */
+  .diagram-wrap {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 40px 0;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .diagram-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border-light);
+  }
+  .diagram-title span {
+    display: inline-block;
+    background: var(--gradient-accent);
+    color: white;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 1px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .diagram-title span.teal-badge {
+    background: linear-gradient(90deg, var(--teal), var(--emerald));
+  }
+
+  /* ── Pipeline ── */
+  .pipeline { display: flex; align-items: center; flex-wrap: wrap; gap: 0; margin: 32px 0; }
+  .pipeline-step {
+    background: white;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--deep-blue);
+    white-space: nowrap;
+  }
+  .pipeline-arrow { color: var(--blue-light); font-size: 18px; font-weight: 700; padding: 0 6px; }
+
+  /* ── Risk badges ── */
+  .risk-high { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .risk-med { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .risk-low { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+
+  /* ── Journey steps ── */
+  .journey-step { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 16px; }
+  .journey-num {
+    width: 32px; height: 32px; min-width: 32px;
+    border-radius: 50%;
+    background: var(--gradient-accent);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+
+  /* ── Roadmap ── */
+  .roadmap-track { display: flex; gap: 0; align-items: stretch; margin: 32px 0; }
+  .roadmap-stage { flex: 1; padding: 24px 20px; }
+  .roadmap-stage:first-child { border-radius: 16px 0 0 16px; }
+  .roadmap-stage:last-child { border-radius: 0 16px 16px 0; }
+  .rs-1 { background: #EFF6FF; border: 1px solid #BFDBFE; }
+  .rs-2 { background: #F5F3FF; border: 1px solid #DDD6FE; border-left: none; }
+  .rs-3 { background: #F0FDFA; border: 2px solid #5EEAD4; border-left: none; }
+  .rs-4 { background: #F0FDF4; border: 1px solid #A7F3D0; border-left: none; }
+  .rs-5 { background: linear-gradient(135deg, #0A1628, #1E40AF); border: 1px solid #1D4ED8; border-left: none; }
+  .rs-num { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .rs-1 .rs-num { color: var(--blue-light); }
+  .rs-2 .rs-num { color: var(--purple-light); }
+  .rs-3 .rs-num { color: var(--teal); }
+  .rs-4 .rs-num { color: var(--emerald); }
+  .rs-5 .rs-num { color: #5EEAD4; }
+  .rs-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .rs-1 .rs-title, .rs-2 .rs-title, .rs-3 .rs-title, .rs-4 .rs-title { color: var(--deep-blue); }
+  .rs-5 .rs-title { color: white; }
+  .rs-desc { font-size: 12px; line-height: 1.5; }
+  .rs-1 .rs-desc, .rs-2 .rs-desc, .rs-3 .rs-desc, .rs-4 .rs-desc { color: var(--text-muted); }
+  .rs-5 .rs-desc { color: rgba(255,255,255,0.68); }
+
+  /* ── Footer ── */
+  .doc-footer {
+    background: var(--deep-blue);
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+  }
+  .doc-footer strong { color: white; }
+
+  /* ── RAGAS section special styling ── */
+  .ragas-section {
+    background: linear-gradient(160deg, #F0FDFA 0%, #ECFDF5 40%, #F5F3FF 100%);
+    border: 2px solid #99F6E4;
+    border-radius: 24px;
+    padding: 48px;
+    margin: 40px 0;
+  }
+  .ragas-section .section-eyebrow { color: var(--teal); }
+  .ragas-section .section-title { font-size: 38px; }
+
+  .metric-card {
+    background: white;
+    border: 1px solid #CCFBF1;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-ragas);
+  }
+  .metric-name { font-size: 16px; font-weight: 700; color: var(--teal); margin-bottom: 6px; }
+  .metric-def { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .metric-formula {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    background: #F0FDFA;
+    border: 1px solid #CCFBF1;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .metric-example { font-size: 13px; color: var(--text-body); line-height: 1.5; }
+  .metric-example strong { color: var(--teal); }
+
+  /* ── Threshold bars ── */
+  .threshold-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0;
+  }
+  .threshold-label { font-size: 12px; font-weight: 600; color: var(--text-muted); min-width: 80px; }
+  .threshold-track {
+    flex: 1;
+    height: 8px;
+    background: #E2E8F0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .threshold-fill { height: 100%; border-radius: 999px; }
+  .fill-green { background: linear-gradient(90deg, #10B981, #34D399); }
+  .fill-amber { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+  .fill-red { background: linear-gradient(90deg, #EF4444, #F87171); }
+  .threshold-value { font-size: 12px; font-weight: 700; color: var(--text-body); min-width: 40px; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════ COVER ════════════ -->
+<div class="cover">
+  <div class="cover-nav">
+    <div class="cover-logo">VDA <span>Health</span></div>
+    <div class="cover-badge">ENTERPRISE ARCHITECTURE · v2.0</div>
+  </div>
+
+  <div class="cover-content">
+    <div class="cover-eyebrow">Architecture Document · Version 2.0</div>
+    <div class="cover-title">Virtual<br><span>Digital Assistant</span></div>
+    <div class="cover-subtitle">
+      An AI-Powered Health Navigation Platform built to guide patients through their care journey — not just answer questions.
+    </div>
+
+    <div class="cover-pills">
+      <div class="cover-pill">Multi-Agent AI</div>
+      <div class="cover-pill">Multilingual by Default</div>
+      <div class="cover-pill">Health Expert Use Cases</div>
+      <div class="cover-pill">NCD Care Management</div>
+      <div class="cover-pill">Document Intelligence</div>
+      <div class="cover-pill">Enterprise-Grade Security</div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-meta">
+      <strong>Audience</strong>
+      Healthcare Leadership, Clinical Experts & Engineering Teams
+    </div>
+    <div class="cover-meta" style="text-align:center;">
+      <strong>Classification</strong>
+      Confidential — Client Use Only
+    </div>
+    <div class="cover-version">v2.0 · June 2026</div>
+  </div>
+</div>
+
+<!-- ════════════ TOC ════════════ -->
+<div class="toc-page" style="max-width:1120px;margin:0 auto;">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-grid">
+    <a class="toc-item" href="#s1"><span class="toc-num">01</span><span class="toc-label">Executive Summary</span></a>
+    <a class="toc-item" href="#s12"><span class="toc-num">12</span><span class="toc-label">Memory Architecture</span></a>
+    <a class="toc-item" href="#s2"><span class="toc-num">02</span><span class="toc-label">Why Now</span></a>
+    <a class="toc-item" href="#s13"><span class="toc-num">13</span><span class="toc-label">Knowledge Ingestion</span></a>
+    <a class="toc-item" href="#s3"><span class="toc-num">03</span><span class="toc-label">Problem Landscape</span></a>
+    <a class="toc-item" href="#s14"><span class="toc-num">14</span><span class="toc-label">Document Intelligence</span></a>
+    <a class="toc-item" href="#s4"><span class="toc-num">04</span><span class="toc-label">Vision & Principles</span></a>
+    <a class="toc-item" href="#s15"><span class="toc-num">15</span><span class="toc-label">Security & Privacy</span></a>
+    <a class="toc-item" href="#s5"><span class="toc-num">05</span><span class="toc-label">Capability Framework</span></a>
+    <a class="toc-item" href="#s16"><span class="toc-num">16</span><span class="toc-label">Production Deployment</span></a>
+    <a class="toc-item" href="#s6"><span class="toc-num">06</span><span class="toc-label">Use Cases for Health Experts</span></a>
+    <a class="toc-item" href="#s17"><span class="toc-num">17</span><span class="toc-label">Scalability & Performance</span></a>
+    <a class="toc-item" href="#s7"><span class="toc-num">07</span><span class="toc-label">High-Level Architecture</span></a>
+    <a class="toc-item" href="#s18"><span class="toc-num">18</span><span class="toc-label">Recommended Tech Stack</span></a>
+    <a class="toc-item" href="#s8"><span class="toc-num">08</span><span class="toc-label">Conversational AI Pipeline</span></a>
+    <a class="toc-item" href="#s19"><span class="toc-num">19</span><span class="toc-label">Architecture Decision Records</span></a>
+    <a class="toc-item" href="#s9"><span class="toc-num">09</span><span class="toc-label">Multi-Agent Architecture</span></a>
+    <a class="toc-item" href="#s20"><span class="toc-num">20</span><span class="toc-label">Risk Register</span></a>
+    <a class="toc-item" href="#s10"><span class="toc-num">10</span><span class="toc-label">LLM Architecture</span></a>
+    <a class="toc-item" href="#s21"><span class="toc-num">21</span><span class="toc-label">RAGAS: AI Quality Measurement</span></a>
+    <a class="toc-item" href="#s11"><span class="toc-num">11</span><span class="toc-label">Capability Framework Diagram</span></a>
+    <a class="toc-item" href="#s22"><span class="toc-num">22</span><span class="toc-label">AI Evolution Roadmap</span></a>
+    <a class="toc-item" href="#sX"><span class="toc-num">→</span><span class="toc-label">Final Recommendations</span></a>
+  </div>
+</div>
+
+
+<div class="page">
+
+<!-- ════════════ 01 EXECUTIVE SUMMARY ════════════ -->
+<div class="section" id="s1">
+  <div class="section-eyebrow">01 — Executive Summary</div>
+  <div class="section-title">The Digital Front Door<br>to Healthcare</div>
+  <div class="section-subtitle">
+    VDA is not a chatbot. It is an AI-powered care navigation platform — the intelligent layer that connects patients to the right information, the right facility, and the right clinician at the right moment.
+  </div>
+
+  <p>Healthcare's biggest operational challenge isn't clinical capacity — it's the gap between a patient's need and their ability to navigate toward a solution. Patients misinterpret lab values, miss follow-up steps, forget medications, and delay escalation because they lack accessible, contextually intelligent guidance. VDA closes that gap.</p>
+
+  <p>Built on a multi-agent AI foundation, VDA embeds into third-party healthcare applications as a navigation layer. It accepts text, voice, images, and documents. It reasons across chronic disease protocols, interprets uploaded prescriptions, locates facilities, connects to entitlement schemes, and escalates to human clinicians when a situation exceeds safe AI boundaries.</p>
+
+  
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Specialized AI Agents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">5+</div>
+      <div class="stat-label">Supported Languages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">1M+</div>
+      <div class="stat-label">Target User Capacity</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">99.9%</div>
+      <div class="stat-label">Target Availability</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Strategic Positioning</h3>
+    <p>The value of VDA will not be measured by how conversational it feels, but by how effectively it helps people make better healthcare decisions with greater confidence and safer outcomes. This is a navigation platform that happens to speak — not a conversational interface that happens to know healthcare.</p>
+  </div>
+</div>
+
+
+<!-- ════════════ 02 WHY NOW ════════════ -->
+<div class="section" id="s2">
+  <div class="section-eyebrow">02 — Why Now</div>
+  <div class="section-title">Three Converging Forces</div>
+  <div class="section-subtitle">The timing for an AI-powered health navigation platform is no longer speculative. Three macro forces have reached a threshold where building this is both feasible and strategically urgent.</div>
+
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <div class="card-icon icon-blue">🧠</div>
+      <div class="card-title">AI Has Reached Clinical Reasoning Maturity</div>
+      <p class="card-body">Modern large language models can understand multilingual natural language with nuance, reason across clinical context, summarize complex medical documents for non-specialist audiences, and generate responses calibrated to a patient's literacy level. The foundational capability now exists.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-purple">📈</div>
+      <div class="card-title">The Chronic Disease Burden Demands Continuous Engagement</div>
+      <p class="card-body">NCD management is longitudinal by nature. A diabetic patient's relationship with their condition doesn't end at discharge — it lives in every meal, every missed dose, every unread lab report. The model of episodic consultations is structurally insufficient for chronic care.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-teal">📱</div>
+      <div class="card-title">Healthcare Digitization Has Created the Delivery Rail</div>
+      <p class="card-body">Mobile-first health applications, telemedicine platforms, digital health records, and connected monitoring devices have created the infrastructure VDA needs to operate. VDA becomes the intelligence layer embedded within it, transforming a passive information surface into an active navigation system.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 03 PROBLEM LANDSCAPE ════════════ -->
+<div class="section" id="s3">
+  <div class="section-eyebrow">03 — Problem Landscape</div>
+  <div class="section-title">Where Patients Get Lost</div>
+  <div class="section-subtitle">The healthcare navigation problem is not about access to information — it's about a patient's ability to interpret, contextualise, and act on it without clinical guidance at every step.</div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card">
+      <div class="card-icon icon-amber">📄</div>
+      <div class="card-title">The Health Literacy Gap</div>
+      <p class="card-body">A lab report that reads "HbA1c: 8.7%" means nothing without context. A prescription with five medications, dosing schedules, and interaction warnings is genuinely inaccessible to most patients. Clinical documentation is written for clinicians. VDA translates it for people.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-purple">🗺️</div>
+      <div class="card-title">Navigation Complexity</div>
+      <p class="card-body">The healthcare system spans public hospitals, private clinics, diagnostic chains, telemedicine services, government scheme networks, and insurance panels. Patients routinely visit the wrong facility, request the wrong test, or miss available benefits simply because the system's structure is opaque to them.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-rose">⏱️</div>
+      <div class="card-title">Chronic Care Drop-Off</div>
+      <p class="card-body">Adherence to chronic disease management plans degrades sharply after the initial consultation. Without continuous, contextual reinforcement — medication reminders, dietary guidance, follow-up prompts — patients disengage from their own care plans. This is the highest-cost failure mode in NCD management.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-blue">💊</div>
+      <div class="card-title">Scheme Awareness & Benefits Gap</div>
+      <p class="card-body">India's public health entitlement architecture — Ayushman Bharat, state-level schemes, free diagnostics — is extensive but underutilised. Eligibility rules are complex, documentation requirements are opaque, and the gap between entitlement and awareness represents a system failure that VDA can directly address.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 04 VISION & PRINCIPLES ════════════ -->
+<div class="section" id="s4">
+  <div class="section-eyebrow">04 — Vision & Design Principles</div>
+  <div class="section-title">What VDA Is<br>Built to Be</div>
+  <div class="section-subtitle">Five principles govern every architectural and product decision in VDA. These are not aspirational values — they are operational constraints with architectural consequences.</div>
+
+  <div class="card-grid card-grid-2" style="margin-top:32px;">
+    <div class="card" style="border-left: 3px solid var(--blue-light);">
+      <div class="card-title">① Guidance Over Chat</div>
+      <p class="card-body">Open-ended conversational interfaces are the wrong default for healthcare. Structured, guided workflows — symptom intake, triage, care pathway selection — produce safer, more reliable outcomes than free-text dialogue. VDA is designed to guide before it converses.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--purple-light);">
+      <div class="card-title">② Voice-First Accessibility</div>
+      <p class="card-body">For a platform serving India's NCD population, a text-only interface is an accessibility failure. Voice support — in regional languages, with STT/TTS round-tripping through the AI pipeline — is a first-class architectural requirement, not a feature to be added later.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--teal);">
+      <div class="card-title">③ Multilingual by Default</div>
+      <p class="card-body">VDA supports Hindi, Kannada, Tamil, English, and code-mixed language ("Sugar high hai, kya karu?"). Language normalisation happens internally — the user speaks their language; the reasoning layer operates in canonical form. The response returns in the user's language and modality.</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--emerald);">
+      <div class="card-title">④ Human Escalation is Non-Negotiable</div>
+      <p class="card-body">AI must never become a dead end. Every clinical pathway in VDA has a defined escalation threshold — to a care coach, a nurse, a doctor, or a teleconsultation service. The platform recognises the boundaries of safe AI response and routes to humans gracefully.</p>
+    </div>
+  </div>
+  <div class="card" style="border-left: 3px solid var(--amber); margin-top: 20px;">
+    <div class="card-title">⑤ Safety Over Cleverness</div>
+    <p class="card-body">A response that is bounded, safe, and slightly less complete is always preferable to a response that is creative, comprehensive, and potentially unsafe. VDA's AI safety engine — guardrails, output validation, PII masking, hallucination controls — is not a compliance layer. It is a core product value.</p>
+  </div>
+</div>
+
+
+<!-- ════════════ 05 CAPABILITY FRAMEWORK ════════════ -->
+<div class="section" id="s5">
+  <div class="section-eyebrow">05 — Capability Framework</div>
+  <div class="section-title">What VDA Does</div>
+  <div class="section-subtitle">Seven core capability pillars, each backed by specialised agents and governed by cross-cutting platform services.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 01</span> Capability Framework</div>
+    <svg viewBox="0 0 1020 480" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <defs>
+        <linearGradient id="hdr3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0A1628"/>
+          <stop offset="100%" style="stop-color:#1E40AF"/>
+        </linearGradient>
+        <linearGradient id="crossGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0D9488"/>
+          <stop offset="100%" style="stop-color:#5B21B6"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="1000" height="52" rx="12" fill="url(#hdr3)"/>
+      <text x="510" y="42" text-anchor="middle" fill="white" font-size="16" font-weight="700" letter-spacing="0.5">VDA — AI-Powered Health Navigation Platform</text>
+      <rect x="10" y="80" width="134" height="200" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+      <rect x="10" y="80" width="134" height="36" rx="12" fill="#2563EB"/>
+      <rect x="10" y="100" width="134" height="16" fill="#2563EB"/>
+      <text x="77" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Health Navigation</text>
+      <text x="77" y="135" text-anchor="middle" fill="#1E40AF" font-size="11">Facility Search</text>
+      <text x="77" y="152" text-anchor="middle" fill="#1E40AF" font-size="11">Care Pathway</text>
+      <text x="77" y="169" text-anchor="middle" fill="#1E40AF" font-size="11">Step Guidance</text>
+      <text x="77" y="186" text-anchor="middle" fill="#1E40AF" font-size="11">Appointment</text>
+      <text x="77" y="203" text-anchor="middle" fill="#1E40AF" font-size="11">Next Best Action</text>
+      <text x="77" y="255" text-anchor="middle" fill="#93C5FD" font-size="10">🧭 Facility Agent</text>
+      <rect x="154" y="80" width="134" height="200" rx="12" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="154" y="80" width="134" height="36" rx="12" fill="#7C3AED"/>
+      <rect x="154" y="100" width="134" height="16" fill="#7C3AED"/>
+      <text x="221" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Health Education</text>
+      <text x="221" y="135" text-anchor="middle" fill="#5B21B6" font-size="11">Condition Explainer</text>
+      <text x="221" y="152" text-anchor="middle" fill="#5B21B6" font-size="11">Medication Guide</text>
+      <text x="221" y="169" text-anchor="middle" fill="#5B21B6" font-size="11">Diet &amp; Lifestyle</text>
+      <text x="221" y="186" text-anchor="middle" fill="#5B21B6" font-size="11">Risk Education</text>
+      <text x="221" y="203" text-anchor="middle" fill="#5B21B6" font-size="11">Preventive Tips</text>
+      <text x="221" y="255" text-anchor="middle" fill="#C4B5FD" font-size="10">📚 Education Agent</text>
+      <rect x="298" y="80" width="134" height="200" rx="12" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1.5"/>
+      <rect x="298" y="80" width="134" height="36" rx="12" fill="#0D9488"/>
+      <rect x="298" y="100" width="134" height="16" fill="#0D9488"/>
+      <text x="365" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Teleconsult</text>
+      <text x="365" y="135" text-anchor="middle" fill="#0F766E" font-size="11">Triage Assessment</text>
+      <text x="365" y="152" text-anchor="middle" fill="#0F766E" font-size="11">Doctor Matching</text>
+      <text x="365" y="169" text-anchor="middle" fill="#0F766E" font-size="11">Pre-consult Prep</text>
+      <text x="365" y="186" text-anchor="middle" fill="#0F766E" font-size="11">Post-consult</text>
+      <text x="365" y="203" text-anchor="middle" fill="#0F766E" font-size="11">Follow-up</text>
+      <text x="365" y="255" text-anchor="middle" fill="#5EEAD4" font-size="10">🩺 Teleconsult Agent</text>
+      <rect x="442" y="80" width="134" height="200" rx="12" fill="#F0FDF4" stroke="#A7F3D0" stroke-width="1.5"/>
+      <rect x="442" y="80" width="134" height="36" rx="12" fill="#059669"/>
+      <rect x="442" y="100" width="134" height="16" fill="#059669"/>
+      <text x="509" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">NCD Care Mgmt</text>
+      <text x="509" y="135" text-anchor="middle" fill="#065F46" font-size="11">Diabetes Support</text>
+      <text x="509" y="152" text-anchor="middle" fill="#065F46" font-size="11">Hypertension</text>
+      <text x="509" y="169" text-anchor="middle" fill="#065F46" font-size="11">Med Adherence</text>
+      <text x="509" y="186" text-anchor="middle" fill="#065F46" font-size="11">Vitals Tracking</text>
+      <text x="509" y="203" text-anchor="middle" fill="#065F46" font-size="11">Risk Scoring</text>
+      <text x="509" y="255" text-anchor="middle" fill="#6EE7B7" font-size="10">💊 NCD Agent</text>
+      <rect x="586" y="80" width="134" height="200" rx="12" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
+      <rect x="586" y="80" width="134" height="36" rx="12" fill="#D97706"/>
+      <rect x="586" y="100" width="134" height="16" fill="#D97706"/>
+      <text x="653" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Doc Intelligence</text>
+      <text x="653" y="135" text-anchor="middle" fill="#92400E" font-size="11">Prescription Parse</text>
+      <text x="653" y="152" text-anchor="middle" fill="#92400E" font-size="11">Lab Interpretation</text>
+      <text x="653" y="169" text-anchor="middle" fill="#92400E" font-size="11">Entity Extraction</text>
+      <text x="653" y="186" text-anchor="middle" fill="#92400E" font-size="11">Abnormality Flag</text>
+      <text x="653" y="203" text-anchor="middle" fill="#92400E" font-size="11">Patient Summary</text>
+      <text x="653" y="255" text-anchor="middle" fill="#FCD34D" font-size="10">📋 Report Agent</text>
+      <rect x="730" y="80" width="134" height="200" rx="12" fill="#FDF2F8" stroke="#F9A8D4" stroke-width="1.5"/>
+      <rect x="730" y="80" width="134" height="36" rx="12" fill="#BE185D"/>
+      <rect x="730" y="100" width="134" height="16" fill="#BE185D"/>
+      <text x="797" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Scheme &amp; Benefits</text>
+      <text x="797" y="135" text-anchor="middle" fill="#831843" font-size="11">Eligibility Check</text>
+      <text x="797" y="152" text-anchor="middle" fill="#831843" font-size="11">Scheme Lookup</text>
+      <text x="797" y="169" text-anchor="middle" fill="#831843" font-size="11">Enrollment Guide</text>
+      <text x="797" y="186" text-anchor="middle" fill="#831843" font-size="11">Document Checklist</text>
+      <text x="797" y="203" text-anchor="middle" fill="#831843" font-size="11">Benefit Tracking</text>
+      <text x="797" y="255" text-anchor="middle" fill="#FCA5A5" font-size="10">🏛️ Scheme Agent</text>
+      <rect x="874" y="80" width="136" height="200" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+      <rect x="874" y="80" width="136" height="36" rx="12" fill="#DC2626"/>
+      <rect x="874" y="100" width="136" height="16" fill="#DC2626"/>
+      <text x="942" y="103" text-anchor="middle" fill="white" font-size="12" font-weight="700">Safety &amp; Escalation</text>
+      <text x="942" y="135" text-anchor="middle" fill="#991B1B" font-size="11">High-Risk Detection</text>
+      <text x="942" y="152" text-anchor="middle" fill="#991B1B" font-size="11">Emergency Triage</text>
+      <text x="942" y="169" text-anchor="middle" fill="#991B1B" font-size="11">Human Handoff</text>
+      <text x="942" y="186" text-anchor="middle" fill="#991B1B" font-size="11">Crisis Protocols</text>
+      <text x="942" y="203" text-anchor="middle" fill="#991B1B" font-size="11">Audit Trail</text>
+      <text x="942" y="255" text-anchor="middle" fill="#FCA5A5" font-size="10">🚨 Emergency Agent</text>
+      <rect x="10" y="298" width="1000" height="52" rx="10" fill="url(#crossGrad3)" opacity="0.9"/>
+      <text x="100" y="330" fill="white" font-size="11" font-weight="600">🌐 Multilingual</text>
+      <text x="230" y="330" fill="white" font-size="11" font-weight="600">🎙️ Voice-First</text>
+      <text x="350" y="330" fill="white" font-size="11" font-weight="600">📡 Omnichannel</text>
+      <text x="490" y="330" fill="white" font-size="11" font-weight="600">🤖 AI Orchestration</text>
+      <text x="650" y="330" fill="white" font-size="11" font-weight="600">🔒 Security</text>
+      <text x="760" y="330" fill="white" font-size="11" font-weight="600">📊 RAGAS Analytics</text>
+      <text x="890" y="330" fill="white" font-size="11" font-weight="600">⚡ Real-time</text>
+      <text x="510" y="360" text-anchor="middle" fill="#94A3B8" font-size="10">Cross-Cutting Platform Services</text>
+      <text x="510" y="460" text-anchor="middle" fill="#94A3B8" font-size="11">Seven core capability pillars · Eight specialised AI agents · Governed by shared platform services including RAGAS quality measurement</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 06 USE CASES FOR HEALTH EXPERTS ════════════ -->
+<div class="section" id="s6">
+  <div class="section-eyebrow teal">06 — Use Cases for Health Experts</div>
+  <div class="section-title">VDA in the Hands of<br>Care Teams</div>
+  <div class="section-subtitle">
+    These use cases are written for nurses, care coaches, diabetes educators, program managers, and clinical leads — not engineers. Each scenario shows what VDA does, who it helps, and what a real interaction looks like.
+  </div>
+
+  <div class="teal-box">
+    <h3>How to read these use cases</h3>
+    <p>Each use case shows: <strong>the persona</strong> (who is interacting and in what context), <strong>the situation</strong> (what the clinical challenge is), <strong>a sample conversation</strong> (what the patient might say and how VDA responds), and <strong>the agents involved</strong> (which parts of the system are working behind the scenes). VDA always shows its reasoning in a way the care team can audit and override.</p>
+  </div>
+
+  <!-- Use Case 1 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #EFF6FF, #EDE9FE);">
+      <div class="use-case-icon" style="background: #2563EB;">🩸</div>
+      <div>
+        <div class="use-case-title">Use Case 1 — Elevated Blood Sugar Alert</div>
+        <div class="use-case-persona">Persona: Diabetic patient, 52 years, using the mobile app in Hindi · Supervised by: Diabetes Care Coach</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A patient with Type 2 diabetes self-reports a fasting glucose of 290 mg/dL through the app. The care coach is managing a panel of 80 patients and cannot personally triage every self-reported reading in real time. VDA serves as the first-response layer — assessing urgency, contextualising the reading against the patient's history, and deciding whether this can wait for the next scheduled coaching call or needs immediate escalation.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">मेरा शुगर 290 आ रहा है आज सुबह। क्या करूं?</div>
+        </div>
+        <div class="msg-system">⚙ Intent detected: Blood glucose self-report · NCD Agent activated · User profile retrieved</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">आपका आज का फास्टिंग शुगर 290 mg/dL है — यह थोड़ा ज़्यादा है। <em>आपके पिछले हफ़्ते की रीडिंग्स से compare करें तो यह normal से काफी ऊपर है।</em> क्या आपने आज सुबह कोई खाना खाया था test से पहले? और क्या आपकी metformin की dose कल ली थी?</div>
+        </div>
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">नहीं, खाना नहीं खाया। दवाई भी ली थी कल। कल रात भी 260 था।</div>
+        </div>
+        <div class="msg-system">⚠ Risk threshold met: Two consecutive readings above 250 mg/dL · Escalation protocol triggered</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">यह important है। आपके दो consecutive readings 250+ हैं medication लेने के बाद भी। <em>मैं आपके care coach को अभी alert कर रहा हूँ।</em> वो आज आपसे बात करेंगे। तब तक: पानी पियें, ज़्यादा मीठा खाने से बचें, और अगर आपको चक्कर आए या बहुत प्यास लगे तो मुझे तुरंत बताएं।</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the care coach sees:</strong> An automated alert arrives in the care coach portal — "Patient Ravi Kumar: 2 readings >250 post-medication. NCD Agent flagged. Suggested action: Call today." The coach reviews the clinical context VDA has pre-assembled and calls the patient within the hour.</p>
+      <div class="agents-flow">
+        <div class="agent-chip intent">🎯 Intent Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip ncd">💊 NCD Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip emergency">🚨 Emergency Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip teleconsult">📞 Care Coach Alert</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 2 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #FFF7ED, #FFFBEB);">
+      <div class="use-case-icon" style="background: #D97706;">📋</div>
+      <div>
+        <div class="use-case-title">Use Case 2 — Prescription Upload & Medication Explanation</div>
+        <div class="use-case-persona">Persona: Newly diagnosed hypertension patient, 45 years, post-consultation · Supervised by: Clinic Pharmacist / Nurse</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A patient was just prescribed three medications for hypertension — Amlodipine, Telmisartan, and a low-dose diuretic. The consultation lasted 12 minutes. The patient left without fully understanding what the medications do, when to take them, or what side effects to watch for. The clinic's pharmacist review queue has a 4-hour wait.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">[Uploads photo of handwritten prescription]</div>
+        </div>
+        <div class="msg-system">⚙ Document received · OCR pipeline initiated · Medical entity extraction in progress</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">Prescription मिली। मैं आपके लिए इसको simple language में समझाता हूँ।<br/><br/><em>Amlodipine 5mg</em> — सुबह एक tablet। यह आपकी blood vessel को relax करती है, जिससे BP कम होता है।<br/><em>Telmisartan 40mg</em> — सुबह एक tablet। यह kidney को protect करता है और BP control करता है।<br/><em>Hydrochlorothiazide 12.5mg</em> — सुबह एक tablet। यह extra पानी शरीर से निकालता है।<br/><br/>तीनों tablets सुबह breakfast के साथ लेनी हैं। क्या आप चाहेंगे कि मैं reminder set कर दूँ?</div>
+        </div>
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">हाँ। और अगर चक्कर आए तो? मुझे पहले भी BP में चक्कर आते हैं।</div>
+        </div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">शुरुआत में Amlodipine से हल्का चक्कर आ सकता है — especially जब आप बैठ के उठें तो धीरे उठें। अगर चक्कर बहुत ज़्यादा हो या बेहोशी जैसा लगे, तो <em>तुरंत doctor को दिखाएं या मुझे बताएं — मैं आपके लिए appointment arrange कर सकता हूँ।</em></div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the pharmacist sees:</strong> A structured medication log is auto-generated in the pharmacy system — extracted medications, doses, timing, and the patient's reported concern about dizziness. The pharmacist's review queue shows this case as "AI-reviewed: patient counselled on side effects, escalation criteria provided."</p>
+      <div class="agents-flow">
+        <div class="agent-chip intent">🎯 Intent Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip report">📋 Report Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip education">📚 Education Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip ncd">💊 NCD Agent (safety check)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 3 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #F0FDFA, #ECFDF5);">
+      <div class="use-case-icon" style="background: var(--teal);">🏥</div>
+      <div>
+        <div class="use-case-title">Use Case 3 — Facility & Diagnostic Test Finder</div>
+        <div class="use-case-persona">Persona: Elderly patient, 68 years, WhatsApp user in Kannada · Referred by: Community Health Worker</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A community health worker (ASHA worker) has referred an elderly patient for an HbA1c test as part of a diabetes monitoring protocol. The patient is in a semi-rural area, doesn't have transport easily, and is enrolled in the PM-JAY scheme. The CHW needs to know which nearby facility can conduct the test at no cost under the scheme.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">HbA1c test ಮಾಡಬೇಕಾಗಿದೆ. ಮನೆಗೆ ಹತ್ತಿರ diagnostic centre ಇಲ್ಲಿ ಇದೆಯೇ?</div>
+        </div>
+        <div class="msg-system">⚙ Language detected: Kannada · Location context requested · Facility Agent + Scheme Agent activated</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">ನಿಮ್ಮ location share ಮಾಡಬಹುದಾ? ಅಥವಾ ನಿಮ್ಮ area / pincode ಹೇಳಿರಿ — ನಾನು ಹತ್ತಿರ ಇರುವ centres ನೋಡುತ್ತೇನೆ।</div>
+        </div>
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">Anekal, Bangalore</div>
+        </div>
+        <div class="msg-system">⚙ Facility search: HbA1c capability · Anekal, Bangalore · PM-JAY eligibility applied</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">Anekal area ನಲ್ಲಿ ನಿಮ್ಮ HbA1c test ಮಾಡಬಹುದು:<br/><br/><em>1. PHC Anekal</em> — Government centre, PM-JAY ಅಲ್ಲಿ free. 2.3 km.<br/><em>2. Sarjapur Road Diagnostic Lab</em> — Private, ₹280. 4.1 km.<br/><br/>ನಿಮ್ಮ PM-JAY card ಇದ್ದರೆ PHC ಅಲ್ಲಿ test free ಆಗುತ್ತೆ. ನಿಮ್ಮ card number ನನ್ನ ಹತ್ತಿರ ಇದೆಯೇ? — confirm ಮಾಡುತ್ತೀರಾ?</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the ASHA worker sees:</strong> A summary is sent to the CHW portal showing the patient was guided to the government facility. The CHW can mark this as "Referred — facility confirmed" in their case management system, and VDA will send the patient a reminder the morning before the scheduled test date.</p>
+      <div class="agents-flow">
+        <div class="agent-chip intent">🎯 Intent Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip facility">🏥 Facility Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip scheme">🏛️ Scheme Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip education">📍 Directions + Reminder</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 4 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #FFF1F2, #FEF2F2);">
+      <div class="use-case-icon" style="background: var(--rose);">🚨</div>
+      <div>
+        <div class="use-case-title">Use Case 4 — Potential Cardiac Symptom Escalation</div>
+        <div class="use-case-persona">Persona: Hypertensive patient, 58 years, voice call via IVR · Escalates to: On-call Teleconsult Physician</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A patient with known hypertension and a family history of cardiac disease calls the IVR helpline reporting chest tightness and dizziness since morning. This is a potential high-risk situation that must never be handled by AI alone — VDA's role is to conduct a rapid structured triage, confirm red flags, and get the patient to a physician within minutes.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">[Voice call] सुबह से सीने में दर्द जैसा हो रहा है और चक्कर आ रहे हैं।</div>
+        </div>
+        <div class="msg-system">⚠ Emergency Agent activated — cardiac risk keywords detected in voice input</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">मैं समझ रहा हूँ। यह important है। कुछ सवाल पूछना चाहता हूँ — बस हाँ या ना बताइए।<br/><br/>क्या दर्द बाएं हाथ में भी जा रहा है? क्या ज़्यादा पसीना आ रहा है? क्या सांस लेने में तकलीफ है?</div>
+        </div>
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">हाँ, हाथ में थोड़ा जा रहा है। पसीना भी आ रहा है।</div>
+        </div>
+        <div class="msg-system">🚨 RED FLAG: Chest pain + radiation to arm + diaphoresis · Immediate escalation mandated · Teleconsult doctor joining in 90 seconds</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble"><em>मैं आपको अभी doctor से connect कर रहा हूँ।</em> Please कहाँ बैठे हैं — अगर अकेले हैं तो पहले किसी को बुलाइए। Doctor 90 seconds में आपके साथ होंगे। तब तक न चलें, बैठ के रहें।</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the teleconsult physician sees:</strong> A pre-filled triage card arrives: "58M, hypertension, chest tightness + arm radiation + diaphoresis, onset this morning. Prior BP readings: 158/96, 162/100 (last 2 weeks). Current medications: Telmisartan 40mg, Amlodipine 5mg." The physician joins the call already briefed — no repeat intake needed.</p>
+      <div class="agents-flow">
+        <div class="agent-chip emergency">🚨 Emergency Agent (primary)</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip teleconsult">🩺 Teleconsult Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip ncd">💊 Context Summary</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip report" style="background:#FEF2F2;color:#991B1B;">📞 Physician Connected</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 5 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #F5F3FF, #EDE9FE);">
+      <div class="use-case-icon" style="background: var(--purple-light);">📊</div>
+      <div>
+        <div class="use-case-title">Use Case 5 — Lab Report Interpretation (Diabetes Review)</div>
+        <div class="use-case-persona">Persona: Diabetes patient receiving 3-monthly care review · Supervised by: Diabetes Educator / Nurse</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A patient has just received their quarterly lab report — HbA1c, fasting glucose, lipid profile, kidney function, and microalbumin. The results are in a clinical format they find confusing. Their next appointment with the diabetes nurse educator is in 5 days. Rather than wait — and rather than misinterpret the results — they upload the report to VDA for explanation.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">[Uploads PDF lab report] यह lab report आई है। Doctor के पास 5 दिन बाद जाना है। क्या सब ठीक है?</div>
+        </div>
+        <div class="msg-system">⚙ Document: Lab report PDF · OCR complete · Medical entities extracted: HbA1c 8.2%, Creatinine 1.3 mg/dL, LDL 148 mg/dL, Microalbumin 42 mg/g</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">आपकी report देख ली। एक एक value को simple language में बताता हूँ:<br/><br/><em>HbA1c 8.2%</em> — यह पिछले 3 महीने का average sugar है। 7% से नीचे होना चाहिए, आपका थोड़ा ज़्यादा है — इसका मतलब है control improve करना होगा।<br/><em>LDL 148 mg/dL</em> — यह "bad cholesterol" है, थोड़ा ज़्यादा है। Doctor शायद दवा suggest करें।<br/><em>Creatinine 1.3</em> — थोड़ा upper limit के पास है। Kidney ठीक से काम कर रही है, लेकिन ध्यान देने की ज़रूरत है।<br/><em>Microalbumin 42</em> — यह kidney stress का early sign हो सकता है।<br/><br/>Doctor से मिलने में 5 दिन हैं — ठीक है, लेकिन <em>यह results लेकर ज़रूर जाएं और kidney के बारे में पूछें।</em></div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the diabetes educator sees:</strong> Before the appointment, the educator receives a pre-visit note: "Patient uploaded recent labs. VDA highlighted: HbA1c 8.2% (above target), microalbumin elevated, patient counselled to discuss kidney function. Patient engagement: 3 days before appointment." The educator arrives at the session already aligned on the key discussion points.</p>
+      <div class="agents-flow">
+        <div class="agent-chip intent">🎯 Intent Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip report">📋 Report Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip ncd">💊 NCD Agent (contextualise)</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip education">📚 Education Agent (explain)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 6 -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #F0FDF4, #ECFDF5);">
+      <div class="use-case-icon" style="background: var(--emerald);">🏛️</div>
+      <div>
+        <div class="use-case-title">Use Case 6 — Government Scheme Eligibility & Enrollment</div>
+        <div class="use-case-persona">Persona: Below-poverty-line family, first-generation health scheme user · Assisted by: Hospital Social Worker</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A patient's family is facing a hospitalisation bill for a cardiac procedure. The patient is likely eligible for Ayushman Bharat PM-JAY coverage but the family doesn't know this, doesn't have the documents organised, and the hospital's scheme desk has a long queue. VDA helps them self-navigate eligibility and document requirements — in plain language, step by step.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">हमारे पापा को heart की surgery करनी है। बहुत पैसा लग रहा है। कोई सरकारी help मिलती है क्या?</div>
+        </div>
+        <div class="msg-system">⚙ Intent: Government scheme enquiry · Scheme Agent activated · RAG retrieval: PM-JAY eligibility rules</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">हाँ, Ayushman Bharat PM-JAY scheme है जिसमें heart surgery covered हो सकती है — <em>5 लाख रुपये तक government देती है per family per year।</em><br/><br/>कुछ सवाल पूछना चाहता हूँ eligibility check करने के लिए:<br/>1. क्या आपके पास ration card है? (BPL / NFSA)?<br/>2. क्या आपके पास Aadhaar card है?<br/>3. आप कौनसे state में हैं?</div>
+        </div>
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">हाँ ration card है, Aadhaar भी। Karnataka में हैं।</div>
+        </div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble">अच्छा। आप Ayushman Bharat + Arogya Karnataka दोनों के लिए eligible हो सकते हैं।<br/><br/><em>यह documents लेकर hospital के PM-JAY desk पे जाएं:</em><br/>✓ Ration card (original + copy)<br/>✓ Aadhaar card<br/>✓ Doctor का admit form<br/><br/>मैं आपके लिए एक checklist PDF बना देता हूँ। क्या आप hospital का नाम बता सकते हैं — मैं check करूंगा कि वो empanelled है या नहीं।</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the hospital social worker sees:</strong> A scheme navigation summary arrives showing the patient's eligibility pathway, the documents the family has been asked to bring, and a flag that the family may also qualify for the state Arogya scheme. The social worker's desk time is reduced from 45 minutes to a 10-minute document verification.</p>
+      <div class="agents-flow">
+        <div class="agent-chip intent">🎯 Intent Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip scheme">🏛️ Scheme Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip education">📚 Education Agent</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip facility">🏥 Hospital Verification</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Use Case 7 - Program Manager -->
+  <div class="use-case-card">
+    <div class="use-case-header" style="background: linear-gradient(135deg, #F8FAFF, #EFF6FF);">
+      <div class="use-case-icon" style="background: var(--blue-light);">📈</div>
+      <div>
+        <div class="use-case-title">Use Case 7 — Program Manager: Population-Level Adherence Monitoring</div>
+        <div class="use-case-persona">Persona: NCD Program Manager overseeing 5,000-patient diabetes care programme · Platform: Clinician Portal</div>
+      </div>
+    </div>
+    <div class="use-case-body">
+      <div class="use-case-divider"></div>
+      <p style="margin-bottom:16px;"><strong>The clinical situation:</strong> A program manager needs to identify which patient cohorts are at highest risk of care drop-off — patients who haven't logged a glucose reading in 14+ days, patients whose last three readings showed worsening trends, and patients who haven't collected their medication refill. This is not an individual patient query — it is a population-level intelligence request that VDA serves through the admin analytics layer.</p>
+      <div class="conversation">
+        <div class="msg msg-user">
+          <div class="msg-avatar">👤</div>
+          <div class="msg-bubble">[Program Manager Portal] Show me patients at high risk of disengagement in the Whitefield zone this month.</div>
+        </div>
+        <div class="msg-system">⚙ Analytics query · Population segment: Whitefield zone · Risk model: Engagement + Clinical trend · NCD Agent + Memory Layer</div>
+        <div class="msg msg-vda">
+          <div class="msg-avatar">VDA</div>
+          <div class="msg-bubble"><em>47 patients flagged in Whitefield zone (out of 312 active).</em><br/><br/>Breakdown by risk signal:<br/>• 18 patients: No glucose log in 14+ days<br/>• 16 patients: 3 consecutive readings trending upward<br/>• 13 patients: Medication refill overdue by 7+ days<br/><br/>Top 5 highest-risk patients ranked by composite score are ready for care coach outreach. Do you want to generate call lists by assigned care coach?</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"><strong>What the program manager does:</strong> With one click, the manager generates a prioritised outreach list distributed to each care coach's work queue. This replaces a manual monthly report that previously took 3 hours to compile from three separate data systems.</p>
+      <div class="agents-flow">
+        <div class="agent-chip ncd">💊 NCD Agent (cohort)</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip intent">📊 Analytics Layer</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip report">📋 Memory Layer</div>
+        <div class="arrow-chip">→</div>
+        <div class="agent-chip education">📤 Outreach Queue</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 07 HIGH-LEVEL ARCHITECTURE ════════════ -->
+<div class="section" id="s7">
+  <div class="section-eyebrow">07 — High-Level Architecture</div>
+  <div class="section-title">The Six-Layer<br>Architecture Model</div>
+  <div class="section-subtitle">VDA is structured as six distinct layers, each with a clear boundary, defined responsibility, and independent scalability profile. Version 3.0 adds the RAGAS Measurement Layer as an independent observability capability that cross-cuts all layers.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 02</span> High-Level Architecture</div>
+    <svg viewBox="0 0 1020 730" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <defs>
+        <linearGradient id="l1g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#1D4ED8"/><stop offset="100%" style="stop-color:#2563EB"/></linearGradient>
+        <linearGradient id="l2g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#0D9488"/><stop offset="100%" style="stop-color:#14B8A6"/></linearGradient>
+        <linearGradient id="l3g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#5B21B6"/><stop offset="100%" style="stop-color:#7C3AED"/></linearGradient>
+        <linearGradient id="l4g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#0A1628"/><stop offset="100%" style="stop-color:#1A3A7C"/></linearGradient>
+        <linearGradient id="l5g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#065F46"/><stop offset="100%" style="stop-color:#059669"/></linearGradient>
+        <linearGradient id="l6g3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#991B1B"/><stop offset="100%" style="stop-color:#DC2626"/></linearGradient>
+        <linearGradient id="ragasGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#0D9488"/><stop offset="100%" style="stop-color:#059669"/></linearGradient>
+      </defs>
+
+      <text x="15" y="75" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L1</text>
+      <text x="15" y="175" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L2</text>
+      <text x="15" y="275" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L3</text>
+      <text x="15" y="375" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L4</text>
+      <text x="15" y="475" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L5</text>
+      <text x="15" y="575" fill="#94A3B8" font-size="10" font-weight="600" letter-spacing="1">L6</text>
+
+      <!-- Layers 1-6 (same as before) -->
+      <rect x="40" y="20" width="970" height="100" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+      <rect x="40" y="20" width="180" height="100" rx="14" fill="url(#l1g3)"/>
+      <rect x="200" y="20" width="20" height="100" fill="url(#l1g3)"/>
+      <text x="120" y="57" text-anchor="middle" fill="white" font-size="12" font-weight="700">Experience</text>
+      <text x="120" y="75" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">Layer</text>
+      <text x="290" y="60" fill="#1E40AF" font-size="12" font-weight="600">📱 Mobile App</text>
+      <text x="420" y="60" fill="#1E40AF" font-size="12" font-weight="600">🌐 Web App</text>
+      <text x="530" y="60" fill="#1E40AF" font-size="12" font-weight="600">💬 WhatsApp</text>
+      <text x="650" y="60" fill="#1E40AF" font-size="12" font-weight="600">🎙️ Voice/IVR</text>
+      <text x="780" y="60" fill="#1E40AF" font-size="12" font-weight="600">🔗 Partner APIs</text>
+      <text x="900" y="60" fill="#1E40AF" font-size="12" font-weight="600">👨‍⚕️ Clinician</text>
+      <text x="290" y="96" fill="#93C5FD" font-size="10">React / React Native</text>
+      <text x="420" y="96" fill="#93C5FD" font-size="10">Progressive Web</text>
+      <text x="530" y="96" fill="#93C5FD" font-size="10">WhatsApp Business</text>
+      <text x="650" y="96" fill="#93C5FD" font-size="10">Twilio / Exotel</text>
+      <text x="780" y="96" fill="#93C5FD" font-size="10">REST / Webhooks</text>
+      <text x="900" y="96" fill="#93C5FD" font-size="10">Admin Portal</text>
+
+      <line x1="510" y1="120" x2="510" y2="140" stroke="#94A3B8" stroke-width="2"/>
+      <polygon points="505,140 515,140 510,148" fill="#94A3B8"/>
+
+      <rect x="40" y="148" width="970" height="70" rx="14" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1.5"/>
+      <rect x="40" y="148" width="180" height="70" rx="14" fill="url(#l2g3)"/>
+      <rect x="200" y="148" width="20" height="70" fill="url(#l2g3)"/>
+      <text x="120" y="182" text-anchor="middle" fill="white" font-size="12" font-weight="700">API Gateway</text>
+      <text x="310" y="177" fill="#0F766E" font-size="11" font-weight="600">🔐 Auth &amp; AuthZ</text>
+      <text x="450" y="177" fill="#0F766E" font-size="11" font-weight="600">⚡ Rate Limiting</text>
+      <text x="590" y="177" fill="#0F766E" font-size="11" font-weight="600">📊 Audit Logging</text>
+      <text x="740" y="177" fill="#0F766E" font-size="11" font-weight="600">🔍 Observability</text>
+      <text x="890" y="177" fill="#0F766E" font-size="11" font-weight="600">🛡️ WAF</text>
+
+      <line x1="510" y1="218" x2="510" y2="238" stroke="#94A3B8" stroke-width="2"/>
+      <polygon points="505,238 515,238 510,246" fill="#94A3B8"/>
+
+      <rect x="40" y="246" width="970" height="90" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <rect x="40" y="246" width="180" height="90" rx="14" fill="url(#l3g3)"/>
+      <rect x="200" y="246" width="20" height="90" fill="url(#l3g3)"/>
+      <text x="120" y="280" text-anchor="middle" fill="white" font-size="12" font-weight="700">Multimodal</text>
+      <text x="120" y="298" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">Processing</text>
+      <text x="290" y="278" fill="#5B21B6" font-size="11" font-weight="600">🎤 STT / TTS</text>
+      <text x="420" y="278" fill="#5B21B6" font-size="11" font-weight="600">🌐 Lang Detect</text>
+      <text x="570" y="278" fill="#5B21B6" font-size="11" font-weight="600">🔄 Translation</text>
+      <text x="720" y="278" fill="#5B21B6" font-size="11" font-weight="600">📷 OCR</text>
+      <text x="870" y="278" fill="#5B21B6" font-size="11" font-weight="600">🔒 PII Masking</text>
+      <text x="290" y="298" fill="#A78BFA" font-size="10">Whisper / Sarvam</text>
+      <text x="420" y="298" fill="#A78BFA" font-size="10">FastText</text>
+      <text x="570" y="298" fill="#A78BFA" font-size="10">IndicTrans / DeepL</text>
+      <text x="720" y="298" fill="#A78BFA" font-size="10">Azure Vision</text>
+      <text x="870" y="298" fill="#A78BFA" font-size="10">Presidio</text>
+
+      <line x1="510" y1="336" x2="510" y2="356" stroke="#94A3B8" stroke-width="2"/>
+      <polygon points="505,356 515,356 510,364" fill="#94A3B8"/>
+
+      <rect x="40" y="364" width="970" height="90" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+      <rect x="40" y="364" width="180" height="90" rx="14" fill="url(#l4g3)"/>
+      <rect x="200" y="364" width="20" height="90" fill="url(#l4g3)"/>
+      <text x="120" y="398" text-anchor="middle" fill="white" font-size="12" font-weight="700">AI Orchestration</text>
+      <text x="120" y="416" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">LangGraph Core</text>
+      <text x="300" y="396" fill="#334155" font-size="11" font-weight="700">🧠 Intent Detection</text>
+      <text x="460" y="396" fill="#334155" font-size="11" font-weight="700">🔀 Agent Routing</text>
+      <text x="620" y="396" fill="#334155" font-size="11" font-weight="700">📝 Prompt Building</text>
+      <text x="800" y="396" fill="#334155" font-size="11" font-weight="700">✅ Safety Engine</text>
+      <text x="300" y="416" fill="#64748B" font-size="10">Workflow manager</text>
+      <text x="460" y="416" fill="#64748B" font-size="10">Multi-agent dispatch</text>
+      <text x="620" y="416" fill="#64748B" font-size="10">RAG + memory injection</text>
+      <text x="800" y="416" fill="#64748B" font-size="10">Guardrails + validators</text>
+
+      <line x1="510" y1="454" x2="510" y2="474" stroke="#94A3B8" stroke-width="2"/>
+      <polygon points="505,474 515,474 510,482" fill="#94A3B8"/>
+
+      <rect x="40" y="482" width="970" height="70" rx="14" fill="#F0FDF4" stroke="#A7F3D0" stroke-width="1.5"/>
+      <rect x="40" y="482" width="180" height="70" rx="14" fill="url(#l5g3)"/>
+      <rect x="200" y="482" width="20" height="70" fill="url(#l5g3)"/>
+      <text x="120" y="516" text-anchor="middle" fill="white" font-size="12" font-weight="700">Domain</text>
+      <text x="120" y="534" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">Agent Layer</text>
+      <text x="270" y="523" fill="#065F46" font-size="10.5" font-weight="600">Intent</text>
+      <text x="340" y="523" fill="#065F46" font-size="10.5" font-weight="600">NCD</text>
+      <text x="410" y="523" fill="#065F46" font-size="10.5" font-weight="600">Report</text>
+      <text x="490" y="523" fill="#065F46" font-size="10.5" font-weight="600">Facility</text>
+      <text x="575" y="523" fill="#065F46" font-size="10.5" font-weight="600">Scheme</text>
+      <text x="660" y="523" fill="#065F46" font-size="10.5" font-weight="600">Teleconsult</text>
+      <text x="770" y="523" fill="#065F46" font-size="10.5" font-weight="600">Education</text>
+      <text x="870" y="523" fill="#065F46" font-size="10.5" font-weight="600">Emergency</text>
+
+      <line x1="510" y1="552" x2="510" y2="572" stroke="#94A3B8" stroke-width="2"/>
+      <polygon points="505,572 515,572 510,580" fill="#94A3B8"/>
+
+      <rect x="40" y="580" width="970" height="70" rx="14" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+      <rect x="40" y="580" width="180" height="70" rx="14" fill="url(#l6g3)"/>
+      <rect x="200" y="580" width="20" height="70" fill="url(#l6g3)"/>
+      <text x="120" y="614" text-anchor="middle" fill="white" font-size="12" font-weight="700">Data &amp;</text>
+      <text x="120" y="632" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">Integration Layer</text>
+      <text x="290" y="614" fill="#991B1B" font-size="11" font-weight="600">🗄️ PostgreSQL</text>
+      <text x="420" y="614" fill="#991B1B" font-size="11" font-weight="600">⚡ Redis Cache</text>
+      <text x="560" y="614" fill="#991B1B" font-size="11" font-weight="600">🔍 pgvector / Pinecone</text>
+      <text x="730" y="614" fill="#991B1B" font-size="11" font-weight="600">📦 Object Storage</text>
+      <text x="880" y="614" fill="#991B1B" font-size="11" font-weight="600">🔗 EMR APIs</text>
+
+      <!-- RAGAS Layer — new -->
+      <rect x="40" y="668" width="970" height="52" rx="14" fill="url(#ragasGrad)" opacity="0.92"/>
+      <text x="120" y="699" text-anchor="middle" fill="white" font-size="12" font-weight="800">RAGAS</text>
+      <text x="270" y="696" fill="rgba(255,255,255,0.92)" font-size="11" font-weight="600">🎯 Faithfulness</text>
+      <text x="390" y="696" fill="rgba(255,255,255,0.92)" font-size="11" font-weight="600">🔍 Answer Relevancy</text>
+      <text x="530" y="696" fill="rgba(255,255,255,0.92)" font-size="11" font-weight="600">📚 Context Recall</text>
+      <text x="670" y="696" fill="rgba(255,255,255,0.92)" font-size="11" font-weight="600">🛡️ Clinical Safety Score</text>
+      <text x="830" y="696" fill="rgba(255,255,255,0.92)" font-size="11" font-weight="600">⚡ Escalation Accuracy</text>
+      <text x="120" y="712" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="9">Measurement</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 08 CONV AI PIPELINE ════════════ -->
+<div class="section" id="s8">
+  <div class="section-eyebrow">08 — Conversational AI Pipeline</div>
+  <div class="section-title">From Input to Response:<br>The Reasoning Chain</div>
+  <div class="section-subtitle">Every interaction — regardless of input modality or language — passes through the same normalised reasoning pipeline. This is what makes VDA's responses contextually coherent and clinically safe.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 03</span> Conversational AI Pipeline</div>
+    <svg viewBox="0 0 1020 320" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <defs>
+        <linearGradient id="pipeGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0A1628"/>
+          <stop offset="50%" style="stop-color:#2563EB"/>
+          <stop offset="100%" style="stop-color:#5B21B6"/>
+        </linearGradient>
+        <marker id="arrowM3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <polygon points="0,0 8,4 0,8" fill="#CBD5E1"/>
+        </marker>
+      </defs>
+      <rect x="10" y="80" width="1000" height="6" rx="3" fill="url(#pipeGrad3)" opacity="0.2"/>
+
+      <rect x="10" y="40" width="100" height="100" rx="14" fill="#0A1628"/>
+      <text x="60" y="72" text-anchor="middle" fill="white" font-size="22">📥</text>
+      <text x="60" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">User</text>
+      <text x="60" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Input</text>
+      <text x="60" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">Text / Voice</text>
+      <text x="60" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">Image / Doc</text>
+      <line x1="110" y1="90" x2="128" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="128" y="40" width="108" height="100" rx="14" fill="#1E3A8A"/>
+      <text x="182" y="72" text-anchor="middle" fill="white" font-size="22">🔄</text>
+      <text x="182" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Normalize</text>
+      <text x="182" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">STT / OCR</text>
+      <text x="182" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">PII masking</text>
+      <line x1="236" y1="90" x2="254" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="254" y="40" width="108" height="100" rx="14" fill="#1D4ED8"/>
+      <text x="308" y="72" text-anchor="middle" fill="white" font-size="22">🌐</text>
+      <text x="308" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Language</text>
+      <text x="308" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Understand</text>
+      <text x="308" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">Detect lang</text>
+      <text x="308" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">→ English</text>
+      <line x1="362" y1="90" x2="380" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="380" y="40" width="108" height="100" rx="14" fill="#2563EB"/>
+      <text x="434" y="72" text-anchor="middle" fill="white" font-size="22">🧩</text>
+      <text x="434" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Context</text>
+      <text x="434" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Enrichment</text>
+      <text x="434" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">Memory recall</text>
+      <text x="434" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">RAG retrieval</text>
+      <line x1="488" y1="90" x2="506" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="506" y="40" width="108" height="100" rx="14" fill="#4F46E5"/>
+      <text x="560" y="72" text-anchor="middle" fill="white" font-size="22">🎯</text>
+      <text x="560" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Intent</text>
+      <text x="560" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Detection</text>
+      <text x="560" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">Classify</text>
+      <text x="560" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">Select agent</text>
+      <line x1="614" y1="90" x2="632" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="632" y="40" width="108" height="100" rx="14" fill="#6D28D9"/>
+      <text x="686" y="72" text-anchor="middle" fill="white" font-size="22">🤖</text>
+      <text x="686" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Agent</text>
+      <text x="686" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Reasoning</text>
+      <text x="686" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">LLM + tools</text>
+      <text x="686" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">Domain logic</text>
+      <line x1="740" y1="90" x2="758" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="758" y="40" width="108" height="100" rx="14" fill="#0D9488"/>
+      <text x="812" y="72" text-anchor="middle" fill="white" font-size="22">📏</text>
+      <text x="812" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">RAGAS</text>
+      <text x="812" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Evaluation</text>
+      <text x="812" y="170" text-anchor="middle" fill="#5EEAD4" font-size="10">Quality scored</text>
+      <text x="812" y="184" text-anchor="middle" fill="#5EEAD4" font-size="10">Safety validated</text>
+      <line x1="866" y1="90" x2="884" y2="90" stroke="#CBD5E1" stroke-width="2" marker-end="url(#arrowM3)"/>
+
+      <rect x="884" y="40" width="126" height="100" rx="14" fill="#0A1628"/>
+      <text x="947" y="72" text-anchor="middle" fill="white" font-size="22">📤</text>
+      <text x="947" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="700">Response</text>
+      <text x="947" y="113" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Output Adapt</text>
+      <text x="947" y="170" text-anchor="middle" fill="#94A3B8" font-size="10">→ User language</text>
+      <text x="947" y="184" text-anchor="middle" fill="#94A3B8" font-size="10">→ Modality</text>
+
+      <rect x="10" y="220" width="1000" height="60" rx="10" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1"/>
+      <text x="30" y="246" fill="#0F766E" font-size="12" font-weight="700">Example:</text>
+      <text x="120" y="246" fill="#374151" font-size="12">Hindi voice → </text>
+      <text x="232" y="246" fill="#2563EB" font-size="12" font-weight="600">STT → </text>
+      <text x="282" y="246" fill="#2563EB" font-size="12" font-weight="600">Normalise → </text>
+      <text x="380" y="246" fill="#2563EB" font-size="12" font-weight="600">Translate → </text>
+      <text x="468" y="246" fill="#2563EB" font-size="12" font-weight="600">NCD Agent reasons → </text>
+      <text x="612" y="246" fill="#0D9488" font-size="12" font-weight="600">RAGAS scored → </text>
+      <text x="730" y="246" fill="#2563EB" font-size="12" font-weight="600">→ Hindi voice</text>
+      <text x="510" y="267" text-anchor="middle" fill="#94A3B8" font-size="11">RAGAS evaluation sits at the output gate — every response quality-scored before delivery</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 09 MULTI-AGENT ════════════ -->
+<div class="section" id="s9">
+  <div class="section-eyebrow">09 — Multi-Agent Architecture</div>
+  <div class="section-title">Specialised Agents,<br>Unified Orchestration</div>
+  <div class="section-subtitle">Rather than a single monolithic AI model attempting to handle every clinical scenario, VDA uses a multi-agent architecture — a central orchestrator routing each request to the agent best equipped to handle it.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 04</span> Multi-Agent Architecture</div>
+    <svg viewBox="0 0 1020 500" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <rect x="360" y="180" width="300" height="110" rx="18" fill="#0A1628"/>
+      <rect x="360" y="180" width="300" height="110" rx="18" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+      <text x="510" y="222" text-anchor="middle" fill="white" font-size="15" font-weight="800">AI Orchestrator</text>
+      <text x="510" y="244" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">LangGraph · Intent Detection · Routing</text>
+      <text x="510" y="264" text-anchor="middle" fill="#5EEAD4" font-size="11">Prompt Assembly · Safety Engine</text>
+
+      <line x1="362" y1="210" x2="248" y2="108" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="410" y1="182" x2="380" y2="78" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="510" y1="180" x2="510" y2="82" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="610" y1="182" x2="640" y2="78" stroke="#10B981" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="658" y1="210" x2="772" y2="108" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="362" y1="260" x2="248" y2="362" stroke="#EC4899" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <line x1="658" y1="260" x2="772" y2="362" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="150" y="32" width="196" height="72" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+      <text x="248" y="60" text-anchor="middle" fill="#1E40AF" font-size="13" font-weight="700">💊 NCD Agent</text>
+      <text x="248" y="78" text-anchor="middle" fill="#3B82F6" font-size="10">Chronic disease reasoning</text>
+      <text x="248" y="92" text-anchor="middle" fill="#3B82F6" font-size="10">Risk scoring · Care protocols</text>
+
+      <rect x="280" y="10" width="196" height="72" rx="12" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <text x="378" y="38" text-anchor="middle" fill="#5B21B6" font-size="13" font-weight="700">📋 Report Agent</text>
+      <text x="378" y="56" text-anchor="middle" fill="#7C3AED" font-size="10">OCR · Entity extraction</text>
+      <text x="378" y="70" text-anchor="middle" fill="#7C3AED" font-size="10">Lab interpretation · Summary</text>
+
+      <rect x="412" y="10" width="196" height="72" rx="12" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1.5"/>
+      <text x="510" y="38" text-anchor="middle" fill="#0F766E" font-size="13" font-weight="700">🏥 Facility Agent</text>
+      <text x="510" y="56" text-anchor="middle" fill="#0D9488" font-size="10">Facility lookup · Geo-search</text>
+      <text x="510" y="70" text-anchor="middle" fill="#0D9488" font-size="10">Capability matching</text>
+
+      <rect x="544" y="10" width="196" height="72" rx="12" fill="#F0FDF4" stroke="#A7F3D0" stroke-width="1.5"/>
+      <text x="642" y="38" text-anchor="middle" fill="#065F46" font-size="13" font-weight="700">🏛️ Scheme Agent</text>
+      <text x="642" y="56" text-anchor="middle" fill="#059669" font-size="10">Eligibility · Benefits lookup</text>
+      <text x="642" y="70" text-anchor="middle" fill="#059669" font-size="10">Enrollment guidance</text>
+
+      <rect x="676" y="32" width="196" height="72" rx="12" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+      <text x="774" y="60" text-anchor="middle" fill="#92400E" font-size="13" font-weight="700">🩺 Teleconsult Agent</text>
+      <text x="774" y="78" text-anchor="middle" fill="#B45309" font-size="10">Triage · Doctor matching</text>
+      <text x="774" y="92" text-anchor="middle" fill="#B45309" font-size="10">Escalation · Handoff</text>
+
+      <rect x="150" y="390" width="196" height="72" rx="12" fill="#FDF2F8" stroke="#F9A8D4" stroke-width="1.5"/>
+      <text x="248" y="418" text-anchor="middle" fill="#831843" font-size="13" font-weight="700">📚 Education Agent</text>
+      <text x="248" y="436" text-anchor="middle" fill="#BE185D" font-size="10">Health literacy · Condition info</text>
+      <text x="248" y="450" text-anchor="middle" fill="#BE185D" font-size="10">Lifestyle guidance · FAQs</text>
+
+      <rect x="676" y="390" width="196" height="72" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.5"/>
+      <text x="774" y="418" text-anchor="middle" fill="#991B1B" font-size="13" font-weight="700">🚨 Emergency Agent</text>
+      <text x="774" y="436" text-anchor="middle" fill="#DC2626" font-size="10">High-risk detection · Alerts</text>
+      <text x="774" y="450" text-anchor="middle" fill="#DC2626" font-size="10">Crisis protocols · SOS</text>
+
+      <rect x="400" y="320" width="220" height="48" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="510" y="342" text-anchor="middle" fill="#334155" font-size="12" font-weight="700">🎯 Intent Agent</text>
+      <text x="510" y="358" text-anchor="middle" fill="#64748B" font-size="10">Runs first on every request</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 10 LLM ARCHITECTURE ════════════ -->
+<div class="section" id="s10">
+  <div class="section-eyebrow">10 — LLM Architecture</div>
+  <div class="section-title">Language Model Strategy</div>
+  <div class="section-subtitle">VDA adopts a SaaS-first, provider-agnostic LLM strategy. LLMs are the reasoning engine, not the control plane.</div>
+
+  <div class="card-grid card-grid-3">
+    <div class="card">
+      <div class="card-icon icon-blue">📦</div>
+      <div class="card-title">Prompt Construction</div>
+      <p class="card-body">Every LLM call includes: system instructions (role, constraints, safety rules), user profile memory, retrieved knowledge (RAG), session context, and the normalised user input. Prompts are templates with defined injection points — nothing is improvised.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-purple">🔀</div>
+      <div class="card-title">Provider Flexibility</div>
+      <p class="card-body">The architecture supports OpenAI (GPT-4o), Anthropic (Claude), and Google (Gemini) with a unified interface. Model selection can be agent-specific — a cost-sensitive classification task may use a smaller model; clinical reasoning uses the highest-capability available.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-teal">✅</div>
+      <div class="card-title">Output Validation</div>
+      <p class="card-body">Every LLM response passes through a validation pipeline before delivery: PHI detection, medical advice scope check, hallucination confidence scoring, and format validation. Responses that fail are either corrected or escalated — never passed through unmodified. RAGAS provides the scoring layer on top of this.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 11 MEMORY ARCHITECTURE ════════════ -->
+<div class="section" id="s11">
+  <div class="section-eyebrow">11 — Memory Architecture</div>
+  <div class="section-title">Contextual Memory<br>Across the Care Journey</div>
+  <div class="section-subtitle">Healthcare AI without memory is a patient who introduces themselves at every consultation. VDA maintains four distinct memory layers to ensure every interaction is contextually grounded.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 05</span> Memory Architecture</div>
+    <svg viewBox="0 0 1020 380" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <rect x="390" y="140" width="240" height="100" rx="16" fill="#0A1628"/>
+      <text x="510" y="180" text-anchor="middle" fill="white" font-size="14" font-weight="800">AI Orchestrator</text>
+      <text x="510" y="200" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="11">Memory-Enriched Reasoning</text>
+      <text x="510" y="218" text-anchor="middle" fill="#5EEAD4" font-size="10">All layers queried on each request</text>
+
+      <rect x="30" y="20" width="260" height="130" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+      <rect x="30" y="20" width="260" height="40" rx="14" fill="#2563EB"/>
+      <rect x="30" y="44" width="260" height="16" fill="#2563EB"/>
+      <text x="160" y="47" text-anchor="middle" fill="white" font-size="13" font-weight="700">💬 Session Memory</text>
+      <text x="160" y="78" text-anchor="middle" fill="#1E40AF" font-size="11">Active conversation context</text>
+      <text x="160" y="96" text-anchor="middle" fill="#1E40AF" font-size="11">Turn history · Follow-up tracking</text>
+      <text x="160" y="114" text-anchor="middle" fill="#1E40AF" font-size="11">Clarification state · Intent chain</text>
+      <text x="160" y="136" text-anchor="middle" fill="#93C5FD" font-size="10">Redis · TTL-based · Per session</text>
+      <line x1="290" y1="85" x2="390" y2="165" stroke="#3B82F6" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="730" y="20" width="260" height="130" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="2"/>
+      <rect x="730" y="20" width="260" height="40" rx="14" fill="#6D28D9"/>
+      <rect x="730" y="44" width="260" height="16" fill="#6D28D9"/>
+      <text x="860" y="47" text-anchor="middle" fill="white" font-size="13" font-weight="700">👤 User Profile Memory</text>
+      <text x="860" y="78" text-anchor="middle" fill="#5B21B6" font-size="11">Demographics · Language prefs</text>
+      <text x="860" y="96" text-anchor="middle" fill="#5B21B6" font-size="11">Known conditions · Medications</text>
+      <text x="860" y="114" text-anchor="middle" fill="#5B21B6" font-size="11">Risk factors · Care team</text>
+      <text x="860" y="136" text-anchor="middle" fill="#C4B5FD" font-size="10">PostgreSQL · Structured · Long-term</text>
+      <line x1="730" y1="85" x2="630" y2="165" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="30" y="230" width="260" height="130" rx="14" fill="#F0FDFA" stroke="#99F6E4" stroke-width="2"/>
+      <rect x="30" y="230" width="260" height="40" rx="14" fill="#0D9488"/>
+      <rect x="30" y="254" width="260" height="16" fill="#0D9488"/>
+      <text x="160" y="257" text-anchor="middle" fill="white" font-size="13" font-weight="700">📅 Clinical Timeline</text>
+      <text x="160" y="288" text-anchor="middle" fill="#0F766E" font-size="11">Consultations · Prescriptions</text>
+      <text x="160" y="306" text-anchor="middle" fill="#0F766E" font-size="11">Lab reports · Vital readings</text>
+      <text x="160" y="324" text-anchor="middle" fill="#0F766E" font-size="11">Alerts · Follow-up records</text>
+      <text x="160" y="346" text-anchor="middle" fill="#5EEAD4" font-size="10">PostgreSQL · Timestamped · Auditable</text>
+      <line x1="290" y1="295" x2="390" y2="220" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="730" y="230" width="260" height="130" rx="14" fill="#F0FDF4" stroke="#A7F3D0" stroke-width="2"/>
+      <rect x="730" y="230" width="260" height="40" rx="14" fill="#059669"/>
+      <rect x="730" y="254" width="260" height="16" fill="#059669"/>
+      <text x="860" y="257" text-anchor="middle" fill="white" font-size="13" font-weight="700">🧠 Semantic Memory</text>
+      <text x="860" y="288" text-anchor="middle" fill="#065F46" font-size="11">Vector embeddings of docs</text>
+      <text x="860" y="306" text-anchor="middle" fill="#065F46" font-size="11">RAG retrieval · Similarity search</text>
+      <text x="860" y="324" text-anchor="middle" fill="#065F46" font-size="11">Conversation embeddings</text>
+      <text x="860" y="346" text-anchor="middle" fill="#6EE7B7" font-size="10">pgvector / Pinecone · Cosine sim</text>
+      <line x1="730" y1="295" x2="630" y2="220" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 12 KNOWLEDGE INGESTION ════════════ -->
+<div class="section" id="s12">
+  <div class="section-eyebrow">12 — Knowledge Ingestion Architecture</div>
+  <div class="section-title">Building the Enterprise<br>Knowledge Base</div>
+  <div class="section-subtitle">VDA's intelligence is only as good as the knowledge it draws from. The knowledge ingestion pipeline transforms unstructured enterprise documents into a structured, retrievable knowledge base that powers clinical reasoning.</div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card" style="border-top: 3px solid var(--blue-light);">
+      <div class="card-title">📤 Runtime User Documents</div>
+      <p class="card-body">Patient-uploaded files processed in real time. Prescriptions, lab results, imaging reports, discharge summaries. Processed through the Document Intelligence pipeline — OCR, entity extraction, interpretation, plain-language explanation — and stored in the user's clinical timeline.</p>
+      <div class="tags">
+        <span class="tag">Real-time processing</span>
+        <span class="tag-teal">Per-user scope</span>
+        <span class="tag">Transient context</span>
+      </div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--purple-light);">
+      <div class="card-title">📚 Offline Knowledge Documents</div>
+      <p class="card-body">Enterprise content managed by administrators. Clinical protocols, NPCDCS guidelines, Ayushman Bharat eligibility rules, drug information databases, care pathways, escalation SOPs, institutional FAQs. Processed and stored in the shared vector store for RAG retrieval.</p>
+      <div class="tags">
+        <span class="tag-purple">Asynchronous batch</span>
+        <span class="tag-purple">Shared enterprise scope</span>
+        <span class="tag-purple">Persistent knowledge</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Knowledge Ingestion Pipeline</h3>
+  <div class="pipeline">
+    <div class="pipeline-step">📄 Document Source</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">🔍 Parse &amp; OCR</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">✂️ Intelligent Chunking</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">🏷️ Metadata Tagging</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">🧮 Embedding Generation</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">🗃️ Vector DB</div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step">🔎 RAG Retrieval</div>
+  </div>
+</div>
+
+
+<!-- ════════════ 13 DOCUMENT INTELLIGENCE ════════════ -->
+<div class="section" id="s13">
+  <div class="section-eyebrow">13 — Document Intelligence</div>
+  <div class="section-title">From Clinical Document<br>to Patient Understanding</div>
+  <div class="section-subtitle">Medical documents are the most common source of patient confusion. VDA's Document Intelligence layer transforms clinical documentation into accessible, actionable patient guidance.</div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card">
+      <div class="card-icon icon-amber">🔬</div>
+      <div class="card-title">Lab Report Interpretation</div>
+      <p class="card-body">Raw lab values are contextualised against reference ranges, the patient's known conditions, and current medications. Abnormal results are flagged with severity levels. HbA1c 8.7% becomes: "Your average blood sugar over the last three months is above the recommended range."</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-blue">💊</div>
+      <div class="card-title">Prescription Parsing</div>
+      <p class="card-body">Prescription images are processed through OCR and medical entity recognition to extract: medication names, dosages, timing instructions, duration, and refill schedules. Each medication is explained in plain language with common side effects and interaction notes — always with instructions to follow physician guidance.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-purple">📝</div>
+      <div class="card-title">Discharge Summary Navigation</div>
+      <p class="card-body">VDA extracts follow-up actions, medication changes, red flag symptoms, and next appointment information — presenting them as an actionable care checklist rather than a clinical narrative.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon icon-rose">⚠️</div>
+      <div class="card-title">Confidence-Based Fallback</div>
+      <p class="card-body">When confidence falls below threshold, VDA requests a clearer image or routes to human review — it does not present low-confidence outputs as definitive interpretations. RAGAS context precision scoring directly informs this threshold.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 14 SECURITY ════════════ -->
+<div class="section" id="s14">
+  <div class="section-eyebrow">14 — Security &amp; Privacy</div>
+  <div class="section-title">Defense-in-Depth<br>for Healthcare AI</div>
+  <div class="section-subtitle">Healthcare data is among the most sensitive category of personal information. VDA's security architecture is built on defense-in-depth — multiple overlapping layers, each assuming the layer above it may be compromised.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 06</span> Security Architecture</div>
+    <svg viewBox="0 0 1020 420" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <ellipse cx="510" cy="210" rx="490" ry="190" fill="#FEF2F2" stroke="#FECACA" stroke-width="2"/>
+      <ellipse cx="510" cy="210" rx="390" ry="152" fill="#FFF7ED" stroke="#FED7AA" stroke-width="2"/>
+      <ellipse cx="510" cy="210" rx="290" ry="114" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2"/>
+      <ellipse cx="510" cy="210" rx="190" ry="76" fill="#F0FDFA" stroke="#99F6E4" stroke-width="2"/>
+      <ellipse cx="510" cy="210" rx="100" ry="44" fill="#0A1628"/>
+      <text x="510" y="205" text-anchor="middle" fill="white" font-size="13" font-weight="800">🔒 PHI</text>
+      <text x="510" y="222" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Protected Data</text>
+      <text x="510" y="148" text-anchor="middle" fill="#065F46" font-size="11" font-weight="700">AI Security Layer</text>
+      <text x="510" y="162" text-anchor="middle" fill="#059669" font-size="10">Prompt injection guard · Hallucination control · PII masking · RAGAS output validation</text>
+      <text x="510" y="100" text-anchor="middle" fill="#92400E" font-size="11" font-weight="700">Data Security Layer</text>
+      <text x="510" y="114" text-anchor="middle" fill="#B45309" font-size="10">AES-256 at rest · TLS 1.3 in transit · Key rotation · Field-level encryption</text>
+      <text x="510" y="62" text-anchor="middle" fill="#991B1B" font-size="11" font-weight="700">Application Security Layer</text>
+      <text x="510" y="76" text-anchor="middle" fill="#DC2626" font-size="10">JWT Auth · RBAC · Rate limiting · Input sanitisation · OWASP compliance</text>
+      <text x="510" y="28" text-anchor="middle" fill="#7F1D1D" font-size="11" font-weight="700">Network Security Layer</text>
+      <text x="510" y="42" text-anchor="middle" fill="#991B1B" font-size="10">TLS termination · WAF · DDoS protection · VPC isolation · Zero-trust networking</text>
+      <rect x="30" y="358" width="960" height="46" rx="10" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="510" y="377" text-anchor="middle" fill="#334155" font-size="12" font-weight="700">Compliance &amp; Governance</text>
+      <text x="250" y="394" text-anchor="middle" fill="#6B7280" font-size="11">DPDP Act Compliance</text>
+      <text x="510" y="394" text-anchor="middle" fill="#6B7280" font-size="11">Consent Management Framework</text>
+      <text x="760" y="394" text-anchor="middle" fill="#6B7280" font-size="11">Full Audit Trail &amp; Logging</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 15 DEPLOYMENT ════════════ -->
+<div class="section" id="s15">
+  <div class="section-eyebrow">15 — Production Deployment</div>
+  <div class="section-title">Cloud-Agnostic,<br>Enterprise-Ready</div>
+  <div class="section-subtitle">VDA is designed to deploy on any major cloud provider — or on private infrastructure for clients with data residency requirements.</div>
+
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span>DIAGRAM 07</span> Production Deployment Architecture</div>
+    <svg viewBox="0 0 1020 500" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <rect x="10" y="10" width="1000" height="48" rx="10" fill="#F8FAFF" stroke="#E2E8F0"/>
+      <text x="510" y="30" text-anchor="middle" fill="#334155" font-size="12" font-weight="700">🌐 CDN Layer</text>
+      <text x="250" y="47" text-anchor="middle" fill="#64748B" font-size="10">CloudFront / Cloudflare</text>
+      <text x="510" y="47" text-anchor="middle" fill="#64748B" font-size="10">Static Assets · Edge Caching</text>
+      <text x="770" y="47" text-anchor="middle" fill="#64748B" font-size="10">DDoS Protection</text>
+
+      <rect x="10" y="72" width="1000" height="44" rx="10" fill="#EFF6FF" stroke="#BFDBFE"/>
+      <text x="510" y="91" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="700">⚖️ Load Balancer + API Gateway</text>
+      <text x="510" y="108" text-anchor="middle" fill="#3B82F6" font-size="10">SSL Termination · Health Checks · Routing · Auth</text>
+
+      <rect x="10" y="130" width="1000" height="190" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1.5"/>
+      <text x="30" y="155" fill="#5B21B6" font-size="12" font-weight="700">☸️ Kubernetes Cluster — Core Microservices</text>
+
+      <rect x="30" y="165" width="148" height="70" rx="10" fill="white" stroke="#DDD6FE"/>
+      <text x="104" y="195" text-anchor="middle" fill="#0A1628" font-size="11" font-weight="700">Chat Service</text>
+      <text x="104" y="212" text-anchor="middle" fill="#64748B" font-size="10">FastAPI · WebSocket</text>
+
+      <rect x="188" y="165" width="148" height="70" rx="10" fill="white" stroke="#DDD6FE"/>
+      <text x="262" y="195" text-anchor="middle" fill="#0A1628" font-size="11" font-weight="700">Orchestrator</text>
+      <text x="262" y="212" text-anchor="middle" fill="#64748B" font-size="10">LangGraph · Agents</text>
+
+      <rect x="346" y="165" width="148" height="70" rx="10" fill="white" stroke="#DDD6FE"/>
+      <text x="420" y="195" text-anchor="middle" fill="#0A1628" font-size="11" font-weight="700">OCR Service</text>
+      <text x="420" y="212" text-anchor="middle" fill="#64748B" font-size="10">GPU-backed pods</text>
+
+      <rect x="504" y="165" width="148" height="70" rx="10" fill="white" stroke="#DDD6FE"/>
+      <text x="578" y="195" text-anchor="middle" fill="#0A1628" font-size="11" font-weight="700">Voice Service</text>
+      <text x="578" y="212" text-anchor="middle" fill="#64748B" font-size="10">STT / TTS · Regional</text>
+
+      <rect x="662" y="165" width="148" height="70" rx="10" fill="white" stroke="#DDD6FE"/>
+      <text x="736" y="195" text-anchor="middle" fill="#0A1628" font-size="11" font-weight="700">Notification Svc</text>
+      <text x="736" y="212" text-anchor="middle" fill="#64748B" font-size="10">Push · SMS · Email</text>
+
+      <rect x="820" y="165" width="180" height="70" rx="10" fill="#F0FDFA" stroke="#99F6E4"/>
+      <text x="910" y="193" text-anchor="middle" fill="#0F766E" font-size="11" font-weight="700">RAGAS Eval Service</text>
+      <text x="910" y="210" text-anchor="middle" fill="#0D9488" font-size="10">Quality scoring</text>
+      <text x="910" y="224" text-anchor="middle" fill="#0D9488" font-size="10">Dashboards · Alerts</text>
+
+      <rect x="30" y="250" width="960" height="56" rx="10" fill="#ECFEFF" stroke="#A5F3FC"/>
+      <text x="510" y="272" text-anchor="middle" fill="#0E7490" font-size="12" font-weight="700">⚙️ Async Workers — BullMQ / Celery</text>
+      <text x="200" y="291" text-anchor="middle" fill="#0891B2" font-size="10">OCR Batch Processing</text>
+      <text x="400" y="291" text-anchor="middle" fill="#0891B2" font-size="10">Knowledge Ingestion</text>
+      <text x="600" y="291" text-anchor="middle" fill="#0891B2" font-size="10">RAGAS Batch Eval</text>
+      <text x="800" y="291" text-anchor="middle" fill="#0891B2" font-size="10">Notification Dispatch</text>
+
+      <rect x="10" y="334" width="490" height="100" rx="14" fill="#F1F5F9" stroke="#E2E8F0"/>
+      <text x="255" y="358" text-anchor="middle" fill="#334155" font-size="12" font-weight="700">🗄️ Persistent Data Tier</text>
+      <text x="120" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">PostgreSQL + pgvector</text>
+      <text x="255" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">Redis Cache</text>
+      <text x="390" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">Object Storage</text>
+      <text x="255" y="420" text-anchor="middle" fill="#94A3B8" font-size="9">Multi-AZ · Automated backups · Point-in-time recovery</text>
+
+      <rect x="520" y="334" width="490" height="100" rx="14" fill="#F0FDFA" stroke="#99F6E4"/>
+      <text x="765" y="358" text-anchor="middle" fill="#0D9488" font-size="12" font-weight="700">📊 Observability + RAGAS Stack</text>
+      <text x="620" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">OpenTelemetry</text>
+      <text x="765" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">Prometheus + Grafana</text>
+      <text x="910" y="384" text-anchor="middle" fill="#64748B" font-size="10.5">RAGAS Dashboards</text>
+      <text x="765" y="420" text-anchor="middle" fill="#94A3B8" font-size="9">Real-time SLA · AI quality scores · Clinical safety alerts · Drift detection</text>
+    </svg>
+  </div>
+</div>
+
+
+<!-- ════════════ 16 SCALABILITY ════════════ -->
+<div class="section" id="s16">
+  <div class="section-eyebrow">16 — Scalability &amp; Performance</div>
+  <div class="section-title">Built to Scale<br>from Pilot to Platform</div>
+
+  <div class="card-grid card-grid-3">
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;font-weight:800;color:var(--blue-light);margin-bottom:8px;">10K</div>
+      <div class="card-title">Pilot Stage</div>
+      <p class="card-body">Single-region deployment. Shared K8s cluster. Focus on feature validation and clinical safety validation over pure performance optimisation.</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-size:32px;font-weight:800;color:var(--purple-light);margin-bottom:8px;">100K</div>
+      <div class="card-title">Growth Stage</div>
+      <p class="card-body">Multi-region deployment. Independent service scaling. Dedicated GPU nodes for OCR and voice. Horizontal AI inference scaling.</p>
+    </div>
+    <div class="card" style="text-align:center; background:var(--gradient-hero);">
+      <div style="font-size:32px;font-weight:800;color:#5EEAD4;margin-bottom:8px;">1M+</div>
+      <div class="card-title" style="color:white;">Enterprise Stage</div>
+      <p class="card-body" style="color:rgba(255,255,255,0.7);">Multi-cloud with regional failover. Auto-scaling AI inference. Dedicated vector clusters. SLA-backed performance guarantees.</p>
+    </div>
+  </div>
+
+  <h3>Performance Targets</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>Operation</th><th>P50 Target</th><th>P99 Target</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>API response (non-AI)</td><td>&lt; 200ms</td><td>&lt; 500ms</td><td>Auth, routing, metadata queries</td></tr>
+      <tr><td>Chat response</td><td>&lt; 2.5s</td><td>&lt; 4s</td><td>End-to-end including LLM inference</td></tr>
+      <tr><td>Voice round-trip</td><td>&lt; 4s</td><td>&lt; 7s</td><td>STT + reasoning + TTS</td></tr>
+      <tr><td>OCR document processing</td><td>&lt; 6s</td><td>&lt; 12s</td><td>Depends on document complexity</td></tr>
+      <tr><td>RAGAS evaluation</td><td>&lt; 200ms</td><td>&lt; 400ms</td><td>Asynchronous; does not block response</td></tr>
+      <tr><td>Platform availability</td><td colspan="2">99.9% uptime</td><td>Excluding planned maintenance</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ════════════ 17 TECH STACK ════════════ -->
+<div class="section" id="s17">
+  <div class="section-eyebrow">17 — Tech Stack</div>
+  <div class="section-title">Recommended<br>Technology Stack</div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card">
+      <div class="card-title">Backend &amp; API</div>
+      <div class="tags"><span class="tag">Python 3.11+</span><span class="tag">FastAPI</span><span class="tag">WebSocket</span><span class="tag">Pydantic</span></div>
+      <p class="card-body" style="margin-top:12px;">FastAPI provides async-first performance with automatic OpenAPI documentation. Python's AI ecosystem depth makes it the clear choice for a system with deep LLM and ML integration requirements.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">AI, Orchestration &amp; Evaluation</div>
+      <div class="tags"><span class="tag-purple">LangGraph</span><span class="tag-purple">LangChain</span><span class="tag-teal">RAGAS</span><span class="tag-purple">OpenAI / Anthropic / Google</span></div>
+      <p class="card-body" style="margin-top:12px;">LangGraph handles stateful agent workflows. RAGAS provides the evaluation layer — both real-time inline scoring and batch evaluation pipelines. Provider-agnostic LLM interface maintained through a unified abstraction layer.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Data &amp; Vector</div>
+      <div class="tags"><span class="tag-teal">PostgreSQL 16+</span><span class="tag-teal">pgvector</span><span class="tag-teal">Redis 7</span><span class="tag-teal">Pinecone (optional)</span></div>
+      <p class="card-body" style="margin-top:12px;">pgvector on PostgreSQL provides vector search without the operational complexity of a separate vector database — simplifying the data architecture significantly for the pilot phase.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Infrastructure &amp; Observability</div>
+      <div class="tags"><span class="tag-emerald">Docker + Kubernetes</span><span class="tag-emerald">OpenTelemetry</span><span class="tag-emerald">Prometheus + Grafana</span></div>
+      <p class="card-body" style="margin-top:12px;">OpenTelemetry provides unified traces, metrics, and logs — critical for debugging multi-agent interactions where a single user request may touch five or more services. RAGAS dashboards surface on the same Grafana instance as infrastructure metrics.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ 18 ADRs ════════════ -->
+<div class="section" id="s18">
+  <div class="section-eyebrow">18 — Architecture Decision Records</div>
+  <div class="section-title">Key Decisions &amp;<br>Their Rationale</div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>ADR</th><th>Decision</th><th>Rationale</th><th>Consequence</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>ADR-001</strong></td>
+        <td>Position as Health Navigation Platform</td>
+        <td>A "chatbot" framing leads to chatbot-quality product decisions. Navigation platform framing drives workflow-first, safety-first design.</td>
+        <td>Product roadmap prioritises guided workflows over conversational capability.</td>
+      </tr>
+      <tr>
+        <td><strong>ADR-002</strong></td>
+        <td>SaaS-first LLM strategy</td>
+        <td>Self-hosted LLMs require significant infrastructure investment and lack the multilingual and medical reasoning capability of frontier models.</td>
+        <td>LLM inference is the primary compute variable. Requires provider redundancy and RAGAS quality monitoring.</td>
+      </tr>
+      <tr>
+        <td><strong>ADR-003</strong></td>
+        <td>Microservices architecture</td>
+        <td>Independent scaling of AI inference, OCR, voice, and chat services. Fault isolation. Independent deployment cadence per service.</td>
+        <td>Higher operational complexity than monolith. Requires mature DevOps practice.</td>
+      </tr>
+      <tr>
+        <td><strong>ADR-004</strong></td>
+        <td>Multi-agent design</td>
+        <td>Specialisation improves output quality and enables domain-specific safety controls. Single-agent systems degrade as scope expands.</td>
+        <td>Orchestration complexity increases. Intent classification accuracy becomes a critical dependency.</td>
+      </tr>
+      <tr>
+        <td><strong>ADR-005</strong></td>
+        <td>Hybrid memory (structured + vector)</td>
+        <td>Structured storage for deterministic clinical facts. Vector storage for semantic similarity and RAG retrieval.</td>
+        <td>Dual storage architecture. Query patterns must match storage type.</td>
+      </tr>
+      <tr>
+        <td><strong>ADR-006</strong></td>
+        <td>RAGAS as the AI quality measurement standard</td>
+        <td>Healthcare AI requires a systematic, reproducible quality evaluation framework that clinical teams can understand and trust. RAGAS provides shared vocabulary across engineering and clinical roles.</td>
+        <td>RAGAS evaluation runs inline for high-stakes responses and in batch for periodic quality audits. Clinical thresholds must be defined with medical leadership input.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ════════════ 19 RISK REGISTER ════════════ -->
+<div class="section" id="s19">
+  <div class="section-eyebrow">19 — Risk Register</div>
+  <div class="section-title">Known Risks &amp;<br>Mitigations</div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Risk</th><th>Severity</th><th>Likelihood</th><th>Mitigation Strategy</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Clinical Hallucination</strong><br><span style="font-size:12px;color:#64748B;">LLM generates plausible but incorrect medical guidance</span></td>
+        <td><span class="risk-high">HIGH</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td>Multi-layer guardrails, RAGAS faithfulness scoring, output validation, mandatory human escalation for high-stakes decisions</td>
+      </tr>
+      <tr>
+        <td><strong>OCR Extraction Errors</strong><br><span style="font-size:12px;color:#64748B;">Incorrect medication dosage extracted from prescription</span></td>
+        <td><span class="risk-high">HIGH</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td>Confidence scoring on all extractions, explicit uncertainty surfacing to user, fallback to human review below threshold. RAGAS context precision flags low-quality extractions.</td>
+      </tr>
+      <tr>
+        <td><strong>PHI Leakage</strong><br><span style="font-size:12px;color:#64748B;">Patient health information exposed through model output</span></td>
+        <td><span class="risk-high">HIGH</span></td>
+        <td><span class="risk-low">LOW</span></td>
+        <td>Presidio-based PII masking pre-LLM, output scanning post-generation, strict data isolation per user context</td>
+      </tr>
+      <tr>
+        <td><strong>Prompt Injection</strong><br><span style="font-size:12px;color:#64748B;">Malicious content in uploaded documents overrides system instructions</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td>Input sanitisation, prompt boundary enforcement, sandboxed document processing, anomalous instruction detection</td>
+      </tr>
+      <tr>
+        <td><strong>LLM Provider Outage</strong></td>
+        <td><span class="risk-med">MED</span></td>
+        <td><span class="risk-low">LOW</span></td>
+        <td>Automatic failover to secondary provider, circuit-breaker pattern, graceful degradation to rule-based responses</td>
+      </tr>
+      <tr>
+        <td><strong>AI Quality Drift</strong><br><span style="font-size:12px;color:#64748B;">Gradual degradation of response quality undetected over time</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td><span class="risk-med">MED</span></td>
+        <td>RAGAS continuous evaluation with drift detection. Weekly quality reports reviewed by clinical leads. Automated alerts on metric threshold breaches.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ════════════ 20 RAGAS MEASUREMENT LAYER ════════════ -->
+<div class="section" id="s20">
+  <div class="section-eyebrow teal">20 — RAGAS: AI Quality Measurement Layer</div>
+  <div class="section-title">How We Know VDA<br>Is Working Well</div>
+  <div class="section-subtitle">
+    RAGAS (Retrieval Augmented Generation Assessment) gives VDA a systematic, reproducible way to evaluate every AI response — not just anecdotally, but with quantified scores that clinical teams and engineering teams can review together.
+  </div>
+
+  <div class="teal-box">
+    <h3>Why RAGAS matters for healthcare AI</h3>
+    <p>In most software systems, "does it work?" is answered by unit tests and uptime dashboards. In an AI health navigation platform, those answers are necessary but not sufficient. A response can be grammatically correct, fast, and from a functioning system — and still be clinically misleading, contextually irrelevant, or based on retrieved information that doesn't apply to this patient. RAGAS provides the measurement layer that answers: was this response faithful, relevant, grounded, and safe?</p>
+  </div>
+
+  <h3>The Five Core RAGAS Metrics for VDA</h3>
+
+  <div class="card-grid card-grid-2" style="gap:20px;">
+
+    <div class="metric-card">
+      <div class="ragas-badge">📐 Metric 1</div>
+      <div class="metric-name">Faithfulness</div>
+      <div class="metric-def">Measures whether the AI's response is factually consistent with the retrieved context — it should not contradict or fabricate information beyond what the knowledge base contains.</div>
+      <div class="metric-formula">Score = (# claims supported by context) ÷ (total claims in response)</div>
+      <div class="metric-example">
+        <strong>VDA Example:</strong><br>
+        Patient asks: "Is metformin safe for kidney disease?"<br>
+        Retrieved context: Clinical guideline recommending dose adjustment in CKD Stage 3+<br>
+        A faithful response accurately reflects this guideline without inventing contraindications.<br>
+        An unfaithful response might say "metformin is completely safe in all kidney conditions" — contradicting the retrieved source.
+      </div>
+      <div style="margin-top:14px;">
+        <div class="threshold-bar">
+          <div class="threshold-label">Target (≥)</div>
+          <div class="threshold-track"><div class="threshold-fill fill-green" style="width:90%"></div></div>
+          <div class="threshold-value">0.90</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Review zone</div>
+          <div class="threshold-track"><div class="threshold-fill fill-amber" style="width:75%"></div></div>
+          <div class="threshold-value">0.75</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Block</div>
+          <div class="threshold-track"><div class="threshold-fill fill-red" style="width:50%"></div></div>
+          <div class="threshold-value">&lt;0.60</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="ragas-badge">🎯 Metric 2</div>
+      <div class="metric-name">Answer Relevancy</div>
+      <div class="metric-def">Measures how directly and completely the AI's response addresses what the user actually asked — penalising responses that are technically accurate but off-topic or overly generic.</div>
+      <div class="metric-formula">Score = avg cosine_similarity(generated questions from answer, original question)</div>
+      <div class="metric-example">
+        <strong>VDA Example:</strong><br>
+        User: "What foods should I avoid if my sugar is high?"<br>
+        High relevancy: Specific list of high-GI foods, refined carbohydrates, sweetened drinks — tailored to a diabetic context.<br>
+        Low relevancy: A general explanation of what glycaemic index means, without actionable food guidance.
+      </div>
+      <div style="margin-top:14px;">
+        <div class="threshold-bar">
+          <div class="threshold-label">Target (≥)</div>
+          <div class="threshold-track"><div class="threshold-fill fill-green" style="width:85%"></div></div>
+          <div class="threshold-value">0.85</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Review zone</div>
+          <div class="threshold-track"><div class="threshold-fill fill-amber" style="width:70%"></div></div>
+          <div class="threshold-value">0.70</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Block</div>
+          <div class="threshold-track"><div class="threshold-fill fill-red" style="width:50%"></div></div>
+          <div class="threshold-value">&lt;0.55</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="ragas-badge">📚 Metric 3</div>
+      <div class="metric-name">Context Recall</div>
+      <div class="metric-def">Measures whether all the relevant information from the knowledge base that was needed to answer the question was actually retrieved. A low score means the retrieval pipeline missed important context.</div>
+      <div class="metric-formula">Score = (# ground truth claims covered by retrieved context) ÷ (total ground truth claims)</div>
+      <div class="metric-example">
+        <strong>VDA Example:</strong><br>
+        Patient asks about Ayushman Bharat eligibility for dialysis treatment.<br>
+        High context recall: RAG retrieves the PM-JAY package covering renal services, eligibility criteria, and the empanelled hospital list.<br>
+        Low context recall: Only retrieves the general scheme description, missing the specific dialysis package rules — leading to an incomplete response.
+      </div>
+      <div style="margin-top:14px;">
+        <div class="threshold-bar">
+          <div class="threshold-label">Target (≥)</div>
+          <div class="threshold-track"><div class="threshold-fill fill-green" style="width:85%"></div></div>
+          <div class="threshold-value">0.85</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Review zone</div>
+          <div class="threshold-track"><div class="threshold-fill fill-amber" style="width:72%"></div></div>
+          <div class="threshold-value">0.72</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Trigger re-ingest</div>
+          <div class="threshold-track"><div class="threshold-fill fill-red" style="width:55%"></div></div>
+          <div class="threshold-value">&lt;0.60</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <div class="ragas-badge">🔍 Metric 4</div>
+      <div class="metric-name">Context Precision</div>
+      <div class="metric-def">Measures the signal-to-noise ratio of the retrieved context — whether what was retrieved was actually relevant to the question, rather than tangentially related content that clutters the reasoning prompt.</div>
+      <div class="metric-formula">Score = (# relevant retrieved chunks) ÷ (total retrieved chunks)</div>
+      <div class="metric-example">
+        <strong>VDA Example:</strong><br>
+        Patient uploads a blood test report and asks about their HbA1c.<br>
+        High context precision: RAG retrieves chunks specifically about HbA1c interpretation ranges and diabetes targets.<br>
+        Low context precision: RAG also retrieves chunks about cholesterol interpretation and general lab report structure — adding noise to the prompt that may distract the LLM from the specific question.
+      </div>
+      <div style="margin-top:14px;">
+        <div class="threshold-bar">
+          <div class="threshold-label">Target (≥)</div>
+          <div class="threshold-track"><div class="threshold-fill fill-green" style="width:80%"></div></div>
+          <div class="threshold-value">0.80</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Review zone</div>
+          <div class="threshold-track"><div class="threshold-fill fill-amber" style="width:65%"></div></div>
+          <div class="threshold-value">0.65</div>
+        </div>
+        <div class="threshold-bar">
+          <div class="threshold-label">Chunking review</div>
+          <div class="threshold-track"><div class="threshold-fill fill-red" style="width:50%"></div></div>
+          <div class="threshold-value">&lt;0.50</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Metric 5 full width -->
+  <div class="metric-card" style="margin-top:20px; border: 2px solid #FECACA; background: linear-gradient(135deg, #FFF1F2, #FFEEF0);">
+    <div class="ragas-badge" style="background: var(--rose);">🚨 Metric 5 — Clinical Safety</div>
+    <div class="metric-name" style="color: var(--rose);">Escalation Accuracy Score</div>
+    <div class="metric-def" style="color: #6B1E28;">This metric is VDA-specific and not part of standard RAGAS — it was designed for healthcare navigation systems. It measures whether high-risk clinical situations were correctly identified and escalated to a human clinician, and whether low-risk situations were correctly handled by VDA without unnecessary escalation.</div>
+    <div class="metric-formula" style="background: #FEF2F2; border-color: #FECACA; color: var(--rose);">Score = (Correct escalation decisions) ÷ (Total escalation decision points) — reviewed by clinical team monthly</div>
+    <div class="metric-example" style="color: #6B1E28;">
+      <strong>VDA Example — True Positive Escalation:</strong><br>
+      Patient reports chest pain + arm radiation + diaphoresis. VDA's Emergency Agent correctly triggers immediate teleconsult escalation. Score: correct.<br><br>
+      <strong>VDA Example — False Negative (most dangerous failure mode):</strong><br>
+      Patient with known cardiac history reports "mild chest discomfort" and VDA responds with reassurance without escalating. Clinical review flags this as a missed escalation. Score: incorrect — triggers prompt revision and threshold review.
+    </div>
+    <div style="margin-top:16px; padding: 16px; background: white; border-radius: 12px;">
+      <div style="font-size:13px;font-weight:700;color:var(--rose);margin-bottom:8px;">Clinical Review Process</div>
+      <div style="font-size:13px;color:var(--text-body);">All escalation decisions are logged with full reasoning trace. A clinical lead reviews a random sample of 50 escalation/non-escalation decisions weekly. Any false negative (missed escalation of a genuinely urgent case) immediately triggers a safety review, not just a metric note. This metric has a higher consequence threshold than all other RAGAS metrics — a single false negative warrants investigation.</div>
+    </div>
+  </div>
+
+  <h3>RAGAS Evaluation Modes</h3>
+
+  <div class="card-grid card-grid-3">
+    <div class="card" style="border-top: 3px solid var(--teal);">
+      <div class="card-title">🔴 Real-Time Inline Scoring</div>
+      <p class="card-body">For high-stakes interactions — any response from the NCD Agent, Emergency Agent, or Teleconsult Agent — RAGAS faithfulness and escalation accuracy are evaluated inline. A response that scores below threshold is either flagged for human review or triggers a revised generation attempt before delivery. This adds &lt;200ms to the response time.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--emerald);">
+      <div class="card-title">🟡 Async Batch Evaluation</div>
+      <p class="card-body">All interactions are logged and evaluated in batch overnight. Full RAGAS scores are computed across all five metrics. Trends over time are surfaced on the quality dashboard. This mode catches gradual quality drift that real-time scoring alone would miss — for example, a decline in context recall as the knowledge base ages without re-ingestion.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--blue-light);">
+      <div class="card-title">🔵 Regression Testing Suite</div>
+      <p class="card-body">Before any production deployment — of a new agent, a new LLM model version, or an updated knowledge base — a curated set of ground-truth test cases is run through the full RAGAS evaluation suite. Deployments that cause any key metric to decline by more than 5% relative to the previous baseline are held for review. This prevents silent quality regressions.</p>
+    </div>
+  </div>
+
+  <!-- RAGAS Architecture Diagram -->
+  <div class="diagram-wrap">
+    <div class="diagram-title"><span class="teal-badge">DIAGRAM 08</span> RAGAS Measurement Architecture</div>
+    <svg viewBox="0 0 1020 440" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif" width="100%">
+      <defs>
+        <linearGradient id="ragasFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#0D9488"/>
+          <stop offset="100%" style="stop-color:#059669"/>
+        </linearGradient>
+        <marker id="arrowR" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <polygon points="0,0 8,4 0,8" fill="#0D9488"/>
+        </marker>
+      </defs>
+
+      <!-- Central evaluation engine -->
+      <rect x="380" y="160" width="260" height="100" rx="16" fill="url(#ragasFlow)"/>
+      <text x="510" y="196" text-anchor="middle" fill="white" font-size="15" font-weight="800">RAGAS Eval Engine</text>
+      <text x="510" y="216" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="11">OpenAI evaluator model · Custom clinical scorers</text>
+      <text x="510" y="234" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="10">Faithfulness · Relevancy · Recall · Precision · Escalation</text>
+
+      <!-- Input sources (left) -->
+      <rect x="20" y="40" width="200" height="60" rx="12" fill="#EFF6FF" stroke="#BFDBFE"/>
+      <text x="120" y="66" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="700">User Query</text>
+      <text x="120" y="83" text-anchor="middle" fill="#3B82F6" font-size="10">Original input (normalised)</text>
+      <line x1="220" y1="70" x2="378" y2="192" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowR)"/>
+
+      <rect x="20" y="130" width="200" height="60" rx="12" fill="#F5F3FF" stroke="#DDD6FE"/>
+      <text x="120" y="156" text-anchor="middle" fill="#5B21B6" font-size="12" font-weight="700">Retrieved Context</text>
+      <text x="120" y="173" text-anchor="middle" fill="#7C3AED" font-size="10">RAG chunks used in prompt</text>
+      <line x1="220" y1="160" x2="378" y2="200" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowR)"/>
+
+      <rect x="20" y="220" width="200" height="60" rx="12" fill="#F0FDF4" stroke="#A7F3D0"/>
+      <text x="120" y="246" text-anchor="middle" fill="#065F46" font-size="12" font-weight="700">AI Response</text>
+      <text x="120" y="263" text-anchor="middle" fill="#059669" font-size="10">Generated output to evaluate</text>
+      <line x1="220" y1="250" x2="378" y2="220" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowR)"/>
+
+      <rect x="20" y="310" width="200" height="60" rx="12" fill="#FFFBEB" stroke="#FDE68A"/>
+      <text x="120" y="336" text-anchor="middle" fill="#92400E" font-size="12" font-weight="700">Ground Truth</text>
+      <text x="120" y="353" text-anchor="middle" fill="#B45309" font-size="10">Clinical reference answers</text>
+      <line x1="220" y1="340" x2="378" y2="240" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowR)"/>
+
+      <!-- Output destinations (right) -->
+      <rect x="800" y="30" width="200" height="68" rx="12" fill="#F0FDFA" stroke="#99F6E4" stroke-width="2"/>
+      <text x="900" y="57" text-anchor="middle" fill="#0F766E" font-size="12" font-weight="700">📊 Quality Dashboard</text>
+      <text x="900" y="74" text-anchor="middle" fill="#0D9488" font-size="10">Grafana · Real-time trends</text>
+      <text x="900" y="88" text-anchor="middle" fill="#0D9488" font-size="10">Per-agent · Per-intent view</text>
+      <line x1="640" y1="180" x2="800" y2="64" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="800" y="120" width="200" height="68" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="2"/>
+      <text x="900" y="147" text-anchor="middle" fill="#991B1B" font-size="12" font-weight="700">🚨 Safety Alerts</text>
+      <text x="900" y="164" text-anchor="middle" fill="#DC2626" font-size="10">Threshold breach alerts</text>
+      <text x="900" y="178" text-anchor="middle" fill="#DC2626" font-size="10">Clinical team notification</text>
+      <line x1="640" y1="200" x2="800" y2="154" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="800" y="210" width="200" height="68" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="2"/>
+      <text x="900" y="237" text-anchor="middle" fill="#065F46" font-size="12" font-weight="700">📋 Weekly Report</text>
+      <text x="900" y="254" text-anchor="middle" fill="#059669" font-size="10">Clinical quality review</text>
+      <text x="900" y="268" text-anchor="middle" fill="#059669" font-size="10">Escalation audit trail</text>
+      <line x1="640" y1="220" x2="800" y2="244" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <rect x="800" y="300" width="200" height="68" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2"/>
+      <text x="900" y="327" text-anchor="middle" fill="#1E40AF" font-size="12" font-weight="700">🔁 Feedback Loop</text>
+      <text x="900" y="344" text-anchor="middle" fill="#2563EB" font-size="10">Prompt refinement triggers</text>
+      <text x="900" y="358" text-anchor="middle" fill="#2563EB" font-size="10">Knowledge re-ingest cues</text>
+      <line x1="640" y1="240" x2="800" y2="334" stroke="#0D9488" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+      <!-- Eval modes label -->
+      <rect x="380" y="288" width="260" height="80" rx="12" fill="#F0FDFA" stroke="#99F6E4"/>
+      <text x="510" y="312" text-anchor="middle" fill="#0F766E" font-size="11" font-weight="700">Evaluation Modes</text>
+      <text x="510" y="330" text-anchor="middle" fill="#0D9488" font-size="10">🔴 Real-time (high-stakes agents)</text>
+      <text x="510" y="346" text-anchor="middle" fill="#0D9488" font-size="10">🟡 Batch overnight (all interactions)</text>
+      <text x="510" y="362" text-anchor="middle" fill="#0D9488" font-size="10">🔵 Regression (pre-deployment gate)</text>
+    </svg>
+  </div>
+
+  <h3>RAGAS Thresholds by Interaction Type</h3>
+
+  <table class="ragas-table">
+    <thead>
+      <tr><th>Interaction Type</th><th>Faithfulness</th><th>Answer Relevancy</th><th>Context Recall</th><th>Context Precision</th><th>Escalation Accuracy</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>NCD Care Response</strong><br><span style="font-size:11px;color:#64748B;">Blood sugar, medication questions</span></td>
+        <td><span class="metric-score score-green">≥ 0.90</span></td>
+        <td><span class="metric-score score-green">≥ 0.85</span></td>
+        <td><span class="metric-score score-green">≥ 0.85</span></td>
+        <td><span class="metric-score score-amber">≥ 0.75</span></td>
+        <td><span class="metric-score score-green">≥ 0.95</span></td>
+      </tr>
+      <tr>
+        <td><strong>Document Interpretation</strong><br><span style="font-size:11px;color:#64748B;">Lab reports, prescriptions</span></td>
+        <td><span class="metric-score score-green">≥ 0.90</span></td>
+        <td><span class="metric-score score-green">≥ 0.85</span></td>
+        <td><span class="metric-score score-amber">≥ 0.80</span></td>
+        <td><span class="metric-score score-green">≥ 0.80</span></td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td><strong>Emergency / Escalation</strong><br><span style="font-size:11px;color:#64748B;">Chest pain, high-risk symptoms</span></td>
+        <td><span class="metric-score score-green">≥ 0.95</span></td>
+        <td><span class="metric-score score-green">≥ 0.90</span></td>
+        <td><span class="metric-score score-green">≥ 0.90</span></td>
+        <td><span class="metric-score score-amber">≥ 0.80</span></td>
+        <td><span class="metric-score score-green">≥ 0.98</span></td>
+      </tr>
+      <tr>
+        <td><strong>Health Education</strong><br><span style="font-size:11px;color:#64748B;">General condition queries, diet tips</span></td>
+        <td><span class="metric-score score-amber">≥ 0.80</span></td>
+        <td><span class="metric-score score-amber">≥ 0.80</span></td>
+        <td><span class="metric-score score-amber">≥ 0.75</span></td>
+        <td><span class="metric-score score-amber">≥ 0.70</span></td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td><strong>Facility / Scheme Search</strong><br><span style="font-size:11px;color:#64748B;">Diagnostic centres, benefits queries</span></td>
+        <td><span class="metric-score score-amber">≥ 0.85</span></td>
+        <td><span class="metric-score score-green">≥ 0.85</span></td>
+        <td><span class="metric-score score-green">≥ 0.85</span></td>
+        <td><span class="metric-score score-amber">≥ 0.75</span></td>
+        <td>N/A</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Who Reads What: Stakeholder-Specific Views</h3>
+
+  <div class="card-grid card-grid-3">
+    <div class="card" style="border-top: 3px solid var(--teal);">
+      <div class="card-title">🩺 Clinical Leads & Nurses</div>
+      <p class="card-body">Weekly report showing: escalation accuracy rate, any false negatives (missed escalations), a sample of 10 AI responses reviewed for clinical quality, and a trend line of NCD care response faithfulness. No raw metric numbers — summarised as: "This week, 98.2% of high-risk situations were correctly escalated. Two cases required clinical review."</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--blue-light);">
+      <div class="card-title">📊 Program Managers</div>
+      <p class="card-body">Monthly quality summary showing: average response quality by agent type, the top 3 interaction categories with declining quality, knowledge base coverage gaps (low context recall signals), and overall system reliability. Actionable: "The Scheme Agent's context recall dropped to 0.72 this month — the PM-JAY knowledge base likely needs to be updated with new 2025 guidelines."</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--purple-light);">
+      <div class="card-title">🛠️ Engineering Teams</div>
+      <p class="card-body">Real-time Grafana dashboards showing all five metric scores per agent, per deployment version, with automated alerts on threshold breaches. Pre-deployment regression gate results. Full trace logs for any interaction where the safety engine fired or RAGAS scored a response below threshold.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>The Shared Quality Language</h3>
+    <p>The highest value RAGAS provides in a healthcare AI context is not the specific metric scores — it's the shared vocabulary it creates between clinical teams and engineering teams. When a care coach says "VDA gave a confusing answer about metformin," RAGAS tells the engineering team exactly which metric to look at: faithfulness (was it grounded in the clinical guideline?), context recall (did it retrieve the right guideline?), or answer relevancy (did it actually answer the specific question asked?). This replaces the impossible conversation — "can you make the AI smarter?" — with a tractable one: "context recall for CKD drug interactions is 0.68; the knowledge base needs a clinical pharmacology update."</p>
+  </div>
+</div>
+
+
+<!-- ════════════ 21 AI EVOLUTION ROADMAP ════════════ -->
+<div class="section" id="s21">
+  <div class="section-eyebrow">21 — AI Evolution Roadmap</div>
+  <div class="section-title">From Reactive Support<br>to Proactive Care</div>
+  <div class="section-subtitle">VDA's AI capability evolves through five stages, each representing a qualitative shift in how the system relates to the patient's care journey. RAGAS measurement accompanies every stage.</div>
+
+  <div class="roadmap-track">
+    <div class="roadmap-stage rs-1">
+      <div class="rs-num">Stage 1</div>
+      <div class="rs-title">Rule-Based Bot</div>
+      <div class="rs-desc">Decision trees. Fixed responses. No AI reasoning. RAGAS: manual QA only.</div>
+    </div>
+    <div class="roadmap-stage rs-2">
+      <div class="rs-num">Stage 2</div>
+      <div class="rs-title">AI Chatbot</div>
+      <div class="rs-desc">LLM integration. Natural language understanding. Basic intent. RAGAS: batch evaluation.</div>
+    </div>
+    <div class="roadmap-stage rs-3">
+      <div class="rs-num">Stage 3 · NOW</div>
+      <div class="rs-title">Agentic Assistant</div>
+      <div class="rs-desc">Multi-agent · Memory · RAG · Full NCD · RAGAS inline + batch quality scoring.</div>
+    </div>
+    <div class="roadmap-stage rs-4">
+      <div class="rs-num">Stage 4</div>
+      <div class="rs-title">Predictive Copilot</div>
+      <div class="rs-desc">Proactive alerts. Risk prediction. Clinician decision support. RAGAS extended to predictive accuracy.</div>
+    </div>
+    <div class="roadmap-stage rs-5">
+      <div class="rs-num">Stage 5</div>
+      <div class="rs-title">Autonomous Care Companion</div>
+      <div class="rs-desc">Adaptive care plans. Population health. Outcome-driven protocols. Always human-supervised.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════ FINAL RECOMMENDATION ════════════ -->
+<div class="section" id="sX" style="border-bottom:none;">
+  <div class="section-eyebrow">Final Recommendation</div>
+  <div class="section-title">How to Make<br>VDA Succeed</div>
+
+  <p>VDA's architecture is sound and version 3.0 adds two capabilities that move it from a technically strong system to a clinically trustworthy one: real-world use cases that give health experts a concrete picture of how VDA integrates into care workflows, and RAGAS measurement that gives both clinical and technical teams a shared, systematic way to know whether the AI is performing as intended.</p>
+
+  <div class="card-grid card-grid-2" style="margin-top:32px;">
+    <div class="card" style="border-left: 4px solid var(--blue-light);">
+      <div class="card-title">① Start Narrow, Go Deep</div>
+      <p class="card-body">Begin with diabetes and hypertension. These two conditions have well-defined clinical protocols, measurable outcomes, and the highest patient engagement needs. A VDA that navigates NCD care exceptionally well is worth more than one that covers all conditions superficially.</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--purple-light);">
+      <div class="card-title">② Involve Clinicians in RAGAS Threshold Setting</div>
+      <p class="card-body">The escalation accuracy thresholds and faithfulness targets in this document are technically informed but clinically untested. Before go-live, a clinical working group should review and sign off on every threshold in the RAGAS table — particularly the escalation accuracy target for emergency interactions. This is not an engineering decision.</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--teal);">
+      <div class="card-title">③ Treat RAGAS as a Product KPI, Not a Tech Metric</div>
+      <p class="card-body">The weekly RAGAS report should go to the clinical director and program manager alongside — not instead of — the engineering team. Quality drift in a health navigation platform is a clinical safety issue, not just a software quality issue. Build the governance structure to match.</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--emerald);">
+      <div class="card-title">④ Use the Use Cases for Training, Not Just Demos</div>
+      <p class="card-body">The seven use cases in Section 06 are not just illustration material for stakeholder presentations. They are the basis for care team training — showing nurses, care coaches, and ASHA workers what VDA does and does not do, where it hands off, and what to look for when reviewing escalated cases.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:40px;">
+    <h3 style="font-size:22px;margin-bottom:16px;">The Principle That Must Govern Every Decision</h3>
+    <p style="font-size:17px;line-height:1.6;">The value of VDA will not be measured by how conversational it feels, but by how effectively it helps people make better healthcare decisions with greater confidence and safer outcomes. RAGAS gives us the instrument to measure this systematically. Use it.</p>
+  </div>
+</div>
+
+</div><!-- end .page -->
+
+<div class="doc-footer">
+  <div>
+    <strong>VDA — AI-Powered Health Navigation Platform</strong><br>
+    Architecture Document v2.0 · Confidential
+  </div>
+  <div style="text-align:center;font-size:11px;">
+    This document contains proprietary architectural decisions.<br>
+    All clinical guidance requires qualified medical validation.
+  </div>
+  <div style="text-align:right;">
+    <strong>June 2026</strong><br>
+    22 Sections · 8 Diagrams · RAGAS Layer
+  </div>
+</div>
+
+</body>
+</html>

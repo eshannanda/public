@@ -3031,89 +3031,11 @@
           <div style="font-size:11px;color:#92400E;margin-top:9px;line-height:1.5;font-weight:600;">Each reading is below its alert line — but all three are climbing together. No single rule fires.</div>
         </div>
 
-        <button class="pink-btn" onclick="aStep3()" style="background:#EC4899;font-size:16px;">Next — Pregnancy form →
-          <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">রক্ত পরীক্ষা ও সাপ্লিমেন্ট</span>
+        <button class="pink-btn" onclick="go('s13')" style="background:#EC4899;font-size:16px;">See what AI recommends →
+          <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">AI পরামর্শ দেখুন</span>
         </button>
       </div>
 
-      <div id="a-step3" style="display:none;">
-        <div style="background:#FDF2F8;border-left:4px solid #EC4899;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:12px;">
-          <div style="font-size:12px;font-weight:800;color:#9D174D;">🤰 ANC Visit 3 · Nasrin, 30 weeks</div>
-          <div style="font-size:11px;color:#9D174D;margin-top:2px;">⚠ High fever — complete ANC then the malaria questions below</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-          <div style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #10B981;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-size:12px;font-weight:700;color:var(--text);">💪 Blood pressure</div><div style="font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;background:#D1FAE5;color:#065F46;">✓ Good</div></div>
-            <div style="background:#ECFDF5;border-radius:8px;padding:8px 10px;border:1px solid #A7F3D0;"><span style="font-size:18px;font-weight:900;font-family:'Nunito',sans-serif;color:#065F46;">112 / 72 mmHg</span><span style="font-size:10px;color:#065F46;margin-left:8px;">Auto-filled ✓ Normal</span></div>
-          </div>
-          <div style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;" id="amf4">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;color:var(--text);">👶 Is the baby moving today?</div></div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">বাচ্চা আজ নড়াচড়া করছে?</div>
-            <div style="display:flex;gap:8px;"><div id="amf4-yes" onclick="selectYN(this,'yes')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">Yes</div><div onclick="selectYN(this,'no')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">No / Less</div></div>
-          </div>
-          <div style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;" id="amf5">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;color:var(--text);">💊 Is she taking iron tablets every day?</div></div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">আয়রন বড়ি খাচ্ছেন প্রতিদিন?</div>
-            <div style="display:flex;gap:8px;"><div id="amf5-yes" onclick="selectYN(this,'yes')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">Yes</div><div onclick="selectYN(this,'no')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">No</div></div>
-          </div>
-          <div style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;">🏥 Does the family have a plan for where she will deliver?</div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">প্রসবের জন্য পরিকল্পনা আছে?</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;"><div onclick="selectYN(this,'hospital')" style="flex:1;min-width:80px;text-align:center;padding:9px;border-radius:10px;background:#DBEAFE;border:2px solid #3B82F6;font-size:12px;font-weight:700;color:#1E40AF;cursor:pointer;">Hospital ✓</div><div onclick="selectYN(this,'home')" style="flex:1;min-width:80px;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;">At home</div><div onclick="selectYN(this,'unsure')" style="flex:1;min-width:80px;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;">Not sure</div></div>
-          </div>
-        </div>
-
-        <!-- ── MALARIA FEVER SCREENING ── -->
-        <div style="background:#FEF2F2;border-left:4px solid #EF4444;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:12px;">
-          <div style="font-size:12px;font-weight:800;color:#991B1B;">🦟 Malaria fever screening</div>
-          <div style="font-size:11px;color:#991B1B;margin-top:2px;">AI added these because of her high fever — fever in pregnancy is serious</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
-          <!-- Temperature (pre-filled) -->
-          <div style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #EF4444;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-size:12px;font-weight:700;color:var(--text);">🌡️ Temperature</div><div style="font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;background:#FEE2E2;color:#991B1B;">⚠ High</div></div>
-            <div style="background:#FEF2F2;border-radius:8px;padding:8px 10px;border:1px solid #FECACA;"><span style="font-size:18px;font-weight:900;font-family:'Nunito',sans-serif;color:#EF4444;">39.4°C</span><span style="font-size:10px;color:#991B1B;margin-left:8px;font-weight:700;">Auto-filled by device ✓</span></div>
-          </div>
-          <!-- Fever pattern -->
-          <div id="amf1" style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--text);">🤒 Does the fever come and go with shivering?</div>
-              
-            </div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">কাঁপুনি দিয়ে জ্বর আসে আর যায়?</div>
-            <div style="display:flex;gap:8px;"><div id="amf1-yes" onclick="selectYN(this,'yes')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">Yes</div><div onclick="selectYN(this,'no')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">No</div></div>
-          </div>
-          <!-- Days of fever -->
-          <div id="amf2" style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--text);">📅 How many days has she had fever?</div>
-              
-            </div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">কত দিন ধরে জ্বর?</div>
-            <div style="display:flex;gap:8px;"><div onclick="selectYN(this,'1-2')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">1 day</div><div id="amf2-3d" onclick="selectYN(this,'2-3')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">3 days</div><div onclick="selectYN(this,'4+')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">4+ days</div></div>
-          </div>
-          <!-- Mosquito net -->
-          <div id="amf3" style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-              <div style="font-size:12px;font-weight:700;color:var(--text);">🛏️ Does she sleep under a mosquito net?</div>
-              
-            </div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">মশারির নিচে ঘুমান?</div>
-            <div style="display:flex;gap:8px;"><div onclick="selectYN(this,'yes')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">Yes</div><div id="amf3-no" onclick="selectYN(this,'no')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">No</div></div>
-          </div>
-          <!-- RDT rapid test -->
-          <div id="amf6" style="background:white;border-radius:12px;padding:12px 14px;border:1.5px solid #E5E7EB;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:border-color .3s,background .3s;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;color:var(--text);">🩸 Do the rapid malaria test (RDT) from your kit</div><div id="amb6" style="display:none;font-size:10px;font-weight:800;padding:3px 8px;border-radius:5px;background:#FEE2E2;color:#991B1B;">⚠ Recorded</div></div>
-            <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">কিট থেকে দ্রুত ম্যালেরিয়া পরীক্ষা করুন</div>
-            <div style="display:flex;gap:8px;"><div id="amf6-pos" onclick="selectYN(this,'positive')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;">Positive</div><div onclick="selectYN(this,'negative')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;">Negative</div><div onclick="selectYN(this,'none')" style="flex:1;text-align:center;padding:9px;border-radius:10px;background:white;border:2px solid #E5E7EB;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;">No kit</div></div>
-          </div>
-        </div>
-
-        <button class="pink-btn" onclick="go('s13')" style="background:#EC4899;font-size:16px;">
-          See what AI recommends →
-          <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">AI পরামর্শ দেখুন</span>
-        </button>
-      </div><!-- /a-step3 -->
     </div>
   </div>
 
@@ -3139,144 +3061,109 @@
         <div style="font-size:12px;color:#065F46;line-height:1.5;">Blood sugar 7.4 · medicines working · no foot wounds · Continue monthly check.</div>
       </div>
 
-      <!-- High BP finding -->
       <div class="diag-box red" style="margin-bottom:12px;">
-        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;">
-          <div style="flex:1;">
-            <div class="diag-title red">⚠ High blood pressure detected</div>
-            <div style="font-size:12px;font-weight:600;color:#991B1B;margin-top:2px;">উচ্চ রক্তচাপ শনাক্ত হয়েছে</div>
-          </div>
-          <div style="font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;margin-top:2px;">Refer</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <div style="flex:1;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#92400E;">⚠ High blood pressure detected</div>
+          <div style="font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
         </div>
-        <div style="font-size:12.5px;color:#7F1D1D;line-height:1.6;">BP high on two readings today + morning headaches + family history + high salt — <strong>likely hypertension</strong>. Needs doctor confirmation and treatment.</div>
+        <div style="font-size:12px;color:#7F1D1D;">High BP on two readings + morning headaches + family history + high salt.</div>
       </div>
 
       <!-- Follow-up Schedule -->
-      <div class="section-label">Follow-up schedule 📅</div>
-      <div style="background:linear-gradient(135deg,#F0F4FF 0%,#E8F4F0 100%);border:1.5px solid #D4DFF5;;border-radius:16px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:#EEF0FF;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="14" height="14" fill="#3D3599" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+            <!-- Follow-up schedule — compact -->
+      <div style="background:linear-gradient(135deg,#F0F4FF 0%,#E8F4F0 100%);border:1.5px solid #D4DFF5;border-radius:14px;padding:10px 12px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">
+          <svg width="13" height="13" fill="#3D3599" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+          <div style="font-size:11px;font-weight:800;color:#1B2B5E;">Follow-up schedule</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #EF4444;">
+            <div style="font-size:13px;flex-shrink:0;">🏥</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">UHC visit — confirm BP &amp; start medicine</div>
+            <div style="font-size:11px;font-weight:900;color:#EF4444;white-space:nowrap;">Today <span style="font-size:9px;background:#EF4444;color:white;padding:1px 5px;border-radius:4px;margin-left:2px;">Urgent</span></div>
           </div>
-          <div>
-            <div style="font-size:12px;font-weight:800;color:#1B2B5E;">Karim's care plan</div>
-            <div style="font-size:10px;color:#6B7280;margin-top:1px;">Upcoming visits & checks</div>
+          <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #FCD34D;">
+            <div style="font-size:13px;flex-shrink:0;">💊</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">BP &amp; blood sugar recheck</div>
+            <div style="font-size:11px;font-weight:900;color:#D97706;white-space:nowrap;">2 weeks</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #A7F3D0;">
+            <div style="font-size:13px;flex-shrink:0;">📋</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">Routine NCD follow-up</div>
+            <div style="font-size:11px;font-weight:900;color:#059669;white-space:nowrap;">Monthly</div>
           </div>
         </div>
-
-        <div style="display:flex;flex-direction:column;gap:7px;">
-
-          <!-- Today -->
-          <div style="border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;border-left:3px solid #EF4444;background:rgba(255,255,255,0.7);">
-            <div style="width:28px;height:28px;background:#FEE2E2;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🏥</div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#1B2B5E;">UHC visit — confirm BP & start medicine</div>
-              <div style="font-size:10.5px;color:#6B7280;margin-top:1px;">Doctor consultation required</div>
-            </div>
-            <div style="text-align:right;flex-shrink:0;">
-              <div style="font-size:12px;font-weight:900;color:#EF4444;font-family:'Nunito',sans-serif;">Today</div>
-              <div style="font-size:9px;background:#EF4444;color:white;font-weight:700;padding:1px 6px;border-radius:4px;margin-top:2px;">Urgent</div>
-            </div>
-          </div>
-
-          <!-- 2 weeks -->
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;border-left:3px solid #FCD34D;background:rgba(255,255,255,0.7);">
-            <div style="width:28px;height:28px;background:#FEF3C7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">💊</div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#1B2B5E;">BP & blood sugar recheck</div>
-              <div style="font-size:10.5px;color:#6B7280;margin-top:1px;">After starting BP medicine</div>
-            </div>
-            <div style="text-align:right;flex-shrink:0;">
-              <div style="font-size:12px;font-weight:900;color:#D97706;font-family:'Nunito',sans-serif;">2 weeks</div>
-            </div>
-          </div>
-
-          <!-- Monthly -->
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;border-left:3px solid #A7F3D0;background:rgba(255,255,255,0.7);">
-            <div style="width:28px;height:28px;background:#D1FAE5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">📋</div>
-            <div style="flex:1;">
-              <div style="font-size:12px;font-weight:700;color:#1B2B5E;">Routine NCD follow-up</div>
-              <div style="font-size:10.5px;color:#6B7280;margin-top:1px;">Diabetes + BP monitoring</div>
-            </div>
-            <div style="text-align:right;flex-shrink:0;">
-              <div style="font-size:12px;font-weight:900;color:#059669;font-family:'Nunito',sans-serif;">Monthly</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Add reminder strip -->
-        <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #D4DFF5;">
-          <div style="width:24px;height:24px;background:#EEF0FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🔔</div>
-          <div style="font-size:11px;color:#3D3599;font-weight:600;">AI can set a reminder for Karim's next visit</div>
+        <div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #D4DFF5;">
+          <div style="font-size:13px;">🔔</div>
+          <div style="font-size:10.5px;color:#3D3599;font-weight:600;">AI can set a reminder for Karim's next visit</div>
         </div>
       </div>
 
-      <!-- AI Lifestyle Counselling -->
-      <div style="background:linear-gradient(135deg,#1B2B5E 0%,#3D3599 100%);border-radius:16px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:#EEF0FF;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="14" height="14" fill="#3D3599" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <!-- AI Lifestyle Counselling — accordion -->
+      <div style="background:linear-gradient(135deg,#1B2B5E 0%,#3D3599 100%);border-radius:14px;padding:12px 14px;margin-bottom:14px;">
+        <!-- Accordion header -->
+        <div onclick="toggleLifestyle()" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <div style="width:26px;height:26px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
-          <div>
+          <div style="flex:1;">
             <div style="font-size:12px;font-weight:800;color:white;">AI lifestyle counselling</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.65);margin-top:1px;">Share these with Karim and his family</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:1px;">Tap to expand — share with Karim &amp; family</div>
           </div>
+          <div id="lifestyle-chevron" style="font-size:18px;color:rgba(255,255,255,0.7);transition:transform .3s;">›</div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:7px;">
 
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;backdrop-filter:blur(4px);">
-            <div style="width:28px;height:28px;background:#FEF3C7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🧂</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Reduce salt</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">No extra salt at the table. Avoid pickles, dried fish, and salty snacks.</div></div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:28px;height:28px;background:#D1FAE5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🥦</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Eat vegetables & fruits daily</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">Leafy greens, banana, tomato — these help lower BP naturally.</div></div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:28px;height:28px;background:#EFF6FF;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🚶</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Walk 30 minutes daily</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">Morning or evening walk. Even 15 min twice a day helps the heart.</div></div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:28px;height:28px;background:#FEE2E2;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🚭</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Avoid tobacco & alcohol</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">Tobacco raises BP and stroke risk. Encourage him to quit.</div></div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:28px;height:28px;background:#F5F3FF;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">😴</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Sleep 7–8 hrs & manage stress</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">Poor sleep and stress both raise BP. Rest properly at night.</div></div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.1);border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:28px;height:28px;background:#ECFDF5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">⚖️</div>
-            <div><div style="font-size:12px;font-weight:700;color:white;">Maintain a healthy weight</div><div style="font-size:11px;color:rgba(255,255,255,0.75);margin-top:2px;line-height:1.5;">Losing even 2–3 kg can noticeably lower blood pressure.</div></div>
-          </div>
-
-        </div>
-        <!-- WhatsApp interactive draft -->
-        <div style="display:flex;flex-direction:column;gap:0;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);">
-          <div id="wa-ncd-strip" onclick="toggleWaDraft('ncd')" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-            <div style="width:24px;height:24px;background:#DCF8C6;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📲</div>
-            <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;">AI can send these tips to Karim via WhatsApp in Bangla</div>
-            <div id="wa-ncd-chevron" style="font-size:13px;color:rgba(255,255,255,0.8);">›</div>
-          </div>
-          <div id="wa-ncd-draft" style="display:none;margin-top:10px;background:white;border-radius:12px;overflow:hidden;">
-            <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-              <div style="width:24px;height:24px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">👤</div>
-              <div style="font-size:12px;font-weight:700;color:white;">Md. Karim Uddin · +880 18XX XXX XXX</div>
+        <!-- Accordion body (collapsed by default) -->
+        <div id="lifestyle-body" style="display:none;margin-top:10px;">
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#FEF3C7;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🧂</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Reduce salt</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">No extra salt. Avoid pickles, dried fish, salty snacks.</div></div>
             </div>
-            <div style="background:#ECE5DD;padding:12px;">
-              <div style="background:white;border-radius:10px;padding:11px 13px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-                <div style="font-size:12.5px;color:#111;line-height:1.7;">কাকা, আজকের স্বাস্থ্য পরীক্ষা থেকে কিছু গুরুত্বপূর্ণ পরামর্শ পাঠাচ্ছি।<br><br>আপনার <strong>রক্তচাপ বেশি</strong> পাওয়া গেছে — তাই আজই উপজেলা স্বাস্থ্য কমপ্লেক্সে যান এবং ডাক্তার দেখান।<br><br>জীবনধারা পরামর্শ:<br>🧂 খাবারে লবণ কম দিন<br>🥦 প্রতিদিন শাকসবজি ও ফল খান<br>🚶 প্রতিদিন ৩০ মিনিট হাঁটুন<br>🚭 ধূমপান ও তামাক বর্জন করুন<br>😴 ৭-৮ ঘণ্টা ঘুমান<br><br>ডায়াবেটিসের ওষুধ বন্ধ করবেন না। 💊</div>
-                <div style="font-size:10px;color:#999;margin-top:5px;text-align:right;">AI drafted · Shasthya Kormi Jahnara</div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#D1FAE5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥦</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Eat vegetables &amp; fruits daily</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Leafy greens, banana, tomato — lower BP naturally.</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#EFF6FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚶</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Walk 30 minutes daily</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Morning or evening. Even 15 min twice a day helps.</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#FEE2E2;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚭</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Avoid tobacco &amp; alcohol</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Tobacco raises BP and stroke risk. Encourage quitting.</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#F5F3FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">😴</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Sleep 7–8 hrs &amp; manage stress</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Poor sleep and stress both raise BP.</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
+              <div style="width:26px;height:26px;background:#ECFDF5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">⚖️</div>
+              <div><div style="font-size:12px;font-weight:700;color:white;">Maintain a healthy weight</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Losing 2–3 kg can noticeably lower BP.</div></div>
+            </div>
+          </div>
+
+          <!-- WhatsApp -->
+          <div style="padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);">
+            <div id="wa-ncd-strip" onclick="toggleWaDraft('ncd')" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+              <div style="width:22px;height:22px;background:#DCF8C6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">📲</div>
+              <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;">Send these tips to Karim via WhatsApp in Bangla</div>
+              <div id="wa-ncd-chevron" style="font-size:13px;color:rgba(255,255,255,0.8);">›</div>
+            </div>
+            <div id="wa-ncd-draft" style="display:none;margin-top:10px;background:white;border-radius:12px;overflow:hidden;">
+              <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+                <div style="width:22px;height:22px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;">👤</div>
+                <div style="font-size:11px;font-weight:700;color:white;">Md. Karim Uddin · +880 18XX XXX XXX</div>
               </div>
-            </div>
-            <div style="padding:10px 12px;display:flex;gap:8px;">
-              <button onclick="showToast('✅ WhatsApp message sent to Karim')" style="flex:1;background:#25D366;color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
-              <button onclick="showToast('Message copied to clipboard')" style="background:#F3F4F6;border:none;border-radius:10px;padding:10px 14px;font-size:13px;cursor:pointer;font-family:inherit;">📋</button>
+              <div style="background:#ECE5DD;padding:10px;">
+                <div style="background:white;border-radius:10px;padding:10px 12px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+                  <div style="font-size:12px;color:#111;line-height:1.7;">কাকা, আজকের স্বাস্থ্য পরীক্ষা থেকে কিছু গুরুত্বপূর্ণ পরামর্শ পাঠাচ্ছি।<br><br>আপনার <strong>রক্তচাপ বেশি</strong> — আজই UHC-তে যান।<br><br>🧂 লবণ কম খান · 🥦 শাকসবজি খান · 🚶 হাঁটুন · 🚭 তামাক ছাড়ুন<br><br>ডায়াবেটিসের ওষুধ বন্ধ করবেন না। 💊</div>
+                  <div style="font-size:9px;color:#999;margin-top:4px;text-align:right;">AI drafted · SK Jahnara</div>
+                </div>
+              </div>
+              <div style="padding:8px 10px;display:flex;gap:7px;">
+                <button onclick="showToast('✅ WhatsApp message sent to Karim')" style="flex:1;background:#25D366;color:white;border:none;border-radius:9px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
+                <button onclick="showToast('Message copied')" style="background:#F3F4F6;border:none;border-radius:9px;padding:9px 12px;font-size:12px;cursor:pointer;font-family:inherit;">📋</button>
+              </div>
             </div>
           </div>
         </div>
@@ -4327,6 +4214,15 @@ function startKarimFormScribe() {
     }}
   ];
   steps.forEach(function(s) { setTimeout(s.fn, s.delay); });
+}
+
+function toggleLifestyle() {
+  var body = document.getElementById('lifestyle-body');
+  var chevron = document.getElementById('lifestyle-chevron');
+  if (!body) return;
+  var open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (chevron) { chevron.textContent = open ? '›' : '˅'; chevron.style.transform = open ? '' : 'rotate(0deg)'; }
 }
 
 function toggleWaDraft(key) {

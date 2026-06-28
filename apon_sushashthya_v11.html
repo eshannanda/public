@@ -1166,6 +1166,9 @@
     </div>
   </div>
 
+  <!-- Fingerprint backdrop -->
+  <div id="fpBackdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;" onclick="closeFpDrawer()"></div>
+
   <!-- ════════ FINGERPRINT VERIFICATION DRAWER ════════ -->
   <div class="update-sheet" id="fpDrawer" style="padding:0;overflow:hidden;">
     <!-- handle -->
@@ -1398,30 +1401,29 @@
         <div class="v-status" style="color:#1B2B5E;"><span class="vs-dot" style="background:#1B2B5E;"></span>Today</div>
       </div>
 
-      <!-- Patient — Rahim (child, immunisation) → s20 -->
-      <div class="vcard" id="card-rahim-wrap" style="background:white;border-radius:14px;border-left:4px solid #F59E0B;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="go('s20')" data-village="Char Bhadra" data-cats="child highrisk home" data-key="rahim">
+      <!-- Patient — Rahim (child, immunisation) → s23 symptoms first -->
+      <div class="vcard" id="card-rahim-wrap" style="background:white;border-radius:14px;border-left:4px solid #F59E0B;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="go('s23')" data-village="Char Bhadra" data-cats="child highrisk home" data-key="rahim">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FFFBEB"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div style="font-size:13.5px;font-weight:800;color:var(--text);">Rahim Hossain</div>
-            <div style="font-size:10px;font-weight:700;background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:5px;">💉 Vaccine overdue</div>
           </div>
           <div style="font-size:12px;color:var(--muted);margin-top:2px;">Age 6 · House #13 · Char Bhadra · Child immunisation 👶</div>
         </div>
         <div class="v-status" style="color:#D97706;"><span class="vs-dot" style="background:#F59E0B;"></span>Overdue</div>
       </div>
 
-      <!-- Patient — Priya (new enrolment) → s21 service selection -->
-      <div class="vcard" id="card-priya-wrap" style="background:white;border-radius:14px;border-left:4px solid #8B5CF6;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="go('s21')" data-village="Bhadra" data-cats="anc home" data-key="priya">
+      <!-- Patient — Priya (new enrolment) → s11 ANC directly -->
+      <div class="vcard" id="card-priya-wrap" style="background:white;border-radius:14px;border-left:4px solid #8B5CF6;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')" data-village="Bhadra" data-cats="anc home" data-key="priya">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#F5F3FF"/><circle cx="26" cy="17" r="8" fill="#DDD6FE"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#C4B5FD"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div style="font-size:13.5px;font-weight:800;color:var(--text);">Priya Rani Das</div>
-            <div style="font-size:10px;font-weight:700;background:#F5F3FF;color:#5B21B6;padding:2px 7px;border-radius:5px;">New visit</div>
+            <div style="font-size:10px;font-weight:700;background:#EEF0FF;color:#1B2B5E;padding:2px 7px;border-radius:5px;">New visit</div>
           </div>
           <div style="font-size:12px;color:var(--muted);margin-top:2px;">Age 20 · House #06 · Bhadra · Select service 📋</div>
         </div>
-        <div class="v-status" style="color:#7C3AED;"><span class="vs-dot" style="background:#8B5CF6;"></span>Today</div>
+        <div class="v-status" style="color:#1B2B5E;"><span class="vs-dot" style="background:#8B5CF6;"></span>Today</div>
       </div>
 
       <!-- Patient 3 — Diabetes → s10 -->
@@ -1442,7 +1444,7 @@
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div style="font-size:13.5px;font-weight:800;color:var(--text);">Saleha Khatun</div>
-            <div style="font-size:10px;font-weight:700;background:#F5F3FF;color:#4C1D95;padding:2px 7px;border-radius:5px;">Day 21 postpartum check</div>
+            <div style="font-size:10px;font-weight:700;background:#EEF0FF;color:#4C1D95;padding:2px 7px;border-radius:5px;">Day 21 postpartum check</div>
           </div>
           <div style="font-size:12px;color:var(--muted);margin-top:2px;">Age 38 · House #09 · Noyapara · New mother 👶</div>
         </div>
@@ -2435,7 +2437,7 @@
             <div style="background:#FFFBEB;border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:12px;color:#92400E;font-weight:600;line-height:1.5;">💊 Karim · Monthly diabetes check · Last BP 132/84 last month · blood sugar controlled</div>
             <div style="font-size:11px;color:#6B7280;font-weight:600;margin-bottom:5px;">Also cover while you're here:</div>
             <div style="display:flex;gap:5px;flex-wrap:wrap;">
-              <span style="font-size:11px;background:#F5F3FF;color:#4C1D95;padding:3px 9px;border-radius:10px;font-weight:600;">Wife · BP check 💪</span>
+              <span style="font-size:11px;background:#EEF0FF;color:#4C1D95;padding:3px 9px;border-radius:10px;font-weight:600;">Wife · BP check 💪</span>
             </div>
           </div>
         </div>
@@ -2623,8 +2625,8 @@
         </div>
         <div style="display:flex;justify-content:space-between;margin-top:4px;">
           <span style="font-size:10px;color:rgba(255,255,255,0.8);">1. How are you?</span>
-          <span style="font-size:10px;color:rgba(255,255,255,0.5);">2. Quick checks</span>
-          <span style="font-size:10px;color:rgba(255,255,255,0.5);">3. Pregnancy form</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);">2. Pregnancy checks</span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.5);">3. Summary</span>
         </div>
       </div>
     </div>
@@ -2647,56 +2649,95 @@
             <div style="display:flex;gap:5px;flex-wrap:wrap;"><span style="font-size:11px;background:#EFF6FF;color:#1E40AF;padding:3px 9px;border-radius:10px;font-weight:600;">Toddler · Vitamin A 💊</span></div>
           </div>
         </div>
-        <div style="background:#1B2B5E;border-radius:16px;padding:16px;margin-bottom:14px;">
+
+        <!-- GREET WARMLY -->
+        <div id="ancGreetWarmly" style="background:#1B2B5E;border-radius:16px;padding:16px;margin-bottom:14px;">
           <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">👋 Sit with her — greet warmly</div>
           <div style="font-size:15px;font-weight:700;color:white;line-height:1.6;">"আপু, আপনি কেমন আছেন?<br>বাচ্চা কেমন নড়াচড়া করছে?"</div>
           <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px;">"Sister, how are you? Is the baby moving well?"</div>
           <div style="margin-top:10px;background:rgba(255,255,255,0.12);border-radius:10px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,0.85);">💡 Ask how she feels at home, with family, and about her sleep — before the pregnancy checkup</div>
         </div>
-        <!-- AI SCRIBE — symptom capture -->
-        <div style="margin-bottom:12px;">
-          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">How is she feeling today? 🎙️</div>
 
-          <!-- Scribe banner -->
-          <div id="ancS1ScribeBanner" style="background:linear-gradient(135deg,#3D3599,#6B63D4);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:10px;" onclick="startAncSymptomScribe()">
-            <div style="width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
-              <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 15.2 14.47 17 12 17s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V21c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
-              <span id="ancS1MicDot" style="display:none;position:absolute;top:-3px;right:-3px;width:11px;height:11px;background:#EF4444;border-radius:50%;border:2px solid #6B63D4;animation:blink .8s infinite;"></span>
-            </div>
-            <div style="flex:1;">
-              <div style="font-size:13px;font-weight:800;color:white;" id="ancS1ScribeLabel">🎙 AI Scribe — tap and let her speak</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:1px;">Symptoms appear automatically as she talks</div>
-            </div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">How is she feeling today? 🎙️</div>
+
+        <!-- Scribe banner -->
+        <div id="ancS1ScribeBanner" style="background:linear-gradient(135deg,#3D3599,#6B63D4);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:10px;" onclick="startAncSymptomScribe()">
+          <div style="width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+            <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 15.2 14.47 17 12 17s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V21c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+            <span id="ancS1MicDot" style="display:none;position:absolute;top:-3px;right:-3px;width:11px;height:11px;background:#EF4444;border-radius:50%;border:2px solid #6B63D4;animation:blink .8s infinite;"></span>
           </div>
-
-          <!-- Live transcript -->
-          <div id="ancS1Transcript" style="display:none;background:#F5F3FF;border:1px solid #D4D8FF;border-radius:12px;padding:10px 13px;margin-bottom:10px;">
-            <div style="font-size:10px;font-weight:700;color:#3D3599;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#EF4444;border-radius:50%;animation:blink .8s infinite;display:inline-block;"></span>Listening — she is speaking…</div>
-            <div id="ancS1TranscriptText" style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;min-height:18px;"></div>
-          </div>
-
-          <!-- Detected symptoms — appear dynamically -->
-          <div id="ancS1SymptomsDetected" style="display:none;margin-bottom:6px;">
-            <div style="font-size:11px;font-weight:700;color:#3D3599;margin-bottom:7px;display:flex;align-items:center;gap:5px;">
-              <svg width="13" height="13" fill="#3D3599" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              AI detected from what she said:
-            </div>
-            <div id="ancS1SympCards" style="display:flex;flex-direction:column;gap:7px;"></div>
-          </div>
-
-          <!-- Hint before scribe starts -->
-          <div id="ancS1Hint" style="background:#F8F9FC;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;">
-            <div style="font-size:16px;">💬</div>
-            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Tap the scribe above, then ask her how she's been feeling. Symptoms will appear here automatically.</div>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:800;color:white;" id="ancS1ScribeLabel">🎙 AI Scribe — tap and let her speak</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:1px;">Symptoms appear automatically as she talks</div>
           </div>
         </div>
 
+        <!-- Live transcript -->
+        <div id="ancS1Transcript" style="display:none;background:#EEF0FF;border:1px solid #D4D8FF;border-radius:12px;padding:10px 13px;margin-bottom:10px;">
+          <div style="font-size:10px;font-weight:700;color:#3D3599;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#EF4444;border-radius:50%;animation:blink .8s infinite;display:inline-block;"></span>Listening — she is speaking…</div>
+          <div id="ancS1TranscriptText" style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;min-height:18px;"></div>
+        </div>
+
+        <!-- Detected symptoms -->
+        <div id="ancS1SymptomsDetected" style="display:none;margin-bottom:12px;">
+          <div style="font-size:11px;font-weight:700;color:#3D3599;margin-bottom:7px;display:flex;align-items:center;gap:5px;">
+            <svg width="13" height="13" fill="#3D3599" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            AI detected from what she said:
+          </div>
+          <div id="ancS1SympCards" style="display:flex;flex-direction:column;gap:7px;"></div>
+        </div>
+
+        <!-- Hint -->
+        <div id="ancS1Hint" style="background:#F8F9FC;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="font-size:16px;">💬</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Tap the scribe above, then ask her how she's been feeling. Symptoms will appear here automatically.</div>
+        </div>
+
+        <!-- Manual symptom entry -->
+        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:14px;">
+          <textarea id="manualSympInput" rows="1" placeholder="Or type a symptom manually…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
+          <button onclick="addManualSymptom()" style="background:var(--navy);color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
+        </div>
+
         <!-- Starting ANC indication -->
-        <div style="background:#FDF2F8;border:1px solid #FBCFE8;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+        <div id="ancStartBanner" style="background:#FDF2F8;border:1px solid #FBCFE8;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
           <span style="font-size:22px;">🤰</span>
           <div>
-            <div style="font-size:13px;font-weight:800;color:#9D174D;">Starting ANC Visit 3</div>
+            <div style="font-size:13px;font-weight:800;color:#9D174D;" id="ancStartTitle">Starting ANC Visit 3</div>
             <div style="font-size:11px;color:#9D174D;margin-top:1px;">Next: record her vitals &amp; pregnancy checks</div>
+          </div>
+        </div>
+
+        <!-- Screening questions — shown only for new patients via goANC() -->
+        <div id="ancScreeningSection" style="display:none;background:#F8F9FC;border-radius:14px;padding:14px;margin-bottom:16px;">
+          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:14px;">📋 Quick screening questions</div>
+          <div style="margin-bottom:14px;">
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">1. Are you pregnant?</div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;">
+              <div id="pregYes" onclick="selectScreening(this,'preg','yes')" data-group="preg" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+              <div id="pregNo" onclick="selectScreening(this,'preg','no')" data-group="preg" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+            </div>
+            <div id="lmpSection" style="display:none;">
+              <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Last Menstrual Period (LMP) date</div>
+              <input type="date" id="lmpDate" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+            </div>
+          </div>
+          <div style="margin-bottom:14px;">
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">2. How old is the baby?</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;">
+              <div onclick="selectScreening(this,'babyage','newborn')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Newborn (0–28d)</div>
+              <div onclick="selectScreening(this,'babyage','1-6m')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">1–6 months</div>
+              <div onclick="selectScreening(this,'babyage','6-12m')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">6–12 months</div>
+              <div onclick="selectScreening(this,'babyage','1-2y')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">1–2 years</div>
+              <div onclick="selectScreening(this,'babyage','na')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">N/A</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">3. Family planning service required?</div>
+            <div style="display:flex;gap:8px;">
+              <div onclick="selectScreening(this,'fp','yes')" data-group="fp" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+              <div onclick="selectScreening(this,'fp','no')" data-group="fp" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+            </div>
           </div>
         </div>
 
@@ -2705,11 +2746,6 @@
 
       <!-- ── ANC STEP 2 ── -->
       <div id="a-step2" style="display:none;">
-        <!-- AI context banner -->
-        <div style="background:#1B2B5E;border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-          <div style="width:32px;height:32px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-          <div><div style="font-size:12px;font-weight:800;color:white;">ANC Visit 3 form · 30 weeks</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Record vitals — device readings fill automatically</div></div>
-        </div>
 
         <!-- ── LIVE AI SCRIBE ── -->
         <div id="aScribeBanner" style="background:linear-gradient(135deg,#3D3599,#6B63D4);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:11px;cursor:pointer;" onclick="startAncScribe()">
@@ -2722,57 +2758,50 @@
             <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:1px;" id="aScribeSubLabel">SK talks to her — fields fill automatically</div>
           </div>
         </div>
-        <div id="aTranscriptBox" style="display:none;background:#F5F3FF;border:1px solid #D4D8FF;border-radius:12px;padding:10px 13px;margin-bottom:12px;">
+        <div id="aTranscriptBox" style="display:none;background:#EEF0FF;border:1px solid #D4D8FF;border-radius:12px;padding:10px 13px;margin-bottom:12px;">
           <div style="font-size:10px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#EF4444;border-radius:50%;animation:blink .8s infinite;display:inline-block;"></span>LIVE — SK speaking</div>
           <div id="aTranscriptText" style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;min-height:18px;"></div>
         </div>
 
         <!-- PREGNANCY DATING — autopopulated -->
-        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">Pregnancy dates 🗓️ <span style="font-size:10px;font-weight:600;color:#6B63D4;background:#EEF0FF;padding:2px 7px;border-radius:20px;margin-left:4px;">Auto-filled</span></div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-
-          <!-- LMP -->
-          <div style="background:white;border-radius:12px;padding:11px 14px;border:1.5px solid #D4D8FF;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="width:34px;height:34px;background:#EEF0FF;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">📅</div>
-            <div style="flex:1;">
-              <div style="font-size:13px;font-weight:700;color:var(--text);">Last Menstrual Period</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:1px;">সর্বশেষ মাসিকের তারিখ · LMP</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--navy);">12 Nov 2024</div>
-            </div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;display:flex;align-items:center;gap:6px;">
+            Pregnancy overview
           </div>
 
-          <!-- EDD -->
-          <div style="background:white;border-radius:12px;padding:11px 14px;border:1.5px solid #D4D8FF;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="width:34px;height:34px;background:#FDF2F8;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🍼</div>
-            <div style="flex:1;">
-              <div style="font-size:13px;font-weight:700;color:var(--text);">Expected Delivery Date</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:1px;">সম্ভাব্য প্রসবের তারিখ · EDD</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--navy);">19 Aug 2025</div>
-            </div>
-          </div>
+          <!-- Single visual card -->
+          <div style="background:linear-gradient(135deg,#1B2B5E 0%,#2d3f7a 100%);border-radius:16px;padding:16px 16px 14px;overflow:hidden;position:relative;">
 
-          <!-- Gestational Age -->
-          <div style="background:white;border-radius:12px;padding:11px 14px;border:1.5px solid #D4D8FF;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-            <div style="width:34px;height:34px;background:#F0FDF4;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🤰</div>
-            <div style="flex:1;">
-              <div style="font-size:13px;font-weight:700;color:var(--text);">Gestational Age</div>
-              <div style="font-size:11px;color:var(--muted);margin-top:1px;">গর্ভকালীন বয়স · calculated from LMP</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:15px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--navy);">30 wks 2 days</div>
-            </div>
-          </div>
+            <!-- Decorative arc background -->
+            <svg style="position:absolute;right:-10px;top:-10px;opacity:0.07;" width="120" height="120" viewBox="0 0 120 120"><circle cx="100" cy="20" r="80" fill="none" stroke="white" stroke-width="18"/></svg>
 
+            <!-- Gestational age — hero number -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;">Gestational Age</div>
+                <div style="font-size:24px;font-weight:900;font-family:'Nunito',sans-serif;color:white;line-height:1;">30 <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);">wks</span> 2 <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);">days</span></div>
+              </div>
+              <div style="width:48px;height:48px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;">🤰</div>
+            </div>
+
+            <!-- LMP + EDD row -->
+            <div style="display:flex;gap:8px;margin-top:4px;">
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 10px;">
+                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">📅 LMP</div>
+                <div style="font-size:12px;font-weight:800;color:white;">12 Nov 2024</div>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 10px;">
+                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;">🍼 EDD</div>
+                <div style="font-size:12px;font-weight:800;color:#FDE68A;">19 Aug 2025</div>
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <!-- VITALS captured -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
           <div style="font-size:13px;font-weight:700;color:var(--text);">Today's vitals 👇</div>
-          <div id="vt-scribe-badge" style="display:none;font-size:10px;font-weight:700;color:#6B63D4;background:#EEF0FF;padding:2px 8px;border-radius:10px;">AI filled ✓</div>
         </div>
 
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
@@ -3013,12 +3042,19 @@
 
         </div>
 
-        <!-- TREND across visits — AI surfaces the pattern -->
-        <div style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;padding:13px 14px;margin-bottom:16px;">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px;">
-            <svg width="15" height="15" fill="#B45309" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
-            <div style="font-size:12px;font-weight:800;color:#92400E;">AI sees a trend across her 3 visits</div>
+        <!-- TREND across visits — collapsible accordion -->
+        <div style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;margin-bottom:16px;overflow:hidden;">
+          <!-- Accordion header — always visible, tappable -->
+          <div onclick="var b=document.getElementById('trendBody');var ch=document.getElementById('trendChevron');var open=b.style.display!=='none';b.style.display=open?'none':'block';ch.style.transform=open?'rotate(0deg)':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;">
+            <div style="display:flex;align-items:center;gap:7px;">
+              <svg width="15" height="15" fill="#B45309" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+              <div style="font-size:12px;font-weight:800;color:#92400E;">AI sees a trend across her 3 visits</div>
+            </div>
+            <svg id="trendChevron" width="16" height="16" fill="#B45309" viewBox="0 0 24 24" style="flex-shrink:0;transition:transform .2s;"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
           </div>
+          <!-- Accordion body — collapsed by default -->
+          <div id="trendBody" style="display:none;padding:0 14px 13px;">
+            <div style="height:1px;background:#FDE68A;margin-bottom:10px;"></div>
           <table style="width:100%;border-collapse:collapse;font-size:11px;">
             <tr style="color:#92400E;font-weight:700;text-align:left;">
               <th style="padding:3px 4px;font-weight:700;"></th>
@@ -3057,6 +3093,7 @@
             </tr>
           </table>
           <div style="font-size:11px;color:#92400E;margin-top:9px;line-height:1.5;font-weight:600;">Each reading is below its alert line — but all three are climbing together. No single rule fires.</div>
+          </div>
         </div>
 
         <button class="pink-btn" onclick="go('s13')" style="background:#EC4899;font-size:16px;">See what AI recommends →
@@ -3161,7 +3198,7 @@
               <div><div style="font-size:12px;font-weight:700;color:white;">Avoid tobacco &amp; alcohol</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Tobacco raises BP and stroke risk. Encourage quitting.</div></div>
             </div>
             <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#F5F3FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">😴</div>
+              <div style="width:26px;height:26px;background:#EEF0FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">😴</div>
               <div><div style="font-size:12px;font-weight:700;color:white;">Sleep 7–8 hrs &amp; manage stress</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Poor sleep and stress both raise BP.</div></div>
             </div>
             <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
@@ -4388,101 +4425,100 @@
           </div>
         </div>
 
-        <!-- ═══ 15 MONTHS — OVERDUE ═══ -->
+        <!-- ═══ 15 MONTHS — COMPLETED ═══ -->
         <div id="imm-15m-row" style="display:flex;align-items:flex-start;margin-bottom:20px;">
           <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div id="imm-15m-label" style="font-size:8.5px;font-weight:800;color:#EF4444;white-space:nowrap;">15 Months</div>
+            <div id="imm-15m-label" style="font-size:8.5px;font-weight:800;color:#059669;white-space:nowrap;">15 Months</div>
           </div>
           <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div id="imm-15m-dot" style="width:18px;height:18px;border-radius:50%;background:#EF4444;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #EF4444;display:flex;align-items:center;justify-content:center;animation:blink 1.4s infinite;">
+            <div id="imm-15m-dot" style="width:18px;height:18px;border-radius:50%;background:#059669;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #059669;display:flex;align-items:center;justify-content:center;">
+              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+          </div>
+          <div style="flex:1;padding-left:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+              <div id="imm-15m-title" style="font-size:12px;font-weight:800;color:#1a1a2e;">15 Months</div>
+              <div id="imm-15m-badge" style="font-size:9px;font-weight:700;color:#059669;">✓ Completed</div>
+            </div>
+            <div id="imm-15m-vaccines" style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div id="imm-mr2-text" style="font-size:12px;color:#374151;">MR Vaccine · Dose 2</div></div>
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div id="imm-ipv-text" style="font-size:12px;color:#374151;">IPV (Fractional)</div></div>
+            </div>
+            <div id="imm-15m-sub" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- ═══ 16–24 MONTHS — COMPLETED ═══ -->
+        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
+          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
+            <div style="font-size:8.5px;font-weight:800;color:#059669;white-space:nowrap;">16–24 Mo</div>
+          </div>
+          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#059669;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #059669;display:flex;align-items:center;justify-content:center;">
+              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+          </div>
+          <div style="flex:1;padding-left:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+              <div style="font-size:12px;font-weight:800;color:#1a1a2e;">16–24 Months</div>
+              <div style="font-size:9px;font-weight:700;color:#059669;">✓ Completed</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">MR Booster</div></div>
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">DPT Booster · OPV Booster</div></div>
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">Vitamin A</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ 5 YEARS — OVERDUE ═══ -->
+        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
+          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
+            <div style="font-size:8.5px;font-weight:800;color:#EF4444;white-space:nowrap;">5 Years</div>
+          </div>
+          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#EF4444;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #EF4444;display:flex;align-items:center;justify-content:center;animation:blink 1.4s infinite;">
               <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
             </div>
           </div>
           <div style="flex:1;padding-left:8px;cursor:pointer;" onclick="openImmModal()">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div id="imm-15m-title" style="font-size:12px;font-weight:800;color:#991B1B;">15 Months</div>
-              <div id="imm-15m-badge" style="font-size:9px;font-weight:800;background:#EF4444;color:white;padding:2px 8px;border-radius:10px;cursor:pointer;" onclick="event.stopPropagation();openImmModal()">Update status →</div>
+              <div style="font-size:12px;font-weight:800;color:#991B1B;">5 Years</div>
+              <div style="font-size:9px;font-weight:800;background:#EF4444;color:white;padding:2px 8px;border-radius:10px;">Update status →</div>
             </div>
-            <div id="imm-15m-vaccines" style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div id="imm-mr2-text" style="font-size:12px;color:#991B1B;font-weight:600;">MR Vaccine · Dose 2</div></div>
-              <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div id="imm-ipv-text" style="font-size:12px;color:#991B1B;font-weight:600;">IPV (Fractional)</div></div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster · OPV Booster</div></div>
             </div>
-            <div id="imm-15m-sub" style="font-size:9px;color:#EF4444;margin-top:4px;">3 weeks overdue</div>
+            <div style="font-size:9px;color:#EF4444;margin-top:4px;">Was due: Jun 2024 · 2 years overdue</div>
           </div>
         </div>
 
-        <!-- ═══ 16–24 MONTHS — UPCOMING ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
+        <!-- ═══ 10 YEARS — UPCOMING ═══ -->
+        <div style="display:flex;align-items:flex-start;margin-bottom:8px;">
           <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#3B82F6;white-space:nowrap;">16–24 Mo</div>
+            <div style="font-size:8.5px;font-weight:800;color:#3B82F6;white-space:nowrap;">10 Years</div>
           </div>
           <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
             <div style="width:18px;height:18px;border-radius:50%;background:#3B82F6;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #3B82F6;display:flex;align-items:center;justify-content:center;">
               <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v5.67l3.97 2.38.53-.88-3.5-2.1V7z"/></svg>
             </div>
           </div>
-          <div style="flex:1;padding-left:8px;cursor:pointer;" onclick="showImmToast()">
+          <div style="flex:1;padding-left:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#1E40AF;">16–24 Months</div>
+              <div style="font-size:12px;font-weight:800;color:#1E40AF;">10 Years</div>
               <div style="font-size:9px;font-weight:700;color:#3B82F6;">⏱ Upcoming</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div><div style="font-size:12px;color:#1E40AF;">MR Booster</div></div>
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div><div style="font-size:12px;color:#1E40AF;">DPT Booster · OPV Booster</div></div>
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div><div style="font-size:12px;color:#1E40AF;">Vitamin A</div></div>
-            </div>
-            <div style="font-size:9px;color:#3B82F6;margin-top:4px;">Due: Dec 2020 · ~6 weeks away</div>
-          </div>
-        </div>
-
-        <!-- ═══ 5 YEARS — FUTURE ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
-          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#9CA3AF;white-space:nowrap;">5 Years</div>
-          </div>
-          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#D1D5DB;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #D1D5DB;display:flex;align-items:center;justify-content:center;">
-              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            </div>
-          </div>
-          <div style="flex:1;padding-left:8px;pointer-events:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#6B7280;">5 Years</div>
-              <div style="font-size:9px;font-weight:600;color:#9CA3AF;">🔒 Not yet</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#D1D5DB;flex-shrink:0;"></div><div style="font-size:12px;color:#9CA3AF;">DPT Booster · OPV Booster</div></div>
-            </div>
-            <div style="font-size:9px;color:#D1D5DB;margin-top:4px;">Due: Jun 2024</div>
-          </div>
-        </div>
-
-        <!-- ═══ 10 YEARS — FUTURE ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:8px;">
-          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#9CA3AF;white-space:nowrap;">10 Years</div>
-          </div>
-          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#D1D5DB;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #D1D5DB;display:flex;align-items:center;justify-content:center;">
-              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-            </div>
-          </div>
-          <div style="flex:1;padding-left:8px;pointer-events:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#6B7280;">10 Years</div>
-              <div style="font-size:9px;font-weight:600;color:#9CA3AF;">🔒 Not yet</div>
-            </div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:4px;height:4px;border-radius:50%;background:#D1D5DB;flex-shrink:0;"></div>
-              <div style="font-size:12px;color:#9CA3AF;">Td (Tetanus-Diphtheria)</div>
+              <div style="width:4px;height:4px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
+              <div style="font-size:12px;color:#1E40AF;">Td (Tetanus-Diphtheria)</div>
             </div>
-            <div style="font-size:9px;color:#D1D5DB;margin-top:4px;">Due: Jun 2029</div>
+            <div style="font-size:9px;color:#3B82F6;margin-top:4px;">Due: Jun 2029 · ~3 years away</div>
           </div>
         </div>
 
       </div><!-- /timeline -->
 
-      <!-- Record button -->
+      <!-- Submit button → goes to summary screen -->
       <button id="immSubmitBtn" class="pink-btn" onclick="submitImmRecord()" style="background:#831843;margin-top:20px;margin-bottom:4px;">
         💉 Submit
       </button>
@@ -4557,9 +4593,9 @@
   <!-- SCREEN 21: SERVICE SELECTION — Priya Rani Das       -->
   <!-- ═══════════════════════════════════════════════════ -->
   <div class="screen" id="s21">
-    <div class="statusbar" style="background:#5B21B6;"><span>10:35</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="statusbar" style="background:#1B2B5E;"><span>10:35</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
 
-    <div class="header" style="background:#5B21B6;">
+    <div class="header" style="background:#1B2B5E;">
       <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#DDD6FE"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#C4B5FD"/></svg>
@@ -4573,11 +4609,11 @@
     <div class="body" style="padding:20px 16px;">
 
       <!-- AI brief -->
-      <div style="background:#F5F3FF;border-radius:14px;padding:12px 14px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#7C3AED" style="flex-shrink:0;margin-top:1px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div style="background:#EEF0FF;border-radius:14px;padding:12px 14px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#1B2B5E" style="flex-shrink:0;margin-top:1px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         <div>
-          <div style="font-size:12px;font-weight:800;color:#5B21B6;">First visit · Select the right service</div>
-          <div style="font-size:11px;color:#7C3AED;margin-top:2px;">Tap the programme that best matches Priya's need today.</div>
+          <div style="font-size:12px;font-weight:800;color:#1B2B5E;">First visit · Select the right service</div>
+          <div style="font-size:11px;color:#1B2B5E;margin-top:2px;">Tap the programme that best matches Priya's need today.</div>
         </div>
       </div>
 
@@ -4636,7 +4672,306 @@
     </div>
   </div>
   <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 22: IMMUNISATION SUMMARY + AI COUNSELLING    -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s22">
+    <div class="statusbar" style="background:#831843;"><span>10:45</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
 
+    <div class="header" style="background:#831843;">
+      <button class="back-btn" onclick="go('s20')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
+        <div>
+          <div class="header-title">Immunisation Summary</div>
+          <div class="header-sub">Rahim Hossain · Age 6 · Char Bhadra</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body" style="padding:16px 14px 28px;">
+
+      <!-- Status bar -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <div style="flex:1;background:#ECFDF5;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#059669;">12</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Completed</div>
+        </div>
+        <div style="flex:1;background:#FEF2F2;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#EF4444;">2</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Overdue</div>
+        </div>
+        <div style="flex:1;background:#EFF6FF;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:18px;font-weight:800;color:#3B82F6;">1</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Upcoming</div>
+        </div>
+      </div>
+
+      <!-- AI Counselling card -->
+      <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:16px;padding:16px;margin-bottom:16px;color:white;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div style="font-size:12px;font-weight:800;">AI Counselling Note</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-left:auto;">For Rahim's family</div>
+        </div>
+
+        <div style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:12px;">
+          Rahim has received most of his scheduled vaccines well. However, <strong style="color:#FCA5A5;">DPT Booster and OPV Booster due at age 5 (Jun 2024) have not been given</strong>. These protect against diphtheria, tetanus, whooping cough, and polio. At age 6, it is still safe and important to give these now.
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:700;color:#FDE68A;margin-bottom:4px;">⚠ Why this matters</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.6;">Booster doses top up protection that earlier vaccines gave. Without them, immunity can weaken over time. Rahim is at school and exposed to more infections — please bring him to the nearest EPI centre this week. Both overdue vaccines can be given in one visit.</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;font-weight:700;color:#93C5FD;margin-bottom:4px;">📅 Next scheduled vaccine</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.8);">Td (Tetanus-Diphtheria) at age 10 · Due: June 2029</div>
+        </div>
+      </div>
+
+      <!-- Overdue vaccines -->
+      <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:800;color:#991B1B;margin-bottom:8px;">🔴 Overdue vaccines — action needed</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+            <div style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster (5yr)</div>
+            <div style="font-size:10px;color:#B91C1C;margin-left:auto;white-space:nowrap;">Due: 20 Jun 2024</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
+            <div style="font-size:12px;color:#991B1B;font-weight:600;">OPV Booster (5yr)</div>
+            <div style="font-size:10px;color:#B91C1C;margin-left:auto;white-space:nowrap;">Due: 20 Jun 2024</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#EF4444;margin-top:8px;font-weight:600;">✓ Both can be given in one EPI centre visit today</div>
+      </div>
+
+      <!-- Upcoming vaccine -->
+      <div style="background:#EFF6FF;border-left:3px solid #3B82F6;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:800;color:#1E40AF;margin-bottom:6px;">🔵 Next upcoming vaccine</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
+          <div style="font-size:12px;color:#1E40AF;font-weight:600;">Td (Tetanus-Diphtheria)</div>
+          <div style="font-size:10px;color:#3B82F6;margin-left:auto;white-space:nowrap;">Due: Jun 2029</div>
+        </div>
+      </div>
+
+      <!-- WhatsApp draft + send -->
+      <button onclick="openWADraft()" style="width:100%;background:#25D366;color:white;border:none;border-radius:12px;padding:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Preview &amp; Send via WhatsApp
+      </button>
+
+      <!-- Done button -->
+      <button onclick="go('s2')" style="width:100%;background:white;color:var(--navy);border:1.5px solid var(--navy);border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
+        ← Back to dashboard
+      </button>
+
+    </div>
+
+    <!-- WhatsApp Draft Modal -->
+
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 23: RAHIM — HOW ARE YOU FEELING TODAY        -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s23">
+    <div class="statusbar" style="background:#1B2B5E;"><span>10:30</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#1B2B5E;">
+      <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
+        <div>
+          <div class="header-title">Rahim Hossain</div>
+          <div class="header-sub">Age 6 · House #13 · Char Bhadra</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body" style="padding:16px 14px 28px;">
+
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">How is he feeling today? 🎙️</div>
+
+      <!-- AI Scribe -->
+      <div id="rahimScribeBanner" style="background:linear-gradient(135deg,#3D3599,#6B63D4);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;margin-bottom:10px;" onclick="startRahimScribe()">
+        <div style="width:42px;height:42px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+          <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M12 15c1.66 0 3-1.34 3-3V6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 15.2 14.47 17 12 17s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V21c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+          <span id="rahimMicDot" style="display:none;position:absolute;top:-3px;right:-3px;width:11px;height:11px;background:#EF4444;border-radius:50%;border:2px solid #6B63D4;animation:blink .8s infinite;"></span>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:white;" id="rahimScribeLabel">🎙 AI Scribe — tap and let him speak</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:1px;">Symptoms appear automatically as he talks</div>
+        </div>
+      </div>
+
+      <!-- Manual input -->
+      <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;">
+        <textarea id="rahimManualInput" rows="1" placeholder="Type a symptom…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
+        <button onclick="addRahimSymptom()" style="background:#1B2B5E;color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
+      </div>
+
+      <!-- Live transcript -->
+      <div id="rahimTranscript" style="display:none;background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:10px 13px;margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#EF4444;border-radius:50%;animation:blink .8s infinite;display:inline-block;"></span>Listening…</div>
+        <div id="rahimTranscriptText" style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;min-height:18px;"></div>
+      </div>
+
+      <!-- Unified symptom cards -->
+      <div id="rahimSympDetected" style="display:none;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:#92400E;margin-bottom:7px;display:flex;align-items:center;gap:5px;">
+          <svg width="11" height="11" fill="#B45309" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Symptoms added:
+        </div>
+        <div id="rahimSympCards" style="display:flex;flex-direction:column;gap:7px;"></div>
+      </div>
+
+      <!-- Proceed button -->
+      <button class="pink-btn" onclick="go('s20')" style="background:#B45309;">
+        💉 Vaccination →
+      </button>
+
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
+
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 24: RAHIM — AI IMMUNISATION SUMMARY          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s24">
+    <div class="statusbar" style="background:#831843;"><span>10:50</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
+      <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
+        <div>
+          <div class="header-title">Visit Summary</div>
+          <div class="header-sub">Rahim Hossain · Age 6 · House #13</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body" style="padding:16px 14px 28px;">
+
+      <!-- Visit snapshot -->
+      <div style="background:white;border-radius:14px;border:1.5px solid #E5E7EB;padding:12px 14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;">
+        <div style="flex:1;">
+          <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Today's visit</div>
+          <div style="font-size:13px;font-weight:800;color:var(--navy);">Child immunisation · 28 Jun 2026</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px;">SK Jahnara Begum · Char Bhadra</div>
+        </div>
+        <div style="background:#ECFDF5;border-radius:10px;padding:6px 10px;text-align:center;">
+          <div style="font-size:18px;font-weight:900;color:#059669;">6</div>
+          <div style="font-size:9px;color:#059669;font-weight:700;">yrs old</div>
+        </div>
+      </div>
+
+      <!-- AI Counselling — main card -->
+      <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:16px;padding:16px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div style="font-size:12px;font-weight:800;color:white;">AI Counselling · Rahim's family</div>
+        </div>
+        <div style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:12px;">
+          Rahim is 6 years old with a mostly complete immunisation record. <strong style="color:#FCA5A5;">DPT &amp; OPV boosters (age 5) are overdue</strong> — critical for school-age protection.
+        </div>
+        <!-- Insight boxes -->
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:700;color:#FDE68A;margin-bottom:3px;">💡 Did you know</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Missing boosters at age 5 increases disease risk at school. This visit is the right time to catch up — both can be given in one EPI visit today.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:700;color:#93C5FD;margin-bottom:3px;">🎯 What to tell the family</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">No hospital needed — the nearest EPI centre can give both in under 5 minutes. Bring Rahim this week.</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
+            <div style="font-size:11px;font-weight:700;color:#6EE7B7;margin-bottom:3px;">📅 Mark your calendar</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Next vaccine: Td (Tetanus-Diphtheria) · Age 10 · June 2029. Save the date.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overdue action card -->
+      <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:800;color:#991B1B;margin-bottom:6px;">⚠ Action needed this week</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster (5yr)</span><span style="font-size:10px;color:#B91C1C;">Due: 20 Jun 2024</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">OPV Booster (5yr)</span><span style="font-size:10px;color:#B91C1C;">Due: 20 Jun 2024</span></div>
+        </div>
+        <div style="font-size:11px;color:#EF4444;font-weight:600;margin-top:8px;">✓ Both can be given in one EPI visit today</div>
+      </div>
+
+      <!-- Positive reinforcement -->
+      <div style="background:#ECFDF5;border-left:3px solid #10B981;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:800;color:#065F46;margin-bottom:4px;">✅ Great progress so far</div>
+        <div style="font-size:11.5px;color:#059669;line-height:1.6;">Rahim has received 12 vaccines on time. His family has shown great commitment to his health. Catching these 2 missed doses will complete his childhood immunity.</div>
+      </div>
+
+      <!-- WhatsApp -->
+      <button onclick="openWADraft()" style="width:100%;background:#25D366;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Preview &amp; Send via WhatsApp
+      </button>
+      <button onclick="go('s2')" style="width:100%;background:white;color:var(--navy);border:1.5px solid var(--navy);border-radius:12px;padding:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">← Back to dashboard</button>
+
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
+
+
+  <!-- WhatsApp Draft Modal (global) -->
+    <div id="waDraftModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;align-items:flex-end;justify-content:center;" onclick="closeWADraft()">
+      <div style="background:white;border-radius:24px 24px 0 0;padding:20px 20px 32px;width:100%;max-width:390px;animation:slideUp .25s ease;max-height:85vh;overflow-y:auto;" onclick="event.stopPropagation()">
+
+        <div style="width:36px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 16px;"></div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--navy);">Draft WhatsApp Message</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">To: Rahim's family · 017XXXXXXXX</div>
+          </div>
+          <button onclick="closeWADraft()" style="background:#F3F4F6;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;color:#6B7280;">✕</button>
+        </div>
+
+        <!-- Draft message box -->
+        <div style="background:#ECF8EC;border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid #A7D9A7;">
+          <div style="font-size:10px;font-weight:700;color:#25D366;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">📤 Message preview</div>
+          <textarea id="waDraftText" rows="10" style="width:100%;font-family:inherit;font-size:12.5px;line-height:1.7;color:#1a1a2e;border:none;background:transparent;outline:none;resize:none;">Dear Rahim's family,
+
+This is a message from your Shasthya Kormi (SK Jahnara Begum).
+
+Rahim Hossain (Age 6, House #13, Char Bhadra) has the following overdue vaccines:
+
+❌ DPT Booster (5yr) — was due 20 Jun 2024
+❌ OPV Booster (5yr) — was due 20 Jun 2024
+
+Both vaccines can be given in ONE visit to your nearest EPI centre. These protect Rahim from diphtheria, tetanus, whooping cough, and polio.
+
+📅 Next vaccine due:
+✅ Td (Tetanus-Diphtheria) — June 2029 (at age 10)
+
+Please visit your nearest health centre at the earliest. For queries, contact your SK directly.
+
+— Apon Sushashthya · Leap Well Project</textarea>
+        </div>
+
+        <div style="font-size:10px;color:#6B7280;margin-bottom:14px;">You can edit the message above before sending.</div>
+
+        <button onclick="sendWAMessage()" style="width:100%;background:#25D366;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Send Message
+        </button>
+        <button onclick="closeWADraft()" style="width:100%;background:white;color:#6B7280;border:1.5px solid #E5E7EB;border-radius:12px;padding:12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
 </div>
 
 <script>
@@ -4744,6 +5079,76 @@ function markImmCompleted() {
   }
 }
 
+// ── MANUAL SYMPTOM ENTRY ──
+function addManualSymptom() {
+  var input = document.getElementById('manualSympInput');
+  var text = input ? input.value.trim() : '';
+  if (!text) return;
+
+  var container = document.getElementById('ancS1SympCards');
+  var detected = document.getElementById('ancS1SymptomsDetected');
+  if (!container) return;
+
+  if (detected) detected.style.display = 'block';
+
+  var cid = 'msc-' + Date.now();
+  var card = document.createElement('div');
+  card.id = cid;
+  card.style.cssText = 'background:#EEF0FF;border:1.5px solid #C4B5FD;border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease;';
+
+  var delBtn = document.createElement('button');
+  delBtn.style.cssText = 'background:rgba(239,68,68,0.1);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+  delBtn.innerHTML = '<svg width="9" height="9" fill="#EF4444" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+  delBtn.onclick = function() { card.remove(); };
+
+  var label = document.createElement('div');
+  label.style.cssText = 'flex:1;font-size:12px;font-weight:700;color:#3D3599;';
+  label.textContent = text;
+
+  var tag = document.createElement('div');
+  tag.style.cssText = 'font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:#3D3599;padding:2px 6px;border-radius:5px;flex-shrink:0;';
+  tag.textContent = 'Manual';
+
+  card.appendChild(label);
+  card.appendChild(tag);
+  card.appendChild(delBtn);
+  container.appendChild(card);
+  input.value = '';
+}
+
+// ── SCREENING QUESTIONS ──
+function selectScreening(el, group, val) {
+  var all = document.querySelectorAll('[data-group="' + group + '"]');
+  all.forEach(function(e) {
+    e.style.background = 'white';
+    e.style.borderColor = '#E5E7EB';
+    e.style.color = '#6B7280';
+  });
+  el.style.background = '#EEF0FF';
+  el.style.borderColor = '#6B63D4';
+  el.style.color = '#3D3599';
+
+  // show LMP if pregnant yes
+  if (group === 'preg') {
+    var lmp = document.getElementById('lmpSection');
+    if (lmp) lmp.style.display = val === 'yes' ? 'block' : 'none';
+  }
+}
+
+// ── WHATSAPP DRAFT MODAL ──
+function openWADraft() {
+  var m = document.getElementById('waDraftModal');
+  if (m) m.style.display = 'flex';
+}
+function closeWADraft() {
+  var m = document.getElementById('waDraftModal');
+  if (m) m.style.display = 'none';
+}
+function sendWAMessage() {
+  closeWADraft();
+  showToast('✅ Message sent via WhatsApp to Rahim\'s family');
+}
+
 // ── CREATE HOUSEHOLD ──
 function openCreateHousehold() {
   var s = document.getElementById('createHHSheet');
@@ -4813,20 +5218,98 @@ function goANC(name, sub) {
   var waBtn = document.getElementById('anc-wa-btn');
   if (waBtn) waBtn.onclick = function(){ showToast('✅ WhatsApp message sent to ' + name.split(' ')[0]); };
 
+  // For new patients (Priya) — hide the "Before you knock" and "Greet warmly" sections
+  var briefCard = document.getElementById('briefAContent');
+  if (briefCard && briefCard.parentElement) briefCard.parentElement.style.display = 'none';
+  var greetWarmly = document.getElementById('ancGreetWarmly');
+  if (greetWarmly) greetWarmly.style.display = 'none';
+  var startBanner = document.getElementById('ancStartBanner');
+  if (startBanner) startBanner.style.display = 'none';
+
+  // show screening questions only for new/first-visit patients
+  var screening = document.getElementById('ancScreeningSection');
+  if (screening) screening.style.display = 'block';
+
+  // s2 step banner
+  var s2banner = document.getElementById('anc-s2-banner-title');
+  if (s2banner) s2banner.textContent = 'ANC Visit 1 form · First registration';
+
   go('s11');
 }
 
 function submitImmRecord() {
   var btn = document.getElementById('immSubmitBtn');
   if (!btn) return;
-
-  // Change to submitted state
   btn.style.background = '#059669';
   btn.innerHTML = '<svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Submitted ✓';
   btn.style.pointerEvents = 'none';
+  setTimeout(function() { go('s24'); }, 900);
+}
 
-  // Redirect to dashboard after short delay
-  setTimeout(function() { go('s2'); }, 900);
+// ── RAHIM SYMPTOM SCRIBE ──
+function startRahimScribe() {
+  var banner = document.getElementById('rahimScribeBanner');
+  var dot = document.getElementById('rahimMicDot');
+  var label = document.getElementById('rahimScribeLabel');
+  var transcript = document.getElementById('rahimTranscript');
+  var transcriptText = document.getElementById('rahimTranscriptText');
+  var detected = document.getElementById('rahimSympDetected');
+  var cards = document.getElementById('rahimSympCards');
+  if (!banner || !dot) return;
+
+  dot.style.display = 'block';
+  label.textContent = '🎙 Listening…';
+  if (transcript) transcript.style.display = 'block';
+
+  var phrases = ['পেটে একটু ব্যথা করছে…', '…জ্বর জ্বর লাগছে, গায়ে ব্যথা', '…খেতে ইচ্ছে করছে না'];
+  var symptoms = [
+    { emoji:'🤕', en:'Stomach pain', color:'#FEE2E2', tc:'#991B1B', border:'#FCA5A5' },
+    { emoji:'🌡️', en:'Mild fever — body ache', color:'#FEF3C7', tc:'#92400E', border:'#FCD34D' },
+    { emoji:'😔', en:'Poor appetite', color:'#EEF0FF', tc:'#3D3599', border:'#C4B5FD' }
+  ];
+
+  var i = 0;
+  function typePhrase() {
+    if (i >= phrases.length) {
+      dot.style.display = 'none';
+      label.textContent = '✅ AI Scribe complete — 3 symptoms detected';
+      banner.style.background = 'linear-gradient(135deg,#065F46,#059669)';
+      if (transcript) transcript.style.display = 'none';
+      return;
+    }
+    if (transcriptText) transcriptText.textContent = phrases[i];
+    setTimeout(function() {
+      if (detected) detected.style.display = 'block';
+      var sym = symptoms[i];
+      var card = document.createElement('div');
+      card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .4s ease;';
+      var emojiEl = document.createElement('div'); emojiEl.style.cssText='font-size:16px;flex-shrink:0;'; emojiEl.textContent=sym.emoji;
+      var textEl = document.createElement('div'); textEl.style.cssText='flex:1;font-size:12px;font-weight:700;color:'+sym.tc+';'; textEl.textContent=sym.en;
+      var tagEl = document.createElement('div'); tagEl.style.cssText='font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:'+sym.tc+';padding:2px 6px;border-radius:5px;flex-shrink:0;'; tagEl.textContent='AI detected';
+      var delBtn = document.createElement('button'); delBtn.style.cssText='background:rgba(255,255,255,0.5);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;'; delBtn.innerHTML='<svg width="9" height="9" fill="#6B7280" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'; delBtn.onclick=function(){card.remove();};
+      card.appendChild(emojiEl); card.appendChild(textEl); card.appendChild(tagEl); card.appendChild(delBtn);
+      if (cards) cards.appendChild(card);
+      i++; setTimeout(typePhrase, 1400);
+    }, 1200);
+  }
+  typePhrase();
+}
+
+function addRahimSymptom() {
+  var input = document.getElementById('rahimManualInput');
+  var text = input ? input.value.trim() : '';
+  if (!text) return;
+  var container = document.getElementById('rahimSympCards');
+  var detected = document.getElementById('rahimSympDetected');
+  if (!container) return;
+  if (detected) detected.style.display = 'block';
+  var card = document.createElement('div');
+  card.style.cssText = 'background:#EEF0FF;border:1.5px solid #C4B5FD;border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease;';
+  var labelEl = document.createElement('div'); labelEl.style.cssText='flex:1;font-size:12px;font-weight:700;color:#3D3599;'; labelEl.textContent=text;
+  var tagEl = document.createElement('div'); tagEl.style.cssText='font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:#3D3599;padding:2px 6px;border-radius:5px;flex-shrink:0;'; tagEl.textContent='Manual';
+  var delBtn = document.createElement('button'); delBtn.style.cssText='background:rgba(239,68,68,0.1);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;'; delBtn.innerHTML='<svg width="9" height="9" fill="#EF4444" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'; delBtn.onclick=function(){card.remove();};
+  card.appendChild(labelEl); card.appendChild(tagEl); card.appendChild(delBtn);
+  container.appendChild(card); input.value='';
 }
 
 function showImmToast() {
@@ -4953,8 +5436,36 @@ function startKarimSymptomScribe() {
       detected.style.display = 'block';
       var sym = symptoms[i];
       var card = document.createElement('div');
-      card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px;animation:fadeIn .4s ease;';
-      card.innerHTML = '<div style="font-size:22px;flex-shrink:0;">'+sym.emoji+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:'+sym.tc+';">'+sym.en+'</div><div style="font-size:11px;color:'+sym.tc+';opacity:.75;margin-top:2px;">'+sym.bn+'</div></div><div style="font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:'+sym.tc+';padding:2px 6px;border-radius:5px;flex-shrink:0;">AI detected</div>';
+      card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .4s ease;';
+
+      var emojiEl = document.createElement('div');
+      emojiEl.style.cssText = 'font-size:16px;flex-shrink:0;';
+      emojiEl.textContent = sym.emoji;
+
+      var textWrap = document.createElement('div');
+      textWrap.style.cssText = 'flex:1;';
+      var enDiv = document.createElement('div');
+      enDiv.style.cssText = 'font-size:12px;font-weight:700;color:'+sym.tc+';';
+      enDiv.textContent = sym.en;
+      var bnDiv = document.createElement('div');
+      bnDiv.style.cssText = 'font-size:10px;color:'+sym.tc+';opacity:.75;margin-top:1px;';
+      bnDiv.textContent = sym.bn;
+      textWrap.appendChild(enDiv);
+      textWrap.appendChild(bnDiv);
+
+      var tagEl = document.createElement('div');
+      tagEl.style.cssText = 'font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:'+sym.tc+';padding:2px 6px;border-radius:5px;flex-shrink:0;';
+      tagEl.textContent = 'AI detected';
+
+      var delBtn = document.createElement('button');
+      delBtn.style.cssText = 'background:rgba(255,255,255,0.5);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+      delBtn.innerHTML = '<svg width="9" height="9" fill="#6B7280" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+      delBtn.onclick = function() { card.remove(); };
+
+      card.appendChild(emojiEl);
+      card.appendChild(textWrap);
+      card.appendChild(tagEl);
+      card.appendChild(delBtn);
       cards.appendChild(card);
       i++;
       setTimeout(typePhrase, 1400);
@@ -5057,14 +5568,13 @@ function startAncSymptomScribe() {
   var label = document.getElementById('ancS1ScribeLabel');
   var transcript = document.getElementById('ancS1Transcript');
   var transcriptText = document.getElementById('ancS1TranscriptText');
-  var hint = document.getElementById('ancS1Hint');
   var detected = document.getElementById('ancS1SymptomsDetected');
   var cards = document.getElementById('ancS1SympCards');
+  if (!banner || !dot || !label) return;
 
   dot.style.display = 'block';
   label.textContent = '🎙 Listening…';
-  transcript.style.display = 'block';
-  hint.style.display = 'none';
+  if (transcript) transcript.style.display = 'block';
 
   var phrases = [
     'মাথায় একটু ব্যথা আছে কাল থেকে…',
@@ -5085,17 +5595,46 @@ function startAncSymptomScribe() {
       dot.style.display = 'none';
       label.textContent = '✅ AI Scribe complete — 4 symptoms detected';
       banner.style.background = 'linear-gradient(135deg,#065F46,#059669)';
-      transcript.style.display = 'none';
+      if (transcript) transcript.style.display = 'none';
       return;
     }
-    transcriptText.textContent = phrases[i];
+    if (transcriptText) transcriptText.textContent = phrases[i];
     setTimeout(function() {
-      detected.style.display = 'block';
+      if (detected) detected.style.display = 'block';
       var sym = symptoms[i];
+
       var card = document.createElement('div');
-      card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px;animation:fadeIn .4s ease;';
-      card.innerHTML = '<div style="font-size:22px;flex-shrink:0;">'+sym.emoji+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:'+sym.tc+';">'+sym.en+'</div><div style="font-size:11px;color:'+sym.tc+';opacity:.75;margin-top:2px;">'+sym.bn+'</div></div><div style="font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:'+sym.tc+';padding:2px 6px;border-radius:5px;flex-shrink:0;">AI detected</div>';
-      cards.appendChild(card);
+      card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .4s ease;';
+
+      var emojiEl = document.createElement('div');
+      emojiEl.style.cssText = 'font-size:16px;flex-shrink:0;';
+      emojiEl.textContent = sym.emoji;
+
+      var textWrap = document.createElement('div');
+      textWrap.style.cssText = 'flex:1;';
+      var enDiv = document.createElement('div');
+      enDiv.style.cssText = 'font-size:12px;font-weight:700;color:'+sym.tc+';';
+      enDiv.textContent = sym.en;
+      var bnDiv = document.createElement('div');
+      bnDiv.style.cssText = 'font-size:10px;color:'+sym.tc+';opacity:.75;margin-top:1px;';
+      bnDiv.textContent = sym.bn;
+      textWrap.appendChild(enDiv);
+      textWrap.appendChild(bnDiv);
+
+      var tagEl = document.createElement('div');
+      tagEl.style.cssText = 'font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:'+sym.tc+';padding:2px 6px;border-radius:5px;flex-shrink:0;';
+      tagEl.textContent = 'AI detected';
+
+      var delBtn = document.createElement('button');
+      delBtn.style.cssText = 'background:rgba(255,255,255,0.5);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+      delBtn.innerHTML = '<svg width="9" height="9" fill="#6B7280" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+      delBtn.onclick = function() { card.remove(); };
+
+      card.appendChild(emojiEl);
+      card.appendChild(textWrap);
+      card.appendChild(tagEl);
+      card.appendChild(delBtn);
+      if (cards) cards.appendChild(card);
       i++;
       setTimeout(typePhrase, 1400);
     }, 1200);
@@ -5779,7 +6318,19 @@ function go(id) {
 
 function openFpDrawer() {
   var d = document.getElementById('fpDrawer');
-  if(d) d.classList.add('open');
+  if(d) {
+    d.style.position = 'fixed';
+    d.style.bottom = '0';
+    d.style.left = '50%';
+    d.style.transform = 'translateX(-50%)';
+    d.style.width = '375px';
+    d.style.maxWidth = '100%';
+    d.style.zIndex = '9999';
+    d.classList.add('open');
+  }
+  // show backdrop
+  var bd = document.getElementById('fpBackdrop');
+  if(bd) bd.style.display = 'block';
   // reset to idle state
   document.getElementById('fpd-idle').style.display = 'block';
   document.getElementById('fpd-scanning').style.display = 'none';
@@ -5797,6 +6348,8 @@ function openFpDrawer() {
 function closeFpDrawer() {
   var d = document.getElementById('fpDrawer');
   if(d) d.classList.remove('open');
+  var bd = document.getElementById('fpBackdrop');
+  if(bd) bd.style.display = 'none';
 }
 
 function startFingerprint() {

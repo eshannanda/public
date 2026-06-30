@@ -59,6 +59,7 @@
   }
   .screen.active { display: flex; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes nidSweep { 0% { top: 8%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
   /* STATUS BAR */
@@ -1024,6 +1025,8 @@
     box-shadow:0 -8px 32px rgba(0,0,0,0.2);
   }
   .update-sheet.open { display:block;animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1); }
+  .fp-drawer-fixed { position:fixed !important; bottom:0 !important; left:50% !important; margin-left:-187.5px !important; width:375px !important; max-width:calc(100vw - 16px) !important; z-index:9999 !important; }
+  @media (max-width: 391px) { .fp-drawer-fixed { margin-left:calc(-50vw + 8px) !important; } }
   .status-opts { display:flex;flex-direction:column;gap:8px;margin:14px 0; }
   .status-opt {
     display:flex;align-items:center;gap:10px;
@@ -1170,7 +1173,7 @@
   <div id="fpBackdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;" onclick="closeFpDrawer()"></div>
 
   <!-- ════════ FINGERPRINT VERIFICATION DRAWER ════════ -->
-  <div class="update-sheet" id="fpDrawer" style="padding:0;overflow:hidden;">
+  <div class="update-sheet fp-drawer-fixed" id="fpDrawer" style="padding:0;overflow:hidden;">
     <!-- handle -->
     <div style="padding:14px 20px 0;">
       <div style="width:40px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 6px;"></div>
@@ -1408,7 +1411,7 @@
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <div style="font-size:13.5px;font-weight:800;color:var(--text);">Rahim Hossain</div>
           </div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Age 6 · House #13 · Char Bhadra · Child immunisation 👶</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Age 2 · House #13 · Char Bhadra · Child immunisation 👶</div>
         </div>
         <div class="v-status" style="color:#D97706;"><span class="vs-dot" style="background:#F59E0B;"></span>Overdue</div>
       </div>
@@ -2672,6 +2675,12 @@
           </div>
         </div>
 
+        <!-- Manual symptom entry -->
+        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
+          <textarea id="manualSympInput" rows="1" placeholder="Or type a symptom manually…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
+          <button onclick="addManualSymptom()" style="background:var(--navy);color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
+        </div>
+
         <!-- Live transcript -->
         <div id="ancS1Transcript" style="display:none;background:#EEF0FF;border:1px solid #D4D8FF;border-radius:12px;padding:10px 13px;margin-bottom:10px;">
           <div style="font-size:10px;font-weight:700;color:#3D3599;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#EF4444;border-radius:50%;animation:blink .8s infinite;display:inline-block;"></span>Listening — she is speaking…</div>
@@ -2688,15 +2697,9 @@
         </div>
 
         <!-- Hint -->
-        <div id="ancS1Hint" style="background:#F8F9FC;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <div id="ancS1Hint" style="background:#F8F9FC;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px;">
           <div style="font-size:16px;">💬</div>
           <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Tap the scribe above, then ask her how she's been feeling. Symptoms will appear here automatically.</div>
-        </div>
-
-        <!-- Manual symptom entry -->
-        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:14px;">
-          <textarea id="manualSympInput" rows="1" placeholder="Or type a symptom manually…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
-          <button onclick="addManualSymptom()" style="background:var(--navy);color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
         </div>
 
         <!-- Starting ANC indication -->
@@ -2709,39 +2712,78 @@
         </div>
 
         <!-- Screening questions — shown only for new patients via goANC() -->
-        <div id="ancScreeningSection" style="display:none;background:#F8F9FC;border-radius:14px;padding:14px;margin-bottom:16px;">
-          <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:14px;">📋 Quick screening questions</div>
-          <div style="margin-bottom:14px;">
-            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">1. Are you pregnant?</div>
-            <div style="display:flex;gap:8px;margin-bottom:8px;">
-              <div id="pregYes" onclick="selectScreening(this,'preg','yes')" data-group="preg" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
-              <div id="pregNo" onclick="selectScreening(this,'preg','no')" data-group="preg" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
-            </div>
-            <div id="lmpSection" style="display:none;">
-              <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Last Menstrual Period (LMP) date</div>
-              <input type="date" id="lmpDate" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
-            </div>
+        <div id="ancScreeningSection" style="display:none;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);">✦ Eligible services</div>
+            <div style="font-size:9.5px;font-weight:700;color:#6B63D4;background:#EEF0FF;padding:3px 9px;border-radius:20px;">Age &amp; gender based</div>
           </div>
-          <div style="margin-bottom:14px;">
-            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">2. How old is the baby?</div>
-            <div style="display:flex;gap:7px;flex-wrap:wrap;">
-              <div onclick="selectScreening(this,'babyage','newborn')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Newborn (0–28d)</div>
-              <div onclick="selectScreening(this,'babyage','1-6m')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">1–6 months</div>
-              <div onclick="selectScreening(this,'babyage','6-12m')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">6–12 months</div>
-              <div onclick="selectScreening(this,'babyage','1-2y')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">1–2 years</div>
-              <div onclick="selectScreening(this,'babyage','na')" data-group="babyage" style="padding:6px 10px;border-radius:8px;border:1.5px solid #E5E7EB;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">N/A</div>
-            </div>
+
+          <!-- Eligibility reasoning strip -->
+          <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:14px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:9px;">
+            <span style="font-size:16px;">👩</span>
+            <div style="font-size:11px;color:rgba(255,255,255,0.9);">Female · 20 yrs — eligible for these programmes</div>
           </div>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:7px;">3. Family planning service required?</div>
-            <div style="display:flex;gap:8px;">
-              <div onclick="selectScreening(this,'fp','yes')" data-group="fp" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
-              <div onclick="selectScreening(this,'fp','no')" data-group="fp" style="flex:1;padding:7px 8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+
+          <!-- ONE uniform grid — all services, same card design, multi-select -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;">
+
+            <!-- PW -->
+            <div onclick="selectPW()" id="svcPW" data-service="pw" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;position:relative;">
+              <div id="svcPWCheck" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">🤰</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">PW</div>
             </div>
+
+            <!-- ANC — dimmed until PW selected -->
+            <div id="svcANC" onclick="toggleService('anc')" data-service="anc" data-locked="true" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;opacity:0.45;position:relative;">
+              <div class="svc-check" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">🏥</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">ANC</div>
+            </div>
+
+            <!-- FP -->
+            <div onclick="toggleService('fp')" data-service="fp" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;position:relative;">
+              <div class="svc-check" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">🌸</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">FP</div>
+            </div>
+
+            <!-- PNC - not eligible -->
+            <div data-service="pnc" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);opacity:0.45;">
+              <div style="font-size:20px;margin-bottom:5px;">👶</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">PNC</div>
+            </div>
+
+            <!-- General -->
+            <div onclick="toggleService('general')" data-service="general" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;position:relative;">
+              <div class="svc-check" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">🩺</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">General</div>
+            </div>
+
+            <!-- NCD -->
+            <div onclick="toggleService('ncd')" data-service="ncd" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;position:relative;">
+              <div class="svc-check" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">💊</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">NCD</div>
+            </div>
+
+            <!-- TB -->
+            <div onclick="toggleService('tb')" data-service="tb" class="svc-card" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 8px;cursor:pointer;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all .15s;position:relative;">
+              <div class="svc-check" style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;border:1.5px solid #D1D5DB;display:flex;align-items:center;justify-content:center;"></div>
+              <div style="font-size:20px;margin-bottom:5px;">🫁</div>
+              <div style="font-size:11.5px;font-weight:800;color:var(--text);">TB</div>
+            </div>
+
           </div>
+
+          <div id="ancHintText" style="font-size:10.5px;color:var(--muted);margin-top:10px;text-align:center;">Select "PW" first to unlock ANC</div>
+
+          <button id="svcContinueBtn" onclick="confirmServiceSelection()" disabled style="width:100%;margin-top:12px;background:#D1D5DB;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:not-allowed;transition:all .15s;">
+            Select a service to continue
+          </button>
         </div>
 
-        <button class="pink-btn" onclick="aStep2()" style="background:#EC4899;">Start ANC checkup →</button>
       </div><!-- /a-step1 -->
 
       <!-- ── ANC STEP 2 ── -->
@@ -2763,8 +2805,8 @@
           <div id="aTranscriptText" style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;min-height:18px;"></div>
         </div>
 
-        <!-- PREGNANCY DATING — autopopulated -->
-        <div style="margin-bottom:16px;">
+        <!-- PREGNANCY DATING — Nasrin (existing patient, autopopulated) -->
+        <div id="ancPregOverviewNasrin" style="margin-bottom:16px;">
           <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;display:flex;align-items:center;gap:6px;">
             Pregnancy overview
           </div>
@@ -2796,6 +2838,73 @@
               </div>
             </div>
 
+          </div>
+        </div>
+
+        <!-- PW REGISTRATION — Priya (new patient, full Section 2 form) -->
+        <div id="ancPregRegoPriya" style="display:none;margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px;">📋 Pregnancy Details &amp; History</div>
+
+          <!-- Q4: LMP -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">1. Last Menstrual Period (LMP) <span style="color:#EF4444;">*</span></div>
+            <input type="date" id="pdLMP" onchange="calcEDDandGA()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+            <div id="lmpEarlyWarning" style="display:none;background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 8px 8px 0;padding:8px 10px;margin-top:7px;">
+              <div style="font-size:11px;color:#991B1B;font-weight:700;">⚠ LMP is less than 6 weeks ago</div>
+              <div style="font-size:10.5px;color:#B91C1C;margin-top:2px;">Too early for full ANC registration. Advise her to return after 6 weeks, or refer for early pregnancy confirmation.</div>
+            </div>
+          </div>
+
+          <!-- Q5: Pregnancy Test -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">2. Pregnancy Test <span style="color:#EF4444;">*</span></div>
+            <select id="pdPregTest" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+              <option value="">Select…</option>
+              <option value="positive">Done — Positive</option>
+              <option value="not_done">Not done yet</option>
+            </select>
+          </div>
+
+          <!-- Q6 + Q7: EDD + GA — auto-calculated -->
+          <div style="display:flex;gap:9px;margin-bottom:14px;">
+            <div style="flex:1;background:#F8F9FC;border-radius:11px;padding:10px 12px;">
+              <div style="font-size:9.5px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">3. EDD <span style="color:#6B63D4;font-weight:600;">(auto)</span></div>
+              <div id="pdEDD" style="font-size:13px;font-weight:900;font-family:'Nunito',sans-serif;color:var(--navy);">—</div>
+            </div>
+            <div style="flex:1;background:#F8F9FC;border-radius:11px;padding:10px 12px;">
+              <div style="font-size:9.5px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">4. Gest. Week <span style="color:#6B63D4;font-weight:600;">(auto)</span></div>
+              <div id="pdGA" style="font-size:13px;font-weight:900;font-family:'Nunito',sans-serif;color:#059669;">—</div>
+            </div>
+          </div>
+
+          <!-- Q8: Gravida -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">5. Gravida — total pregnancies (incl. current) <span style="color:#EF4444;">*</span></div>
+            <input type="number" id="pdGravida" min="1" placeholder="e.g. 2" oninput="handleGravidaChange()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+          </div>
+
+          <!-- Q9: Parity — shown only if Gravida >= 2 -->
+          <div id="pdParitySection" style="display:none;margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:4px;">6. Parity — total number of births <span style="color:#EF4444;">*</span></div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">💡 Probe and include both live births and stillbirths</div>
+            <input type="number" id="pdParity" min="0" placeholder="e.g. 1" oninput="handleParityChange()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+          </div>
+
+          <!-- Q10: Living children — shown only if total births >= 1 -->
+          <div id="pdLivingSection" style="display:none;margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">7. Number of Living Children <span style="color:#EF4444;">*</span></div>
+            <input type="number" id="pdLiving" min="0" placeholder="e.g. 1" oninput="handleLivingChange()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+          </div>
+
+          <!-- Q11: Age of last child — shown only if living children >= 1 -->
+          <div id="pdLastChildSection" style="display:none;margin-bottom:14px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:4px;">8. Age of Last Child <span style="color:#EF4444;">*</span></div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">If under 1 year, enter 0 years + months</div>
+            <div style="display:flex;gap:8px;">
+              <input type="number" id="pdLastChildYrs" min="0" placeholder="Years" oninput="updateRiskSummary()" style="flex:1;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+              <input type="number" id="pdLastChildMo" min="0" max="11" placeholder="Months" oninput="updateRiskSummary()" style="flex:1;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+            </div>
+            <div id="pdLastChildErr" style="display:none;font-size:10px;color:#EF4444;margin-top:5px;">⚠ Months cannot be 0 if years is also 0 — please enter actual age</div>
           </div>
         </div>
 
@@ -3263,6 +3372,16 @@
         </div>
       </div>
 
+      <!-- AI Risk Summary — Priya (new PW registration) only -->
+      <div id="pdRiskSummary" style="display:none;background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:14px;padding:14px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;">
+          <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <div style="font-size:12px;font-weight:800;color:white;">AI Risk Summary — from registration</div>
+        </div>
+        <div id="pdRiskList" style="display:flex;flex-direction:column;gap:7px;"></div>
+        <div id="pdRiskNone" style="display:none;font-size:11.5px;color:rgba(255,255,255,0.85);">✓ No additional risk factors identified from registration.</div>
+      </div>
+
       <!-- Today's readings — compact single line -->
       <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
         <div style="font-size:12.5px;color:#065F46;font-weight:600;">✅ BP 132/86, weight, urine, baby movement — all within normal limits</div>
@@ -3663,20 +3782,36 @@
 
   <!-- ════════ QR SCANNER OVERLAY ════════ -->
   <div class="qr-overlay" id="qrOverlay">
-    <div class="qr-title" id="qrTitle">Scan e-Health Card or NID</div>
-    <div class="qr-sub" id="qrSub">Align card QR code within the frame</div>
-    <div class="qr-viewport">
-      <div class="qr-scan-line"></div>
-      <div class="qr-corner tl"></div>
-      <div class="qr-corner tr"></div>
-      <div class="qr-corner bl"></div>
-      <div class="qr-corner br"></div>
-      <div class="qr-pattern" id="qrPattern"></div>
+    <div class="qr-title" id="qrTitle">Take a Photo of NID Card</div>
+    <div class="qr-sub" id="qrSub">Position the card within the frame</div>
+
+    <!-- Camera viewfinder — card-shaped (landscape) instead of square QR frame -->
+    <div id="nidViewfinder" style="position:relative;width:100%;max-width:340px;aspect-ratio:1.586;margin:0 auto;background:rgba(255,255,255,0.04);border-radius:16px;overflow:hidden;">
+      <!-- corner brackets -->
+      <div style="position:absolute;top:10px;left:10px;width:28px;height:28px;border-top:3px solid #6EE7B7;border-left:3px solid #6EE7B7;border-radius:6px 0 0 0;"></div>
+      <div style="position:absolute;top:10px;right:10px;width:28px;height:28px;border-top:3px solid #6EE7B7;border-right:3px solid #6EE7B7;border-radius:0 6px 0 0;"></div>
+      <div style="position:absolute;bottom:10px;left:10px;width:28px;height:28px;border-bottom:3px solid #6EE7B7;border-left:3px solid #6EE7B7;border-radius:0 0 0 6px;"></div>
+      <div style="position:absolute;bottom:10px;right:10px;width:28px;height:28px;border-bottom:3px solid #6EE7B7;border-right:3px solid #6EE7B7;border-radius:0 0 6px 0;"></div>
+
+      <!-- card silhouette hint -->
+      <div style="position:absolute;inset:20px;border:1.5px dashed rgba(255,255,255,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <svg width="40" height="40" fill="rgba(255,255,255,0.15)" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10z"/><circle cx="8" cy="11.5" r="1.5"/><path d="M6 16c0-1.5 1.5-2.5 2-2.5s2 1 2 2.5z"/></svg>
+      </div>
+
+      <!-- scan sweep animation -->
+      <div id="nidScanLine" style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#6EE7B7,transparent);top:0;animation:nidSweep 1.8s ease-in-out infinite;"></div>
     </div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:12px;text-align:center;">Bangladesh e-Health Card · Smart NID · mHealth Card</div>
+
+    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:14px;text-align:center;">Bangladesh National ID Card · Smart NID · Birth Registration</div>
+
+    <!-- Capture button -->
+    <button onclick="captureNID()" style="width:72px;height:72px;border-radius:50%;background:white;border:4px solid rgba(255,255,255,0.3);margin:18px auto 6px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+      <div style="width:56px;height:56px;border-radius:50%;background:white;border:2px solid #1a1a2e;"></div>
+    </button>
+    <div style="font-size:11px;color:rgba(255,255,255,0.5);text-align:center;margin-bottom:18px;">Tap to capture</div>
 
     <!-- divider -->
-    <div style="display:flex;align-items:center;gap:10px;margin:18px 0 14px;">
+    <div style="display:flex;align-items:center;gap:10px;margin:4px 0 14px;">
       <div style="flex:1;height:1px;background:rgba(255,255,255,0.15);"></div>
       <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:600;">or</div>
       <div style="flex:1;height:1px;background:rgba(255,255,255,0.15);"></div>
@@ -3735,20 +3870,14 @@
     <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:10px;">Link to household</div>
 
     <!-- Link to existing household -->
-    <div style="background:#F8F9FC;border:1.5px solid #E5E7EB;border-radius:12px;padding:12px 14px;margin-bottom:10px;">
-      <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;">🔗 Link to existing household</div>
-      <select style="width:100%;padding:9px 12px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
-        <option value="">Select household…</option>
-        <option>HH-2024-0012 · House #07 · Char Bhadra (Nasrin's family)</option>
-        <option>HH-2024-0021 · House #21 · Bhadra (Karim's family)</option>
-        <option>HH-2024-0009 · House #09 · Noyapara (Saleha's family)</option>
-        <option>HH-2024-0013 · House #13 · Char Bhadra (Rahim's family)</option>
-        <option>HH-2024-0006 · House #06 · Bhadra (Priya's family)</option>
-      </select>
-      <button onclick="confirmEnrol()" style="width:100%;margin-top:10px;background:var(--navy);color:white;border:none;border-radius:10px;padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">
-        Link &amp; Enrol →
-      </button>
-    </div>
+    <button onclick="closeEnrol();openHouseholdSelector();" style="width:100%;background:#F8F9FC;border:1.5px solid #E5E7EB;border-radius:12px;padding:13px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;font-family:inherit;margin-bottom:10px;">
+      <svg width="18" height="18" fill="var(--navy)" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+      <div style="text-align:left;flex:1;">
+        <div style="font-size:13px;font-weight:800;color:var(--navy);">Link to existing household</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:1px;">Search and select from your households</div>
+      </div>
+      <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+    </button>
 
     <!-- Divider -->
     <div style="display:flex;align-items:center;gap:10px;margin:4px 0 10px;">
@@ -3776,8 +3905,8 @@
         <svg width="22" height="22" fill="#065F46" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
       </div>
       <div>
-        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#065F46;">Card scanned successfully</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Patient details auto-filled from NID</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:#065F46;">Card photo captured</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px;">Details extracted from NID photo by AI</div>
       </div>
     </div>
     <div style="background:var(--lavender);border-radius:12px;padding:14px;margin-bottom:14px;">
@@ -4092,20 +4221,18 @@
   <!-- ════════ END BOOKING SHEET ════════ -->
 
   <!-- ════════ CREATE HOUSEHOLD SHEET ════════ -->
-  <div id="createHHSheet" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;align-items:flex-end;justify-content:center;" onclick="closeCreateHousehold()">
-    <div style="background:white;border-radius:24px 24px 0 0;padding:20px 20px 36px;width:100%;max-width:390px;animation:slideUp .25s ease;max-height:92vh;overflow-y:auto;" onclick="event.stopPropagation()">
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 27: CREATE HOUSEHOLD (full screen)            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s27">
+    <div class="statusbar"><span>10:15</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header">
+      <button class="back-btn" onclick="closeQR();go('s2');" ><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
+      <div class="header-title">Create Household</div>
+      <div class="header-sub">Register a new household in your catchment area</div>
+    </div>
 
-      <!-- handle -->
-      <div style="width:36px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 16px;"></div>
-
-      <!-- header -->
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-        <div>
-          <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--navy);">Create Household</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;">Register a new household in your catchment area</div>
-        </div>
-        <button onclick="closeCreateHousehold()" style="background:#F3F4F6;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;color:#6B7280;display:flex;align-items:center;justify-content:center;">✕</button>
-      </div>
+    <div class="body" style="padding:16px 14px 28px;">
 
       <!-- ── SECTION 1: HOUSEHOLD INFORMATION ── -->
       <div style="font-size:10px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;padding:6px 10px;background:#EEF0FF;border-radius:8px;">🏠 Household Information</div>
@@ -4123,7 +4250,7 @@
       <!-- Village -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Village <span style="color:#EF4444;">*</span></div>
-        <select style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <select id="hhVillage" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
           <option>Char Bhadra</option>
           <option>Bhadra</option>
           <option>Noyapara</option>
@@ -4142,13 +4269,19 @@
       <!-- Household Number (auto) -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Household Number <span style="font-size:10px;font-weight:500;color:#10B981;">(auto-generated)</span></div>
-        <input type="text" value="HH-2024-0047" readonly style="width:100%;padding:10px 12px;border:1.5px solid #A7F3D0;border-radius:10px;font-family:inherit;font-size:13px;color:#059669;font-weight:700;outline:none;background:#ECFDF5;">
+        <input id="hhNumberDisplay" type="text" value="HH-2024-0047" readonly style="width:100%;padding:10px 12px;border:1.5px solid #A7F3D0;border-radius:10px;font-family:inherit;font-size:13px;color:#059669;font-weight:700;outline:none;background:#ECFDF5;">
+      </div>
+
+      <!-- House Number -->
+      <div style="margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">House Number <span style="color:#EF4444;">*</span></div>
+        <input id="hhHouseNo" type="text" placeholder="e.g. House #22" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
       </div>
 
       <!-- Total Members -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Total Household Members <span style="color:#EF4444;">*</span></div>
-        <input type="number" min="1" max="30" placeholder="e.g. 5" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <input id="hhTotalMembers" type="number" min="1" max="30" placeholder="e.g. 5" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
       </div>
 
       <!-- HH Head Occupation -->
@@ -4196,7 +4329,7 @@
       <!-- Name -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Household Head's Name <span style="color:#EF4444;">*</span></div>
-        <input type="text" placeholder="Full name" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <input id="hhHeadName" type="text" placeholder="Full name" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
       </div>
 
       <!-- ID Type -->
@@ -4217,7 +4350,7 @@
       <!-- Mobile Number -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Mobile Number</div>
-        <input type="tel" placeholder="+880 17XX XXXXXX" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <input id="hhHeadMobile" type="tel" placeholder="+880 17XX XXXXXX" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
         <div style="font-size:10px;color:#9CA3AF;margin-top:4px;">OTP verification required · Tap "Not Available" if no mobile</div>
         <div style="margin-top:6px;display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="this.querySelector('input').checked=!this.querySelector('input').checked">
           <input type="checkbox" style="width:14px;height:14px;accent-color:var(--navy);">
@@ -4234,16 +4367,16 @@
       <!-- Age -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Age (Years)</div>
-        <input type="number" min="0" max="120" placeholder="e.g. 35" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <input id="hhHeadAge" type="number" min="0" max="120" placeholder="e.g. 35" style="width:100%;padding:10px 12px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
       </div>
 
       <!-- Gender -->
       <div style="margin-bottom:12px;">
         <div style="font-size:11px;font-weight:700;color:#6B7280;margin-bottom:5px;">Gender <span style="color:#EF4444;">*</span></div>
         <div style="display:flex;gap:8px;">
-          <div onclick="selectRadio(this,'gender')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Male</div>
-          <div onclick="selectRadio(this,'gender')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Female</div>
-          <div onclick="selectRadio(this,'gender')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Third Gender</div>
+          <div onclick="selectRadio(this,'gender');setHHHeadGender('Male')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Male</div>
+          <div onclick="selectRadio(this,'gender');setHHHeadGender('Female')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Female</div>
+          <div onclick="selectRadio(this,'gender');setHHHeadGender('Third Gender')" data-group="gender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Third Gender</div>
         </div>
       </div>
 
@@ -4268,18 +4401,193 @@
       </div>
 
       <!-- Submit -->
-      <button onclick="submitCreateHousehold()" style="width:100%;background:var(--navy);color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;">
+      <button onclick="submitCreateHousehold()" style="width:100%;background:var(--navy);color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
         <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         Create Household
       </button>
-      <button onclick="closeCreateHousehold()" style="width:100%;background:white;color:#6B7280;border:1.5px solid #E5E7EB;border-radius:12px;padding:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Cancel</button>
 
     </div>
   </div>
-  <!-- ════════ END CREATE HOUSEHOLD SHEET ════════ -->
+  <!-- ═══════════════════════════════════════════════════ -->
 
   <!-- ═══════════════════════════════════════════════════ -->
-  <!-- SCREEN 20: CHILD IMMUNISATION — Rahim Hossain, 6yr  -->
+  <!-- SCREEN 28: HOUSEHOLD CREATED + MEMBERS LIST          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s28">
+    <div class="statusbar" style="background:#059669;"><span>10:18</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#059669;">
+      <div class="header-title">✓ Household Created</div>
+      <div class="header-sub" id="hhCreatedSub">HH-2024-0047 · Char Bhadra</div>
+    </div>
+
+    <div class="body" style="padding:16px 14px 28px;">
+
+      <!-- Household summary card -->
+      <div style="background:white;border-radius:14px;border:1.5px solid #E5E7EB;padding:14px;margin-bottom:18px;">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Household Details</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div><div style="font-size:10px;color:#9CA3AF;font-weight:600;">Household No.</div><div id="hhSummaryNumber" style="font-size:13px;font-weight:800;color:var(--navy);margin-top:2px;">HH-2024-0047</div></div>
+          <div><div style="font-size:10px;color:#9CA3AF;font-weight:600;">House No.</div><div id="hhSummaryHouseNo" style="font-size:13px;font-weight:800;color:var(--text);margin-top:2px;">—</div></div>
+          <div><div style="font-size:10px;color:#9CA3AF;font-weight:600;">Village</div><div id="hhSummaryVillage" style="font-size:13px;font-weight:800;color:var(--text);margin-top:2px;">—</div></div>
+          <div><div style="font-size:10px;color:#9CA3AF;font-weight:600;">Total Members</div><div id="hhSummaryTotal" style="font-size:13px;font-weight:800;color:var(--text);margin-top:2px;">—</div></div>
+        </div>
+      </div>
+
+      <!-- Members list -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:12px;font-weight:800;color:var(--navy);">👪 Household Members</div>
+        <div id="hhMemberCount" style="font-size:10px;font-weight:700;color:#6B63D4;background:#EEF0FF;padding:3px 9px;border-radius:20px;">1 added</div>
+      </div>
+
+      <div id="hhMembersList" style="display:flex;flex-direction:column;gap:9px;margin-bottom:14px;">
+        <!-- Head of household — first member card, populated by JS -->
+        <div id="hhHeadMemberCard" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;background:#EEF0FF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👤</div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div id="hhHeadCardName" style="font-size:13px;font-weight:800;color:var(--text);">—</div>
+              <span style="font-size:9px;font-weight:700;background:#FEF3C7;color:#92400E;padding:2px 7px;border-radius:5px;">Head</span>
+            </div>
+            <div id="hhHeadCardMeta" style="font-size:11px;color:var(--muted);margin-top:1px;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add member button -->
+      <button onclick="openMemberRegistration()" style="width:100%;background:white;border:1.5px dashed var(--navy);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:inherit;margin-bottom:18px;">
+        <svg width="16" height="16" fill="var(--navy)" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <div style="font-size:13px;font-weight:800;color:var(--navy);">Add Member</div>
+      </button>
+
+      <button class="pink-btn" onclick="finishHouseholdRegistration()" style="background:var(--navy);">
+        Save
+      </button>
+
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 29: ADD HOUSEHOLD MEMBER                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s29">
+    <div class="statusbar"><span>10:21</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header">
+      <button class="back-btn" onclick="go('s28')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
+      <div class="header-title">Add Member</div>
+      <div class="header-sub" id="memberRegoHHSub">Adding to HH-2024-0047</div>
+    </div>
+
+    <div class="body" style="padding:16px 14px 28px;">
+
+      <!-- Q1: National ID -->
+      <div id="memberNIDSection" style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">1. National ID <span style="color:#EF4444;">*</span></div>
+        <button onclick="scanMemberNID()" style="width:100%;background:linear-gradient(135deg,#3D3599,#6B63D4);color:white;border:none;border-radius:10px;padding:11px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M4 4h4V2H2v6h2V4zm14 0v4h2V2h-6v2h4zM4 18v-4H2v6h6v-2H4zm16-4v4h-4v2h6v-6h-2z"/></svg>
+          Scan NID to auto-fill (Q1–4)
+        </button>
+        <div id="memberNIDScanned" style="display:none;margin-top:8px;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:9px;padding:8px 11px;font-size:11px;color:#065F46;font-weight:600;">✓ NID scanned · Name, DOB, Gender auto-filled below</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px;">If member is under 18 and has no NID, enter Birth Registration ID instead:</div>
+        <input type="text" placeholder="Birth Registration ID (if applicable)" style="width:100%;margin-top:6px;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <!-- Q2: Name -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">2. Name <span style="color:#EF4444;">*</span></div>
+        <input id="memberName" type="text" placeholder="Full name" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <!-- Q3: DOB -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">3. Date of Birth <span style="color:#EF4444;">*</span></div>
+        <input id="memberDOB" type="date" onchange="calcMemberAgeFromDOB()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <div style="font-size:10px;color:var(--muted);margin-top:4px;">If exact DOB is unknown, leave blank and enter approximate age below</div>
+      </div>
+
+      <!-- Q3b: Approximate Age (Years) -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">Approximate Age (Years)</div>
+        <input id="memberAgeYears" type="number" min="0" max="120" placeholder="If DOB not known" oninput="handleMemberAgeYearsChange()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <!-- Q3c: Approximate Age (Months) — shown only if age <= 2 -->
+      <div id="memberAgeMonthsSection" style="display:none;margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">Approximate Age (Months) <span style="font-size:10px;font-weight:500;color:var(--muted);">for children ≤2 yrs</span></div>
+        <input id="memberAgeMonths" type="number" min="0" max="35" placeholder="e.g. 18" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <!-- Q4: Gender -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">4. Gender <span style="color:#EF4444;">*</span></div>
+        <div style="display:flex;gap:8px;">
+          <div onclick="selectRadio(this,'memgender')" data-group="memgender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Male</div>
+          <div onclick="selectRadio(this,'memgender')" data-group="memgender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Female</div>
+          <div onclick="selectRadio(this,'memgender')" data-group="memgender" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Other</div>
+        </div>
+      </div>
+
+      <!-- Q5: Guardian Name — shown only if age <= 2 -->
+      <div id="memberGuardianSection" style="display:none;margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">5. Guardian Name <span style="color:#EF4444;">*</span></div>
+        <select id="memberGuardianSelect" onchange="handleGuardianSelectChange()" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+          <option value="">Select from household members…</option>
+          <option id="guardianHeadOption">—</option>
+          <option value="__new__">+ Register a new guardian</option>
+        </select>
+        <!-- inline guardian registration — shown only if guardian not in list -->
+        <div id="memberNewGuardianFields" style="display:none;margin-top:10px;background:#FFFBEB;border-radius:10px;padding:11px;">
+          <div style="font-size:11px;font-weight:700;color:#92400E;margin-bottom:7px;">Register new guardian</div>
+          <input type="text" placeholder="Guardian's full name" style="width:100%;padding:8px 10px;border:1.5px solid #FCD34D;border-radius:8px;font-family:inherit;font-size:12.5px;color:var(--text);outline:none;background:white;margin-bottom:8px;">
+          <input type="tel" placeholder="Guardian's mobile number" style="width:100%;padding:8px 10px;border:1.5px solid #FCD34D;border-radius:8px;font-family:inherit;font-size:12.5px;color:var(--text);outline:none;background:white;">
+        </div>
+      </div>
+
+      <!-- Q6: Marital Status -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">6. Marital Status</div>
+        <select style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+          <option value="">Select status</option>
+          <option value="1">Married</option>
+          <option value="2">Single (Separated / Divorced / Partner deceased)</option>
+          <option value="3">Unmarried</option>
+        </select>
+      </div>
+
+      <!-- Q7: Disability -->
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">7. Disability <span style="color:#EF4444;">*</span></div>
+        <div style="display:flex;gap:8px;">
+          <div onclick="selectRadio(this,'memdis')" data-group="memdis" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Present</div>
+          <div onclick="selectRadio(this,'memdis')" data-group="memdis" style="flex:1;padding:9px;border-radius:10px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Absent</div>
+        </div>
+      </div>
+
+      <!-- Q8: Mobile Number -->
+      <div style="margin-bottom:14px;">
+        <div id="memberMobileLabel" style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">8. Mobile Number</div>
+        <input type="tel" placeholder="+880 17XX XXXXXX" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+        <div style="font-size:10px;color:#9CA3AF;margin-top:4px;">OTP verification required · Tap "Not Available" if no mobile</div>
+        <div style="margin-top:6px;display:flex;align-items:center;gap:6px;cursor:pointer;" onclick="this.querySelector('input').checked=!this.querySelector('input').checked">
+          <input type="checkbox" style="width:14px;height:14px;accent-color:var(--navy);">
+          <span style="font-size:11px;color:var(--muted);font-weight:600;">Not Available</span>
+        </div>
+      </div>
+
+      <!-- Q9: Village Name — external members only -->
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">9. Village Name <span style="font-size:10px;font-weight:500;color:var(--muted);">(গ্রামের নাম · only if external member)</span></div>
+        <input type="text" placeholder="Leave blank if living in this household's village" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <button class="pink-btn" onclick="saveHouseholdMember()" style="background:var(--navy);">
+        Save Member →
+      </button>
+
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
+
   <!-- ═══════════════════════════════════════════════════ -->
   <div class="screen" id="s20">
     <div class="statusbar" style="background:#831843;"><span>10:22</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
@@ -4291,7 +4599,7 @@
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div>
           <div class="header-title">Rahim Hossain</div>
-          <div class="header-sub">Age 6 · Male · House #13, Char Bhadra</div>
+          <div class="header-sub">Age 2 · Male · House #13, Char Bhadra</div>
         </div>
       </div>
     </div>
@@ -4302,7 +4610,7 @@
       <!-- Overdue alert -->
       <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 10px 10px 0;padding:9px 12px;margin-bottom:20px;display:flex;gap:8px;align-items:flex-start;">
         <svg width="14" height="14" fill="#EF4444" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-        <div style="font-size:11px;color:#991B1B;line-height:1.5;"><strong>2 vaccines overdue · Action needed today.</strong> MR Dose 2 is 3 weeks past due.</div>
+        <div style="font-size:11px;color:#991B1B;line-height:1.5;"><strong>3 vaccines overdue · Action needed today.</strong> 16–24 month boosters (MR, DPT, OPV) are due now.</div>
       </div>
 
       <!-- TIMELINE — label | dot | vaccines (no boxes) -->
@@ -4448,71 +4756,72 @@
           </div>
         </div>
 
-        <!-- ═══ 16–24 MONTHS — COMPLETED ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
+        <!-- ═══ 16–24 MONTHS — OVERDUE (current age window) ═══ -->
+        <div id="imm-1624-row" style="display:flex;align-items:flex-start;margin-bottom:20px;">
           <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#059669;white-space:nowrap;">16–24 Mo</div>
+            <div id="imm-1624-label" style="font-size:8.5px;font-weight:800;color:#EF4444;white-space:nowrap;">16–24 Mo</div>
           </div>
           <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#059669;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #059669;display:flex;align-items:center;justify-content:center;">
-              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-          </div>
-          <div style="flex:1;padding-left:8px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#1a1a2e;">16–24 Months</div>
-              <div style="font-size:9px;font-weight:700;color:#059669;">✓ Completed</div>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">MR Booster</div></div>
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">DPT Booster · OPV Booster</div></div>
-              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#374151;">Vitamin A</div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ 5 YEARS — OVERDUE ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:20px;">
-          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#EF4444;white-space:nowrap;">5 Years</div>
-          </div>
-          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#EF4444;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #EF4444;display:flex;align-items:center;justify-content:center;animation:blink 1.4s infinite;">
+            <div id="imm-1624-dot" style="width:18px;height:18px;border-radius:50%;background:#EF4444;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #EF4444;display:flex;align-items:center;justify-content:center;animation:blink 1.4s infinite;">
               <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
             </div>
           </div>
           <div style="flex:1;padding-left:8px;cursor:pointer;" onclick="openImmModal()">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#991B1B;">5 Years</div>
-              <div style="font-size:9px;font-weight:800;background:#EF4444;color:white;padding:2px 8px;border-radius:10px;">Update status →</div>
+              <div id="imm-1624-title" style="font-size:12px;font-weight:800;color:#991B1B;">16–24 Months</div>
+              <div id="imm-1624-badge" style="font-size:9px;font-weight:800;background:#EF4444;color:white;padding:2px 8px;border-radius:10px;">Update status →</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
+            <div id="imm-1624-vaccines" style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div style="font-size:12px;color:#991B1B;font-weight:600;">MR Booster</div></div>
               <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster · OPV Booster</div></div>
+              <div style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#EF4444;flex-shrink:0;animation:blink .8s infinite;display:inline-block;"></span><div style="font-size:12px;color:#991B1B;font-weight:600;">Vitamin A</div></div>
             </div>
-            <div style="font-size:9px;color:#EF4444;margin-top:4px;">Was due: Jun 2024 · 2 years overdue</div>
+            <div id="imm-1624-sub" style="font-size:9px;color:#EF4444;margin-top:4px;">Due now · Rahim is 2 years old</div>
           </div>
         </div>
 
-        <!-- ═══ 10 YEARS — UPCOMING ═══ -->
-        <div style="display:flex;align-items:flex-start;margin-bottom:8px;">
+        <!-- ═══ 5 YEARS — NOT YET DUE (future, locked) ═══ -->
+        <div style="display:flex;align-items:flex-start;margin-bottom:20px;opacity:0.5;">
           <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
-            <div style="font-size:8.5px;font-weight:800;color:#3B82F6;white-space:nowrap;">10 Years</div>
+            <div style="font-size:8.5px;font-weight:800;color:#9CA3AF;white-space:nowrap;">5 Years</div>
           </div>
           <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
-            <div style="width:18px;height:18px;border-radius:50%;background:#3B82F6;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #3B82F6;display:flex;align-items:center;justify-content:center;">
-              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v5.67l3.97 2.38.53-.88-3.5-2.1V7z"/></svg>
+            <div style="width:18px;height:18px;border-radius:50%;background:#D1D5DB;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #D1D5DB;display:flex;align-items:center;justify-content:center;">
+              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 2C10.34 2 9 3.34 9 5v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-2V5c0-1.66-1.34-3-3-3zm0 2c.55 0 1 .45 1 1v2h-2V5c0-.55.45-1 1-1z"/></svg>
             </div>
           </div>
           <div style="flex:1;padding-left:8px;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-              <div style="font-size:12px;font-weight:800;color:#1E40AF;">10 Years</div>
-              <div style="font-size:9px;font-weight:700;color:#3B82F6;">⏱ Upcoming</div>
+              <div style="font-size:12px;font-weight:800;color:#6B7280;">5 Years</div>
+              <div style="font-size:9px;font-weight:700;color:#9CA3AF;">🔒 Not yet due</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#D1D5DB;flex-shrink:0;"></div><div style="font-size:12px;color:#9CA3AF;">DPT Booster · OPV Booster</div></div>
+            </div>
+            <div style="font-size:9px;color:#9CA3AF;margin-top:4px;">Due: ~2029 · in 3 years</div>
+          </div>
+        </div>
+
+        <!-- ═══ 10 YEARS — NOT YET DUE (future, locked) ═══ -->
+        <div style="display:flex;align-items:flex-start;margin-bottom:8px;opacity:0.5;">
+          <div style="width:68px;flex-shrink:0;padding-top:3px;text-align:right;padding-right:8px;">
+            <div style="font-size:8.5px;font-weight:800;color:#9CA3AF;white-space:nowrap;">10 Years</div>
+          </div>
+          <div style="width:24px;flex-shrink:0;display:flex;justify-content:center;padding-top:1px;z-index:2;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#D1D5DB;border:2px solid #F0F2F8;box-shadow:0 0 0 2px #D1D5DB;display:flex;align-items:center;justify-content:center;">
+              <svg width="8" height="8" fill="white" viewBox="0 0 24 24"><path d="M12 2C10.34 2 9 3.34 9 5v2H7c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2h-2V5c0-1.66-1.34-3-3-3zm0 2c.55 0 1 .45 1 1v2h-2V5c0-.55.45-1 1-1z"/></svg>
+            </div>
+          </div>
+          <div style="flex:1;padding-left:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+              <div style="font-size:12px;font-weight:800;color:#6B7280;">10 Years</div>
+              <div style="font-size:9px;font-weight:700;color:#9CA3AF;">🔒 Not yet due</div>
             </div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div style="width:4px;height:4px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
-              <div style="font-size:12px;color:#1E40AF;">Td (Tetanus-Diphtheria)</div>
+              <div style="width:4px;height:4px;border-radius:50%;background:#D1D5DB;flex-shrink:0;"></div>
+              <div style="font-size:12px;color:#9CA3AF;">Td (Tetanus-Diphtheria)</div>
             </div>
-            <div style="font-size:9px;color:#3B82F6;margin-top:4px;">Due: Jun 2029 · ~3 years away</div>
+            <div style="font-size:9px;color:#9CA3AF;margin-top:4px;">Due: ~2034 · in 8 years</div>
           </div>
         </div>
 
@@ -4535,15 +4844,15 @@
         <!-- header -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <div>
-            <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#1a1a2e;">15 Months Vaccines</div>
-            <div style="font-size:11px;color:#6B7280;margin-top:2px;">Rahim Hossain · Age 6 · House #13</div>
+            <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#1a1a2e;">16–24 Months Vaccines</div>
+            <div style="font-size:11px;color:#6B7280;margin-top:2px;">Rahim Hossain · Age 2 · House #13</div>
           </div>
           <button onclick="closeImmModal()" style="background:#F3F4F6;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;color:#6B7280;display:flex;align-items:center;justify-content:center;">✕</button>
         </div>
 
         <!-- current status banner -->
         <div id="immModalStatus" style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 10px 10px 0;padding:9px 12px;margin-bottom:16px;">
-          <div style="font-size:11px;font-weight:700;color:#991B1B;">⚠ Status: Overdue · 3 weeks past due</div>
+          <div style="font-size:11px;font-weight:700;color:#991B1B;">⚠ Status: Due now · Rahim is in the 16–24 month window</div>
         </div>
 
         <!-- vaccine details -->
@@ -4551,12 +4860,16 @@
           <div style="font-size:11px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Vaccines due at this milestone</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="background:#F9FAFB;border-radius:10px;padding:10px 12px;">
-              <div style="font-size:13px;font-weight:700;color:#1a1a2e;">MR Vaccine · Dose 2</div>
+              <div style="font-size:13px;font-weight:700;color:#1a1a2e;">MR Booster</div>
               <div style="font-size:11px;color:#6B7280;margin-top:2px;">Measles &amp; Rubella · 0.5 ml · Right upper arm · SC</div>
             </div>
             <div style="background:#F9FAFB;border-radius:10px;padding:10px 12px;">
-              <div style="font-size:13px;font-weight:700;color:#1a1a2e;">IPV (Fractional) · Dose 2</div>
-              <div style="font-size:11px;color:#6B7280;margin-top:2px;">Polio · 0.1 ml · Right upper arm · Intradermal</div>
+              <div style="font-size:13px;font-weight:700;color:#1a1a2e;">DPT Booster · OPV Booster</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:2px;">Diphtheria, Pertussis, Tetanus, Polio · IM / Oral</div>
+            </div>
+            <div style="background:#F9FAFB;border-radius:10px;padding:10px 12px;">
+              <div style="font-size:13px;font-weight:700;color:#1a1a2e;">Vitamin A</div>
+              <div style="font-size:11px;color:#6B7280;margin-top:2px;">Supplementation · Oral dose</div>
             </div>
           </div>
         </div>
@@ -4673,110 +4986,6 @@
   </div>
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- ═══════════════════════════════════════════════════ -->
-  <!-- SCREEN 22: IMMUNISATION SUMMARY + AI COUNSELLING    -->
-  <!-- ═══════════════════════════════════════════════════ -->
-  <div class="screen" id="s22">
-    <div class="statusbar" style="background:#831843;"><span>10:45</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-
-    <div class="header" style="background:#831843;">
-      <button class="back-btn" onclick="go('s20')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
-        <div>
-          <div class="header-title">Immunisation Summary</div>
-          <div class="header-sub">Rahim Hossain · Age 6 · Char Bhadra</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="body" style="padding:16px 14px 28px;">
-
-      <!-- Status bar -->
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
-        <div style="flex:1;background:#ECFDF5;border-radius:10px;padding:10px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#059669;">12</div>
-          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Completed</div>
-        </div>
-        <div style="flex:1;background:#FEF2F2;border-radius:10px;padding:10px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#EF4444;">2</div>
-          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Overdue</div>
-        </div>
-        <div style="flex:1;background:#EFF6FF;border-radius:10px;padding:10px;text-align:center;">
-          <div style="font-size:18px;font-weight:800;color:#3B82F6;">1</div>
-          <div style="font-size:10px;color:#6B7280;margin-top:1px;">Upcoming</div>
-        </div>
-      </div>
-
-      <!-- AI Counselling card -->
-      <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:16px;padding:16px;margin-bottom:16px;color:white;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div style="font-size:12px;font-weight:800;">AI Counselling Note</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-left:auto;">For Rahim's family</div>
-        </div>
-
-        <div style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:12px;">
-          Rahim has received most of his scheduled vaccines well. However, <strong style="color:#FCA5A5;">DPT Booster and OPV Booster due at age 5 (Jun 2024) have not been given</strong>. These protect against diphtheria, tetanus, whooping cough, and polio. At age 6, it is still safe and important to give these now.
-        </div>
-
-        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;margin-bottom:10px;">
-          <div style="font-size:11px;font-weight:700;color:#FDE68A;margin-bottom:4px;">⚠ Why this matters</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.6;">Booster doses top up protection that earlier vaccines gave. Without them, immunity can weaken over time. Rahim is at school and exposed to more infections — please bring him to the nearest EPI centre this week. Both overdue vaccines can be given in one visit.</div>
-        </div>
-
-        <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
-          <div style="font-size:11px;font-weight:700;color:#93C5FD;margin-bottom:4px;">📅 Next scheduled vaccine</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.8);">Td (Tetanus-Diphtheria) at age 10 · Due: June 2029</div>
-        </div>
-      </div>
-
-      <!-- Overdue vaccines -->
-      <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:16px;">
-        <div style="font-size:12px;font-weight:800;color:#991B1B;margin-bottom:8px;">🔴 Overdue vaccines — action needed</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
-            <div style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster (5yr)</div>
-            <div style="font-size:10px;color:#B91C1C;margin-left:auto;white-space:nowrap;">Due: 20 Jun 2024</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="width:6px;height:6px;border-radius:50%;background:#EF4444;flex-shrink:0;"></div>
-            <div style="font-size:12px;color:#991B1B;font-weight:600;">OPV Booster (5yr)</div>
-            <div style="font-size:10px;color:#B91C1C;margin-left:auto;white-space:nowrap;">Due: 20 Jun 2024</div>
-          </div>
-        </div>
-        <div style="font-size:11px;color:#EF4444;margin-top:8px;font-weight:600;">✓ Both can be given in one EPI centre visit today</div>
-      </div>
-
-      <!-- Upcoming vaccine -->
-      <div style="background:#EFF6FF;border-left:3px solid #3B82F6;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:800;color:#1E40AF;margin-bottom:6px;">🔵 Next upcoming vaccine</div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="width:6px;height:6px;border-radius:50%;background:#3B82F6;flex-shrink:0;"></div>
-          <div style="font-size:12px;color:#1E40AF;font-weight:600;">Td (Tetanus-Diphtheria)</div>
-          <div style="font-size:10px;color:#3B82F6;margin-left:auto;white-space:nowrap;">Due: Jun 2029</div>
-        </div>
-      </div>
-
-      <!-- WhatsApp draft + send -->
-      <button onclick="openWADraft()" style="width:100%;background:#25D366;color:white;border:none;border-radius:12px;padding:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Preview &amp; Send via WhatsApp
-      </button>
-
-      <!-- Done button -->
-      <button onclick="go('s2')" style="width:100%;background:white;color:var(--navy);border:1.5px solid var(--navy);border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
-        ← Back to dashboard
-      </button>
-
-    </div>
-
-    <!-- WhatsApp Draft Modal -->
-
-  </div>
-  <!-- ═══════════════════════════════════════════════════ -->
   <!-- ═══════════════════════════════════════════════════ -->
   <!-- SCREEN 23: RAHIM — HOW ARE YOU FEELING TODAY        -->
   <!-- ═══════════════════════════════════════════════════ -->
@@ -4788,12 +4997,36 @@
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div>
           <div class="header-title">Rahim Hossain</div>
-          <div class="header-sub">Age 6 · House #13 · Char Bhadra</div>
+          <div class="header-sub">Age 2 · House #13 · Char Bhadra</div>
         </div>
       </div>
     </div>
 
     <div class="body" style="padding:16px 14px 28px;">
+
+      <!-- BEFORE YOU KNOCK -->
+      <div style="background:#F8F9FA;border:1px solid #E5E7EB;border-radius:14px;padding:12px 14px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleBriefRahim()">
+          <div style="display:flex;align-items:center;gap:7px;">
+            <div style="width:28px;height:28px;background:#1B2B5E;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+            <div style="font-size:12px;font-weight:800;color:var(--navy);">Before you knock · AI brief</div>
+          </div>
+          <span id="briefRahimChevron" style="font-size:14px;color:var(--muted);">▾</span>
+        </div>
+        <div id="briefRahimContent" style="margin-top:8px;">
+          <div style="background:#FFFBEB;border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:12px;color:#92400E;font-weight:600;line-height:1.5;">👶 Rahim · Age 2 · Child immunisation due · 2 vaccines overdue at last check</div>
+          <div style="font-size:11px;color:#6B7280;font-weight:600;margin-bottom:5px;">Also cover while you're here:</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;"><span style="font-size:11px;background:#FEF3C7;color:#92400E;padding:3px 9px;border-radius:10px;font-weight:600;">Growth check · Vitamin A 💊</span></div>
+        </div>
+      </div>
+
+      <!-- GREET WARMLY -->
+      <div style="background:#1B2B5E;border-radius:16px;padding:16px;margin-bottom:14px;">
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">👋 Sit with him — greet warmly</div>
+        <div style="font-size:15px;font-weight:700;color:white;line-height:1.6;">"আপু, রহিম কেমন আছে?<br>ও খাওয়া-দাওয়া ঠিকমতো করছে তো?"</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px;">"Sister, how is Rahim? Is he eating well?"</div>
+        <div style="margin-top:10px;background:rgba(255,255,255,0.12);border-radius:10px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,0.85);">💡 Build rapport with the mother first — ask about sleep, appetite, and play before checking on symptoms</div>
+      </div>
 
       <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">How is he feeling today? 🎙️</div>
 
@@ -4830,6 +5063,110 @@
         <div id="rahimSympCards" style="display:flex;flex-direction:column;gap:7px;"></div>
       </div>
 
+      <!-- Child Assessment Questions — revealed once a symptom is added -->
+      <div id="rahimAssessmentSection" style="display:none;background:#F8F9FC;border-radius:14px;padding:14px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:14px;">📋 Child Assessment</div>
+
+        <!-- Q6: Congenital defect -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">6. Does the child have any congenital defect? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'congenital')" data-group="congenital" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'congenital')" data-group="congenital" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q7: Weight -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">7. Weight <span style="color:#EF4444;">*</span></div>
+          <div style="position:relative;">
+            <input type="number" step="0.1" id="rahimWeight" placeholder="e.g. 11.5" style="width:100%;padding:9px 40px 9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);font-weight:600;">kg</span>
+          </div>
+        </div>
+
+        <!-- Q8: Breastfeeding -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">8. Is the child breastfeeding? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'breastfeed')" data-group="breastfeed" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'breastfeed')" data-group="breastfeed" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q9: Additional food in past 24h -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">9. In the past 24 hours, was the child given additional food? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'addfood')" data-group="addfood" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'addfood')" data-group="addfood" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q10: Received vaccines -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">10. Has the child received vaccines? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'vaccrecv')" data-group="vaccrecv" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'vaccrecv')" data-group="vaccrecv" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q11: Deworming -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">11. Has the child taken deworming medicine? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'deworm')" data-group="deworm" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'deworm')" data-group="deworm" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q12: Any illness/complications -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">12. Any Illness/Complications? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'illness')" data-group="illness" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'illness')" data-group="illness" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q13: Complication specifics — shown only if Q12 = Yes -->
+        <div id="rahimComplicationSection" style="display:none;margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">13. If any complication, specify <span style="color:#EF4444;">*</span></div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:7px;">Select all that apply</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <div onclick="toggleRahimChip(this)" data-group="complication" style="padding:7px 11px;border-radius:9px;border:1.5px solid #E5E7EB;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Diarrhea</div>
+            <div onclick="toggleRahimChip(this)" data-group="complication" style="padding:7px 11px;border-radius:9px;border:1.5px solid #E5E7EB;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Pneumonia</div>
+            <div onclick="toggleRahimChip(this)" data-group="complication" style="padding:7px 11px;border-radius:9px;border:1.5px solid #E5E7EB;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Cannot stand or walk</div>
+            <div onclick="toggleRahimChip(this)" data-group="complication" style="padding:7px 11px;border-radius:9px;border:1.5px solid #E5E7EB;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Cannot maintain body balance</div>
+            <div onclick="toggleRahimChip(this)" data-group="complication" style="padding:7px 11px;border-radius:9px;border:1.5px solid #E5E7EB;font-size:11.5px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Cannot speak two meaningful words</div>
+          </div>
+        </div>
+
+        <!-- Q14: Referral made -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">14. Has referral been made? <span style="color:#EF4444;">*</span></div>
+          <div style="display:flex;gap:8px;">
+            <div onclick="selectRahimRadio(this,'referral')" data-group="referral" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">Yes</div>
+            <div onclick="selectRahimRadio(this,'referral')" data-group="referral" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #E5E7EB;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;background:white;">No</div>
+          </div>
+        </div>
+
+        <!-- Q15: Referral place — shown only if Q14 = Yes -->
+        <div id="rahimReferralPlaceSection" style="display:none;">
+          <div style="font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:6px;">15. Referral place <span style="color:#EF4444;">*</span></div>
+          <select id="rahimReferralPlace" style="width:100%;padding:9px 11px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+            <option value="">Select…</option>
+            <option>Medical College Hospital</option>
+            <option>Government Hospital</option>
+            <option>Upazila Health Complex</option>
+            <option>Private Hospital/Clinic</option>
+            <option>Health &amp; Family Welfare Center</option>
+            <option>Community Clinic</option>
+          </select>
+        </div>
+      </div>
+
       <!-- Proceed button -->
       <button class="pink-btn" onclick="go('s20')" style="background:#B45309;">
         💉 Vaccination →
@@ -4851,7 +5188,7 @@
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div>
           <div class="header-title">Visit Summary</div>
-          <div class="header-sub">Rahim Hossain · Age 6 · House #13</div>
+          <div class="header-sub">Rahim Hossain · Age 2 · House #13</div>
         </div>
       </div>
     </div>
@@ -4866,7 +5203,7 @@
           <div style="font-size:11px;color:var(--muted);margin-top:2px;">SK Jahnara Begum · Char Bhadra</div>
         </div>
         <div style="background:#ECFDF5;border-radius:10px;padding:6px 10px;text-align:center;">
-          <div style="font-size:18px;font-weight:900;color:#059669;">6</div>
+          <div style="font-size:18px;font-weight:900;color:#059669;">2</div>
           <div style="font-size:9px;color:#059669;font-weight:700;">yrs old</div>
         </div>
       </div>
@@ -4880,21 +5217,21 @@
           <div style="font-size:12px;font-weight:800;color:white;">AI Counselling · Rahim's family</div>
         </div>
         <div style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:12px;">
-          Rahim is 6 years old with a mostly complete immunisation record. <strong style="color:#FCA5A5;">DPT &amp; OPV boosters (age 5) are overdue</strong> — critical for school-age protection.
+          Rahim is 2 years old and on track so far. <strong style="color:#FCA5A5;">MR, DPT &amp; OPV boosters (16–24 month window) are due now</strong> — these are key to keeping his early protection strong.
         </div>
         <!-- Insight boxes -->
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
             <div style="font-size:11px;font-weight:700;color:#FDE68A;margin-bottom:3px;">💡 Did you know</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Missing boosters at age 5 increases disease risk at school. This visit is the right time to catch up — both can be given in one EPI visit today.</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">These booster doses top up immunity from his earlier vaccines. At 2 years, toddlers are highly active and exposed to more germs — this is the ideal window to complete them.</div>
           </div>
           <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
             <div style="font-size:11px;font-weight:700;color:#93C5FD;margin-bottom:3px;">🎯 What to tell the family</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">No hospital needed — the nearest EPI centre can give both in under 5 minutes. Bring Rahim this week.</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">No hospital needed — the nearest EPI centre can give all three in one visit. Bring Rahim this week along with his Vitamin A dose.</div>
           </div>
           <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
             <div style="font-size:11px;font-weight:700;color:#6EE7B7;margin-bottom:3px;">📅 Mark your calendar</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Next vaccine: Td (Tetanus-Diphtheria) · Age 10 · June 2029. Save the date.</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Next milestone: 5-year booster (DPT &amp; OPV) — not due for another 3 years. No action needed until then.</div>
           </div>
         </div>
       </div>
@@ -4903,16 +5240,17 @@
       <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:14px;">
         <div style="font-size:12px;font-weight:800;color:#991B1B;margin-bottom:6px;">⚠ Action needed this week</div>
         <div style="display:flex;flex-direction:column;gap:5px;">
-          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster (5yr)</span><span style="font-size:10px;color:#B91C1C;">Due: 20 Jun 2024</span></div>
-          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">OPV Booster (5yr)</span><span style="font-size:10px;color:#B91C1C;">Due: 20 Jun 2024</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">MR Booster</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster · OPV Booster</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">Vitamin A</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
         </div>
-        <div style="font-size:11px;color:#EF4444;font-weight:600;margin-top:8px;">✓ Both can be given in one EPI visit today</div>
+        <div style="font-size:11px;color:#EF4444;font-weight:600;margin-top:8px;">✓ All three can be given in one EPI visit today</div>
       </div>
 
       <!-- Positive reinforcement -->
       <div style="background:#ECFDF5;border-left:3px solid #10B981;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:20px;">
         <div style="font-size:12px;font-weight:800;color:#065F46;margin-bottom:4px;">✅ Great progress so far</div>
-        <div style="font-size:11.5px;color:#059669;line-height:1.6;">Rahim has received 12 vaccines on time. His family has shown great commitment to his health. Catching these 2 missed doses will complete his childhood immunity.</div>
+        <div style="font-size:11.5px;color:#059669;line-height:1.6;">Rahim has received all 9 scheduled vaccines on time up to 15 months. His family has shown great commitment to his health. Completing today's boosters keeps him fully protected.</div>
       </div>
 
       <!-- WhatsApp -->
@@ -4926,8 +5264,99 @@
   </div>
   <!-- ═══════════════════════════════════════════════════ -->
 
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SCREEN 26: SELECT HOUSEHOLD TO LINK                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="screen" id="s26" style="position:relative;">
+    <div class="statusbar"><span>10:12</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header">
+      <button class="back-btn" onclick="go('s2');document.getElementById('enrolSheet').classList.add('open');"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
+      <div class="header-title">Select Household</div>
+      <div class="header-sub">Choose the household to link this member to</div>
+    </div>
 
-  <!-- WhatsApp Draft Modal (global) -->
+    <div class="body" style="padding:14px 14px 90px;">
+
+      <!-- Search bar -->
+      <div style="position:relative;margin-bottom:14px;">
+        <svg width="16" height="16" fill="#9CA3AF" viewBox="0 0 24 24" style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input id="hhSelectorSearch" type="text" placeholder="Search by name, house number, or village…" oninput="filterHouseholdCards()" style="width:100%;padding:11px 14px 11px 38px;border:1.5px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:13px;color:var(--text);outline:none;background:white;">
+      </div>
+
+      <div id="hhSelectorCount" style="font-size:11px;color:var(--muted);margin-bottom:10px;">5 households in your catchment</div>
+
+      <!-- Household cards list -->
+      <div id="hhSelectorList" style="display:flex;flex-direction:column;gap:9px;">
+
+        <div class="hh-select-card" data-search="nasrin char bhadra house 07 hh-2024-0012" onclick="selectHouseholdCard(this,'HH-2024-0012')" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;position:relative;">
+          <div style="width:40px;height:40px;background:#FDF2F8;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Nasrin's family</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">HH-2024-0012 · House #07 · Char Bhadra</div>
+            <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">4 members</div>
+          </div>
+          <div class="hh-check" style="width:20px;height:20px;border-radius:50%;border:1.5px solid #D1D5DB;flex-shrink:0;"></div>
+        </div>
+
+        <div class="hh-select-card" data-search="karim bhadra house 21 hh-2024-0021" onclick="selectHouseholdCard(this,'HH-2024-0021')" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;position:relative;">
+          <div style="width:40px;height:40px;background:#FFFBEB;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Karim's family</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">HH-2024-0021 · House #21 · Bhadra</div>
+            <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">3 members</div>
+          </div>
+          <div class="hh-check" style="width:20px;height:20px;border-radius:50%;border:1.5px solid #D1D5DB;flex-shrink:0;"></div>
+        </div>
+
+        <div class="hh-select-card" data-search="saleha noyapara house 09 hh-2024-0009" onclick="selectHouseholdCard(this,'HH-2024-0009')" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;position:relative;">
+          <div style="width:40px;height:40px;background:#EEF2FF;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Saleha's family</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">HH-2024-0009 · House #09 · Noyapara</div>
+            <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">5 members</div>
+          </div>
+          <div class="hh-check" style="width:20px;height:20px;border-radius:50%;border:1.5px solid #D1D5DB;flex-shrink:0;"></div>
+        </div>
+
+        <div class="hh-select-card" data-search="rahim char bhadra house 13 hh-2024-0013" onclick="selectHouseholdCard(this,'HH-2024-0013')" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;position:relative;">
+          <div style="width:40px;height:40px;background:#FEF3C7;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Rahim's family</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">HH-2024-0013 · House #13 · Char Bhadra</div>
+            <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">4 members</div>
+          </div>
+          <div class="hh-check" style="width:20px;height:20px;border-radius:50%;border:1.5px solid #D1D5DB;flex-shrink:0;"></div>
+        </div>
+
+        <div class="hh-select-card" data-search="priya bhadra house 06 hh-2024-0006" onclick="selectHouseholdCard(this,'HH-2024-0006')" style="background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;position:relative;">
+          <div style="width:40px;height:40px;background:#ECFDF5;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Priya's family</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">HH-2024-0006 · House #06 · Bhadra</div>
+            <div style="font-size:10px;color:#9CA3AF;margin-top:2px;">3 members</div>
+          </div>
+          <div class="hh-check" style="width:20px;height:20px;border-radius:50%;border:1.5px solid #D1D5DB;flex-shrink:0;"></div>
+        </div>
+
+      </div>
+
+      <!-- No results state -->
+      <div id="hhSelectorEmpty" style="display:none;text-align:center;padding:40px 20px;color:var(--muted);">
+        <div style="font-size:32px;margin-bottom:10px;">🔍</div>
+        <div style="font-size:13px;font-weight:700;">No households found</div>
+        <div style="font-size:11px;margin-top:4px;">Try a different search term</div>
+      </div>
+
+    </div>
+
+    <!-- Sticky bottom action -->
+    <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #E5E7EB;padding:14px;">
+      <button id="hhSelectorConfirmBtn" onclick="confirmHouseholdLink()" disabled style="width:100%;background:#D1D5DB;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:not-allowed;">
+        Select a household to continue
+      </button>
+    </div>
+  </div>
+  <!-- ═══════════════════════════════════════════════════ -->
     <div id="waDraftModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;align-items:flex-end;justify-content:center;" onclick="closeWADraft()">
       <div style="background:white;border-radius:24px 24px 0 0;padding:20px 20px 32px;width:100%;max-width:390px;animation:slideUp .25s ease;max-height:85vh;overflow-y:auto;" onclick="event.stopPropagation()">
 
@@ -4948,15 +5377,16 @@
 
 This is a message from your Shasthya Kormi (SK Jahnara Begum).
 
-Rahim Hossain (Age 6, House #13, Char Bhadra) has the following overdue vaccines:
+Rahim Hossain (Age 2, House #13, Char Bhadra) has the following vaccines due now:
 
-❌ DPT Booster (5yr) — was due 20 Jun 2024
-❌ OPV Booster (5yr) — was due 20 Jun 2024
+❌ MR Booster — due now (16–24 months)
+❌ DPT Booster · OPV Booster — due now (16–24 months)
+❌ Vitamin A — due now (16–24 months)
 
-Both vaccines can be given in ONE visit to your nearest EPI centre. These protect Rahim from diphtheria, tetanus, whooping cough, and polio.
+All three can be given in ONE visit to your nearest EPI centre. These protect Rahim from measles, rubella, diphtheria, tetanus, whooping cough, and polio.
 
-📅 Next vaccine due:
-✅ Td (Tetanus-Diphtheria) — June 2029 (at age 10)
+📅 Next milestone:
+✅ 5-year booster (DPT &amp; OPV) — not due for another 3 years
 
 Please visit your nearest health centre at the earliest. For queries, contact your SK directly.
 
@@ -5022,7 +5452,7 @@ function markImmCompleted() {
   closeImmModal();
 
   // Update dot — green check
-  var dot = document.getElementById('imm-15m-dot');
+  var dot = document.getElementById('imm-1624-dot');
   if (dot) {
     dot.style.background = '#059669';
     dot.style.boxShadow = '0 0 0 2px #059669';
@@ -5031,15 +5461,15 @@ function markImmCompleted() {
   }
 
   // Update label colour
-  var lbl = document.getElementById('imm-15m-label');
+  var lbl = document.getElementById('imm-1624-label');
   if (lbl) { lbl.style.color = '#059669'; }
 
   // Update title colour
-  var ttl = document.getElementById('imm-15m-title');
+  var ttl = document.getElementById('imm-1624-title');
   if (ttl) { ttl.style.color = '#065F46'; }
 
   // Replace badge with completed chip
-  var badge = document.getElementById('imm-15m-badge');
+  var badge = document.getElementById('imm-1624-badge');
   if (badge) {
     badge.style.background = '#D1FAE5';
     badge.style.color = '#059669';
@@ -5048,32 +5478,27 @@ function markImmCompleted() {
     badge.onclick = null;
   }
 
-  // Update vaccine text colours to green
-  var mr2 = document.getElementById('imm-mr2-text');
-  if (mr2) { mr2.style.color = '#065F46'; mr2.style.fontWeight = '700'; }
-  var ipv = document.getElementById('imm-ipv-text');
-  if (ipv) { ipv.style.color = '#065F46'; ipv.style.fontWeight = '700'; }
-
-  // Remove blinking dots by replacing vaccines block
-  var vacc = document.getElementById('imm-15m-vaccines');
+  // Update vaccine text colours to green, remove blinking dots
+  var vacc = document.getElementById('imm-1624-vaccines');
   if (vacc) {
     vacc.innerHTML =
-      '<div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#065F46;font-weight:700;">MR Vaccine · Dose 2</div></div>' +
-      '<div style="display:flex;align-items:center;gap:6px;margin-top:4px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#065F46;font-weight:700;">IPV (Fractional)</div></div>';
+      '<div style="display:flex;align-items:center;gap:6px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#065F46;font-weight:700;">MR Booster</div></div>' +
+      '<div style="display:flex;align-items:center;gap:6px;margin-top:4px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#065F46;font-weight:700;">DPT Booster · OPV Booster</div></div>' +
+      '<div style="display:flex;align-items:center;gap:6px;margin-top:4px;"><div style="width:4px;height:4px;border-radius:50%;background:#059669;flex-shrink:0;"></div><div style="font-size:12px;color:#065F46;font-weight:700;">Vitamin A</div></div>';
   }
 
   // Remove overdue sub-text
-  var sub = document.getElementById('imm-15m-sub');
+  var sub = document.getElementById('imm-1624-sub');
   if (sub) sub.style.display = 'none';
 
   // Remove onclick from row
-  var row = document.getElementById('imm-15m-row');
+  var row = document.getElementById('imm-1624-row');
   if (row) { var content = row.querySelector('[onclick]'); if (content) content.removeAttribute('onclick'); }
 
   // Show toast
   var t = document.getElementById('immToast');
   if (t) {
-    t.textContent = '✓ 15-month vaccines recorded · Synced';
+    t.textContent = '✓ 16–24 month vaccines recorded · Synced';
     t.style.display = 'block';
     setTimeout(function(){ t.style.display = 'none'; }, 2500);
   }
@@ -5135,6 +5560,259 @@ function selectScreening(el, group, val) {
   }
 }
 
+// ── PW (Pregnant Woman) gating logic + multi-select services ──
+var pwSelected = false;
+var selectedServices = [];
+
+function updateContinueBtn() {
+  var btn = document.getElementById('svcContinueBtn');
+  if (!btn) return;
+  if (selectedServices.length === 0) {
+    btn.disabled = true;
+    btn.style.background = '#D1D5DB';
+    btn.style.cursor = 'not-allowed';
+    btn.textContent = 'Select a service to continue';
+  } else {
+    btn.disabled = false;
+    btn.style.background = '#EC4899';
+    btn.style.cursor = 'pointer';
+    var labels = { anc:'ANC', fp:'FP', general:'General', ncd:'NCD', tb:'TB' };
+    var names = selectedServices.map(function(s){ return labels[s] || s.toUpperCase(); });
+    btn.textContent = 'Continue with ' + names.join(' + ') + ' →';
+  }
+}
+
+function selectPW() {
+  pwSelected = !pwSelected;
+  var pwCard = document.getElementById('svcPW');
+  var pwCheck = document.getElementById('svcPWCheck');
+  var ancCard = document.getElementById('svcANC');
+  var hint = document.getElementById('ancHintText');
+
+  if (pwSelected) {
+    pwCard.style.background = '#EEF0FF';
+    pwCard.style.borderColor = '#6B63D4';
+    pwCheck.style.background = '#6B63D4';
+    pwCheck.style.borderColor = '#6B63D4';
+    pwCheck.innerHTML = '<svg width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+
+    // unlock ANC
+    ancCard.style.opacity = '1';
+    ancCard.style.cursor = 'pointer';
+    ancCard.setAttribute('data-locked', 'false');
+
+    hint.textContent = 'Tap to select services, then continue';
+  } else {
+    pwCard.style.background = 'white';
+    pwCard.style.borderColor = '#E5E7EB';
+    pwCheck.style.background = 'transparent';
+    pwCheck.style.borderColor = '#D1D5DB';
+    pwCheck.innerHTML = '';
+
+    // re-lock ANC and deselect it if it was selected
+    ancCard.style.opacity = '0.45';
+    ancCard.style.cursor = 'default';
+    ancCard.setAttribute('data-locked', 'true');
+    var ancIdx = selectedServices.indexOf('anc');
+    if (ancIdx > -1) {
+      selectedServices.splice(ancIdx, 1);
+      var ancCheck = ancCard.querySelector('.svc-check');
+      ancCheck.style.background = 'transparent';
+      ancCheck.style.borderColor = '#D1D5DB';
+      ancCheck.innerHTML = '';
+      ancCard.style.background = 'white';
+      ancCard.style.borderColor = '#E5E7EB';
+    }
+    updateContinueBtn();
+
+    hint.textContent = 'Select "PW" first to unlock ANC';
+  }
+}
+
+// ── ELIGIBLE SERVICES GRID (Priya) — multi-select, toggle on/off ──
+function toggleService(svc) {
+  var card = document.querySelector('[data-service="' + svc + '"]');
+  if (!card) return;
+
+  if (svc === 'anc' && !pwSelected) {
+    showToast('⚠ Select "Pregnant Woman" first to unlock ANC');
+    return;
+  }
+
+  var check = card.querySelector('.svc-check');
+  var idx = selectedServices.indexOf(svc);
+
+  if (idx > -1) {
+    // deselect
+    selectedServices.splice(idx, 1);
+    card.style.background = 'white';
+    card.style.borderColor = '#E5E7EB';
+    if (check) { check.style.background = 'transparent'; check.style.borderColor = '#D1D5DB'; check.innerHTML = ''; }
+  } else {
+    // select
+    selectedServices.push(svc);
+    card.style.background = '#FDF2F8';
+    card.style.borderColor = '#EC4899';
+    if (check) { check.style.background = '#EC4899'; check.style.borderColor = '#EC4899'; check.innerHTML = '<svg width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'; }
+  }
+  updateContinueBtn();
+}
+
+function confirmServiceSelection() {
+  if (selectedServices.length === 0) return;
+  if (selectedServices.indexOf('anc') > -1) {
+    aStep2(); // → go to ANC checkup step (vitals + pregnancy registration form)
+  } else {
+    var labels = { fp:'FP', general:'General', ncd:'NCD', tb:'TB' };
+    var names = selectedServices.map(function(s){ return labels[s] || s.toUpperCase(); });
+    showToast('Opening ' + names.join(' + ') + ' service flow…');
+  }
+}
+
+// ── PREGNANCY DETAILS & HISTORY FORM (s25) ──
+var pdState = { gravida: 0, parity: 0, living: 0 };
+
+function calcEDDandGA() {
+  var lmpInput = document.getElementById('pdLMP');
+  var eddEl = document.getElementById('pdEDD');
+  var gaEl = document.getElementById('pdGA');
+  var warning = document.getElementById('lmpEarlyWarning');
+  if (!lmpInput.value) return;
+
+  var lmp = new Date(lmpInput.value);
+  var today = new Date('2026-06-30'); // prototype "today"
+
+  // EDD = LMP + 280 days
+  var edd = new Date(lmp.getTime() + 280 * 24 * 60 * 60 * 1000);
+  var eddStr = edd.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  eddEl.textContent = eddStr;
+
+  // GA = (today - LMP) / 7, rounded down
+  var diffDays = Math.floor((today - lmp) / (24 * 60 * 60 * 1000));
+  var gaWeeks = Math.floor(diffDays / 7);
+
+  if (diffDays < 0) {
+    gaEl.textContent = '—';
+    warning.style.display = 'none';
+    return;
+  }
+
+  gaEl.textContent = gaWeeks + ' wks';
+
+  // Show warning if LMP < 6 weeks
+  if (gaWeeks < 6) {
+    warning.style.display = 'block';
+  } else {
+    warning.style.display = 'none';
+  }
+
+  updateRiskSummary();
+}
+
+function handleGravidaChange() {
+  var gravida = parseInt(document.getElementById('pdGravida').value) || 0;
+  pdState.gravida = gravida;
+  var paritySection = document.getElementById('pdParitySection');
+
+  if (gravida >= 2) {
+    paritySection.style.display = 'block';
+  } else {
+    paritySection.style.display = 'none';
+    // reset downstream
+    document.getElementById('pdParity').value = '';
+    document.getElementById('pdLivingSection').style.display = 'none';
+    document.getElementById('pdLastChildSection').style.display = 'none';
+    pdState.parity = 0;
+    pdState.living = 0;
+  }
+  updateRiskSummary();
+}
+
+function handleParityChange() {
+  var parity = parseInt(document.getElementById('pdParity').value) || 0;
+  pdState.parity = parity;
+  var livingSection = document.getElementById('pdLivingSection');
+
+  if (parity >= 1) {
+    livingSection.style.display = 'block';
+  } else {
+    livingSection.style.display = 'none';
+    document.getElementById('pdLiving').value = '';
+    document.getElementById('pdLastChildSection').style.display = 'none';
+    pdState.living = 0;
+  }
+  updateRiskSummary();
+}
+
+function handleLivingChange() {
+  var living = parseInt(document.getElementById('pdLiving').value) || 0;
+  pdState.living = living;
+  var lastChildSection = document.getElementById('pdLastChildSection');
+
+  if (living >= 1) {
+    lastChildSection.style.display = 'block';
+  } else {
+    lastChildSection.style.display = 'none';
+    document.getElementById('pdLastChildYrs').value = '';
+    document.getElementById('pdLastChildMo').value = '';
+  }
+  updateRiskSummary();
+}
+
+function updateRiskSummary() {
+  var riskBox = document.getElementById('pdRiskSummary');
+  var riskList = document.getElementById('pdRiskList');
+  var riskNone = document.getElementById('pdRiskNone');
+  riskList.innerHTML = '';
+
+  var risks = [];
+
+  // Risk 1: Age < 18 (Priya is 20, so not applicable — but logic included)
+  var patientAge = 20;
+  if (patientAge < 18) {
+    risks.push({ icon:'⚠', label:'Adolescent pregnancy', detail:'Age under 18 — higher risk of complications', color:'#FCA5A5' });
+  }
+  // Risk 2: Age > 35
+  if (patientAge > 35) {
+    risks.push({ icon:'⚠', label:'Advanced maternal age', detail:'Age over 35 — higher risk of complications', color:'#FCA5A5' });
+  }
+
+  // Risk 3: Short birth spacing < 2 years
+  var yrs = parseInt(document.getElementById('pdLastChildYrs').value);
+  var mo = parseInt(document.getElementById('pdLastChildMo').value);
+  if (!isNaN(yrs) || !isNaN(mo)) {
+    var totalMonths = (yrs || 0) * 12 + (mo || 0);
+    var errEl = document.getElementById('pdLastChildErr');
+    if (yrs === 0 && mo === 0) {
+      errEl.style.display = 'block';
+    } else {
+      errEl.style.display = 'none';
+      if (totalMonths > 0 && totalMonths < 24) {
+        risks.push({ icon:'⏱', label:'Short birth spacing', detail:'Last child is under 2 years old (' + (yrs||0) + 'y ' + (mo||0) + 'm) — increases risk this pregnancy', color:'#FDE68A' });
+      }
+    }
+  }
+
+  // Risk 4: Multipara > 3
+  if (pdState.parity > 3) {
+    risks.push({ icon:'👪', label:'Multiparity', detail:'4+ previous births — higher risk of complications', color:'#93C5FD' });
+  }
+
+  if (risks.length === 0) {
+    riskBox.style.display = 'block';
+    riskNone.style.display = 'block';
+  } else {
+    riskBox.style.display = 'block';
+    riskNone.style.display = 'none';
+    risks.forEach(function(r) {
+      var card = document.createElement('div');
+      card.style.cssText = 'background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:flex-start;gap:8px;';
+      card.innerHTML = '<span style="font-size:14px;flex-shrink:0;">' + r.icon + '</span><div><div style="font-size:11.5px;font-weight:700;color:' + r.color + ';">' + r.label + '</div><div style="font-size:10.5px;color:rgba(255,255,255,0.75);margin-top:1px;">' + r.detail + '</div></div>';
+      riskList.appendChild(card);
+    });
+  }
+}
+
 // ── WHATSAPP DRAFT MODAL ──
 function openWADraft() {
   var m = document.getElementById('waDraftModal');
@@ -5150,14 +5828,21 @@ function sendWAMessage() {
 }
 
 // ── CREATE HOUSEHOLD ──
+// ── HOUSEHOLD STATE ──
+var _hhData = { number: 'HH-2024-0047', houseNo: '', village: 'Char Bhadra', totalMembers: '', headName: '', headAge: '', headGender: 'Male', headMobile: '' };
+var _hhMembers = []; // additional members beyond the head
+
 function openCreateHousehold() {
-  var s = document.getElementById('createHHSheet');
-  if (s) s.style.display = 'flex';
+  // reset form state for a fresh household
+  _hhData = { number: 'HH-2024-0047', houseNo: '', village: 'Char Bhadra', totalMembers: '', headName: '', headAge: '', headGender: 'Male', headMobile: '' };
+  _hhMembers = [];
+  go('s27');
 }
 function closeCreateHousehold() {
-  var s = document.getElementById('createHHSheet');
-  if (s) s.style.display = 'none';
+  go('s2');
 }
+function setHHHeadGender(g) { _hhData.headGender = g; }
+
 function toggleHHChip(el) {
   var active = el.style.background !== 'rgb(243, 244, 246)' && el.style.background !== '#F3F4F6';
   if (active) {
@@ -5181,13 +5866,175 @@ function selectRadio(el, group) {
   el.style.borderColor = '#6B63D4';
   el.style.color = '#3D3599';
 }
+
 function submitCreateHousehold() {
-  closeCreateHousehold();
-  showToast('✓ Household created · Added to your worklist');
+  // capture form values
+  _hhData.village = document.getElementById('hhVillage').value;
+  _hhData.houseNo = document.getElementById('hhHouseNo').value || 'House #—';
+  _hhData.totalMembers = document.getElementById('hhTotalMembers').value || '2';
+  _hhData.headName = document.getElementById('hhHeadName').value || 'Household Head';
+  _hhData.headAge = document.getElementById('hhHeadAge').value || '—';
+  _hhData.headMobile = document.getElementById('hhHeadMobile').value || 'Not available';
+
+  // reset members and auto-add the member captured via the NID scan
+  // (this household was created from the NID-driven enrolment flow,
+  // so the originally scanned person is added as the 2nd household member)
+  _hhMembers = [{ name: 'Anwara Begum', age: '35', gender: 'Female', source: 'NID scan' }];
+
+  // populate s28 — household created + summary screen
+  document.getElementById('hhCreatedSub').textContent = _hhData.number + ' · ' + _hhData.village;
+  document.getElementById('hhSummaryNumber').textContent = _hhData.number;
+  document.getElementById('hhSummaryHouseNo').textContent = _hhData.houseNo;
+  document.getElementById('hhSummaryVillage').textContent = _hhData.village;
+  document.getElementById('hhSummaryTotal').textContent = _hhData.totalMembers;
+
+  document.getElementById('hhHeadCardName').textContent = _hhData.headName;
+  document.getElementById('hhHeadCardMeta').textContent = 'Age ' + _hhData.headAge + ' · ' + _hhData.headGender + ' · ' + _hhData.houseNo;
+
+  // render the auto-added NID member card below the head
+  var list = document.getElementById('hhMembersList');
+  // remove any previously rendered extra member cards (keep only head card)
+  var headCard = document.getElementById('hhHeadMemberCard');
+  list.innerHTML = '';
+  list.appendChild(headCard);
+
+  var m = _hhMembers[0];
+  var card = document.createElement('div');
+  card.style.cssText = 'background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;';
+  card.innerHTML =
+    '<div style="width:42px;height:42px;background:#F0FDF4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👩</div>' +
+    '<div style="flex:1;min-width:0;">' +
+      '<div style="display:flex;align-items:center;gap:6px;"><div style="font-size:13px;font-weight:800;color:var(--text);">' + m.name + '</div>' +
+      '<span style="font-size:9px;font-weight:700;background:#ECFDF5;color:#065F46;padding:2px 7px;border-radius:5px;">📇 NID scan</span></div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:1px;">Age ' + m.age + ' · ' + m.gender + '</div>' +
+    '</div>';
+  list.appendChild(card);
+
+  document.getElementById('hhMemberCount').textContent = '2 added';
+
+  go('s28');
+}
+
+function finishHouseholdRegistration() {
+  showToast('✓ Household ' + _hhData.number + ' saved with ' + (_hhMembers.length + 1) + ' members');
+  go('s2');
+}
+
+// ── ADD MEMBER FLOW ──
+function openMemberRegistration() {
+  // reset member form
+  document.getElementById('memberRegoHHSub').textContent = 'Adding to ' + _hhData.number;
+  document.getElementById('memberName').value = '';
+  document.getElementById('memberDOB').value = '';
+  document.getElementById('memberAgeYears').value = '';
+  document.getElementById('memberAgeMonths').value = '';
+  document.getElementById('memberAgeMonthsSection').style.display = 'none';
+  document.getElementById('memberGuardianSection').style.display = 'none';
+  document.getElementById('memberNewGuardianFields').style.display = 'none';
+  document.getElementById('memberNIDScanned').style.display = 'none';
+  // populate guardian dropdown with head + any added members
+  var sel = document.getElementById('memberGuardianSelect');
+  var headOpt = document.getElementById('guardianHeadOption');
+  headOpt.textContent = _hhData.headName + ' (Head)';
+  headOpt.value = _hhData.headName;
+  // remove any previously injected member options (keep first 2 + last option)
+  while (sel.options.length > 3) { sel.remove(1); }
+  _hhMembers.forEach(function(m) {
+    var opt = document.createElement('option');
+    opt.value = m.name; opt.textContent = m.name + ' (' + m.gender + ', ' + m.age + ')';
+    sel.insertBefore(opt, sel.options[sel.options.length - 1]);
+  });
+  go('s29');
+}
+
+function scanMemberNID() {
+  var btn = event.target.closest('button');
+  if (btn) { btn.textContent = '🔍 Reading card…'; }
+  setTimeout(function() {
+    document.getElementById('memberName').value = 'Karim Mia';
+    document.getElementById('memberDOB').value = '1988-03-14';
+    selectRadio(document.querySelectorAll('[data-group="memgender"]')[0], 'memgender');
+    document.getElementById('memberNIDScanned').style.display = 'block';
+    if (btn) { btn.innerHTML = '<svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Scanned ✓'; }
+    calcMemberAgeFromDOB();
+  }, 1400);
+}
+
+function calcMemberAgeFromDOB() {
+  var dob = document.getElementById('memberDOB').value;
+  if (!dob) return;
+  var today = new Date('2026-06-30');
+  var birth = new Date(dob);
+  var age = today.getFullYear() - birth.getFullYear();
+  var m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+  document.getElementById('memberAgeYears').value = age;
+  handleMemberAgeYearsChange();
+}
+
+function handleMemberAgeYearsChange() {
+  var age = parseFloat(document.getElementById('memberAgeYears').value);
+  var monthsSection = document.getElementById('memberAgeMonthsSection');
+  var guardianSection = document.getElementById('memberGuardianSection');
+
+  if (!isNaN(age) && age <= 2) {
+    monthsSection.style.display = 'block';
+    guardianSection.style.display = 'block';
+  } else {
+    monthsSection.style.display = 'none';
+    guardianSection.style.display = 'none';
+    document.getElementById('memberAgeMonths').value = '';
+  }
+
+  // mobile number question label clarifies guardian capture for <2yr
+  var mobileLabel = document.getElementById('memberMobileLabel');
+  if (!isNaN(age) && age <= 2) {
+    mobileLabel.innerHTML = '8. Mobile Number <span style="font-size:10px;font-weight:500;color:var(--muted);">(capture guardian\'s number)</span>';
+  } else {
+    mobileLabel.textContent = '8. Mobile Number';
+  }
+}
+
+function handleGuardianSelectChange() {
+  var sel = document.getElementById('memberGuardianSelect');
+  var newFields = document.getElementById('memberNewGuardianFields');
+  newFields.style.display = sel.value === '__new__' ? 'block' : 'none';
+}
+
+function saveHouseholdMember() {
+  var name = document.getElementById('memberName').value.trim() || 'New Member';
+  var age = document.getElementById('memberAgeYears').value || '—';
+  var genderEl = document.querySelector('[data-group="memgender"][style*="238, 240, 255"]') || document.querySelector('[data-group="memgender"]');
+  var genderActive = document.querySelectorAll('[data-group="memgender"]');
+  var gender = 'Male';
+  genderActive.forEach(function(e) { if (e.style.background === 'rgb(238, 240, 255)' || e.style.background === '#EEF0FF') gender = e.textContent.trim(); });
+
+  _hhMembers.push({ name: name, age: age, gender: gender });
+
+  // update s28 members list + count
+  var list = document.getElementById('hhMembersList');
+  var card = document.createElement('div');
+  card.style.cssText = 'background:white;border:1.5px solid #E5E7EB;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;animation:fadeIn .3s ease;';
+  var emoji = parseFloat(age) <= 2 ? '👶' : (gender === 'Female' ? '👩' : '👤');
+  card.innerHTML =
+    '<div style="width:42px;height:42px;background:#F0FDF4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">' + emoji + '</div>' +
+    '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:800;color:var(--text);">' + name + '</div>' +
+    '<div style="font-size:11px;color:var(--muted);margin-top:1px;">Age ' + age + ' · ' + gender + '</div></div>';
+  list.appendChild(card);
+
+  var countEl = document.getElementById('hhMemberCount');
+  countEl.textContent = (_hhMembers.length + 1) + ' added';
+
+  showToast('✓ ' + name + ' added to household');
+  go('s28');
 }
 
 // ── ANC PATIENT SWITCHER ──
 function goANC(name, sub) {
+  // reset service selection state for a fresh visit
+  pwSelected = false;
+  selectedServices = [];
+
   // header name + sub
   var n = document.getElementById('anc-patient-name');
   var s = document.getElementById('anc-patient-sub');
@@ -5230,6 +6077,16 @@ function goANC(name, sub) {
   var screening = document.getElementById('ancScreeningSection');
   if (screening) screening.style.display = 'block';
 
+  // swap pregnancy overview (Nasrin) for the full registration form (Priya)
+  var nasrinOverview = document.getElementById('ancPregOverviewNasrin');
+  if (nasrinOverview) nasrinOverview.style.display = 'none';
+  var priyaForm = document.getElementById('ancPregRegoPriya');
+  if (priyaForm) priyaForm.style.display = 'block';
+
+  // reveal AI risk summary on the s13 "what to do next" screen for Priya
+  var riskBox = document.getElementById('pdRiskSummary');
+  if (riskBox) riskBox.style.display = 'block';
+
   // s2 step banner
   var s2banner = document.getElementById('anc-s2-banner-title');
   if (s2banner) s2banner.textContent = 'ANC Visit 1 form · First registration';
@@ -5247,6 +6104,54 @@ function submitImmRecord() {
 }
 
 // ── RAHIM SYMPTOM SCRIBE ──
+function toggleBriefRahim() {
+  var content = document.getElementById('briefRahimContent');
+  var chevron = document.getElementById('briefRahimChevron');
+  if (!content) return;
+  var open = content.style.display !== 'none';
+  content.style.display = open ? 'none' : 'block';
+  if (chevron) chevron.textContent = open ? '▸' : '▾';
+}
+
+function selectRahimRadio(el, group) {
+  var all = document.querySelectorAll('[data-group="' + group + '"]');
+  all.forEach(function(e) {
+    e.style.background = 'white';
+    e.style.borderColor = '#E5E7EB';
+    e.style.color = '#6B7280';
+  });
+  el.style.background = '#EEF0FF';
+  el.style.borderColor = '#6B63D4';
+  el.style.color = '#3D3599';
+
+  var val = el.textContent.trim().toLowerCase();
+
+  // Q12 → reveal Q13 complication specifics if Yes
+  if (group === 'illness') {
+    var compSection = document.getElementById('rahimComplicationSection');
+    if (compSection) compSection.style.display = (val === 'yes') ? 'block' : 'none';
+  }
+
+  // Q14 → reveal Q15 referral place if Yes
+  if (group === 'referral') {
+    var placeSection = document.getElementById('rahimReferralPlaceSection');
+    if (placeSection) placeSection.style.display = (val === 'yes') ? 'block' : 'none';
+  }
+}
+
+function toggleRahimChip(el) {
+  var active = el.style.background === 'rgb(238, 240, 255)' || el.style.background === '#EEF0FF';
+  if (active) {
+    el.style.background = 'white';
+    el.style.borderColor = '#E5E7EB';
+    el.style.color = '#6B7280';
+  } else {
+    el.style.background = '#EEF0FF';
+    el.style.borderColor = '#6B63D4';
+    el.style.color = '#3D3599';
+  }
+}
+
 function startRahimScribe() {
   var banner = document.getElementById('rahimScribeBanner');
   var dot = document.getElementById('rahimMicDot');
@@ -5280,6 +6185,7 @@ function startRahimScribe() {
     if (transcriptText) transcriptText.textContent = phrases[i];
     setTimeout(function() {
       if (detected) detected.style.display = 'block';
+      var assessment = document.getElementById("rahimAssessmentSection"); if (assessment) assessment.style.display = "block";
       var sym = symptoms[i];
       var card = document.createElement('div');
       card.style.cssText = 'background:'+sym.color+';border:1.5px solid '+sym.border+';border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .4s ease;';
@@ -5303,6 +6209,8 @@ function addRahimSymptom() {
   var detected = document.getElementById('rahimSympDetected');
   if (!container) return;
   if (detected) detected.style.display = 'block';
+  var assessment = document.getElementById('rahimAssessmentSection');
+  if (assessment) assessment.style.display = 'block';
   var card = document.createElement('div');
   card.style.cssText = 'background:#EEF0FF;border:1.5px solid #C4B5FD;border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease;';
   var labelEl = document.createElement('div'); labelEl.style.cssText='flex:1;font-size:12px;font-weight:700;color:#3D3599;'; labelEl.textContent=text;
@@ -5413,14 +6321,14 @@ function startKarimSymptomScribe() {
   var phrases = [
     'মাথায় ব্যথা আছে, বিশেষত সকালে…',
     '…পা দুটো একটু ফুলে গেছে, ভারী লাগছে',
-    '…শ্বাস নিতে একটু কষ্ট হচ্ছে মাঝে মাঝে',
-    '…শরীর অনেক দুর্বল লাগছে, হাঁটতে কষ্ট হয়'
+    '…শরীরে জ্বর জ্বর ভাব আছে',
+    '…চোখে মাঝে মাঝে ঝাপসা দেখছেন'
   ];
   var symptoms = [
-    { emoji:'🤕', en:'Morning headaches', bn:'সকালে মাথাব্যথা', color:'#FEE2E2', tc:'#991B1B', border:'#FCA5A5' },
+    { emoji:'🤕', en:'Headache', bn:'মাথাব্যথা', color:'#FEE2E2', tc:'#991B1B', border:'#FCA5A5' },
     { emoji:'🦵', en:'Swollen feet — feels heavy', bn:'পা ফুলে গেছে · ভারী', color:'#EEF0FF', tc:'#3D3599', border:'#C4B5FD' },
-    { emoji:'😮‍💨', en:'Shortness of breath at times', bn:'মাঝে মাঝে শ্বাসকষ্ট', color:'#FDF2F8', tc:'#9D174D', border:'#FBCFE8' },
-    { emoji:'😩', en:'General weakness — hard to walk', bn:'শরীর দুর্বল · হাঁটতে কষ্ট', color:'#FFFBEB', tc:'#92400E', border:'#FCD34D' }
+    { emoji:'🌡️', en:'Fever', bn:'জ্বর জ্বর ভাব', color:'#FFFBEB', tc:'#92400E', border:'#FCD34D' },
+    { emoji:'👁️', en:'Blurry vision', bn:'চোখে ঝাপসা দেখা', color:'#FDF2F8', tc:'#9D174D', border:'#FBCFE8' }
   ];
   var i = 0;
   function typePhrase() {
@@ -5579,13 +6487,13 @@ function startAncSymptomScribe() {
   var phrases = [
     'মাথায় একটু ব্যথা আছে কাল থেকে…',
     '…পা দুটো একটু ভারী লাগছে, ফুলে গেছে মনে হচ্ছে',
-    '…রাতে ঘুম হচ্ছে না ঠিকমতো, অনেক ক্লান্ত লাগছে',
+    '…শরীরে জ্বর জ্বর ভাব আছে',
     '…চোখ মাঝে মাঝে একটু ঝাপসা লাগে'
   ];
   var symptoms = [
     { emoji:'🤕', en:'Headache since yesterday', bn:'মাথাব্যথা · গতকাল থেকে', color:'#FEE2E2', tc:'#991B1B', border:'#FCA5A5' },
     { emoji:'🦵', en:'Swollen feet — feels heavy', bn:'পা ফুলে গেছে · ভারী লাগছে', color:'#EEF0FF', tc:'#3D3599', border:'#C4B5FD' },
-    { emoji:'😴', en:'Poor sleep — feeling very tired', bn:'ঘুম হচ্ছে না · অনেক ক্লান্ত', color:'#FEF3C7', tc:'#92400E', border:'#FCD34D' },
+    { emoji:'🌡️', en:'Fever', bn:'জ্বর জ্বর ভাব', color:'#FFFBEB', tc:'#92400E', border:'#FCD34D' },
     { emoji:'👁️', en:'Blurry vision at times', bn:'চোখ মাঝে মাঝে ঝাপসা', color:'#FDF2F8', tc:'#9D174D', border:'#FBCFE8' }
   ];
 
@@ -5815,8 +6723,56 @@ function startAncScribe() {
     }, 500);
   }
 
-  var steps = [
-    // ── Vitals ──
+  var isPriyaFlow = document.getElementById('ancPregRegoPriya') && document.getElementById('ancPregRegoPriya').style.display !== 'none';
+
+  var steps = [];
+
+  if (isPriyaFlow) {
+    // ── Priya: Pregnancy registration fields come first ──
+    steps = steps.concat([
+      { delay:400,  text:'"শেষ মাসিকের তারিখ ছিল ৫ জানুয়ারি, ২০২৬…"' },
+      { delay:1800, fn: function() {
+        var el = document.getElementById('pdLMP');
+        if (el) { el.style.borderColor='#7F77DD'; el.style.background='#F5F3FF';
+          setTimeout(function(){ el.value='2026-01-05'; el.style.borderColor='#A7F3D0'; el.style.background='white'; if (window.calcEDDandGA) calcEDDandGA(); }, 500); }
+      }},
+      { delay:3200, text:'"প্রেগনেন্সি টেস্ট করা হয়েছে, পজিটিভ এসেছে…"' },
+      { delay:4600, fn: function() {
+        var el = document.getElementById('pdPregTest');
+        if (el) { el.style.borderColor='#7F77DD'; el.style.background='#F5F3FF';
+          setTimeout(function(){ el.value='positive'; el.style.borderColor='#A7F3D0'; el.style.background='white'; }, 500); }
+      }},
+      { delay:6000, text:'"এটা তার চতুর্থ গর্ভাবস্থা…"' },
+      { delay:7400, fn: function() {
+        var el = document.getElementById('pdGravida');
+        if (el) { el.style.borderColor='#7F77DD'; el.style.background='#F5F3FF';
+          setTimeout(function(){ el.value='4'; el.style.borderColor='#A7F3D0'; el.style.background='white'; if (window.handleGravidaChange) handleGravidaChange(); }, 500); }
+      }},
+      { delay:8800, text:'"আগে তিনটা সন্তান জন্ম দিয়েছেন…"' },
+      { delay:10200, fn: function() {
+        var el = document.getElementById('pdParity');
+        if (el) { el.style.borderColor='#7F77DD'; el.style.background='#F5F3FF';
+          setTimeout(function(){ el.value='3'; el.style.borderColor='#A7F3D0'; el.style.background='white'; if (window.handleParityChange) handleParityChange(); }, 500); }
+      }},
+      { delay:11600, text:'"তিনটাই বেঁচে আছে…"' },
+      { delay:13000, fn: function() {
+        var el = document.getElementById('pdLiving');
+        if (el) { el.style.borderColor='#7F77DD'; el.style.background='#F5F3FF';
+          setTimeout(function(){ el.value='3'; el.style.borderColor='#A7F3D0'; el.style.background='white'; if (window.handleLivingChange) handleLivingChange(); }, 500); }
+      }},
+      { delay:14400, text:'"শেষ বাচ্চার বয়স ১ বছর ৬ মাস…"' },
+      { delay:15800, fn: function() {
+        var y = document.getElementById('pdLastChildYrs');
+        var m = document.getElementById('pdLastChildMo');
+        if (y) { y.style.borderColor='#7F77DD'; y.style.background='#F5F3FF'; setTimeout(function(){ y.value='1'; y.style.borderColor='#FCA5A5'; y.style.background='white'; }, 500); }
+        if (m) { setTimeout(function(){ m.value='6'; m.style.borderColor='#FCA5A5'; m.style.background='white'; if (window.updateRiskSummary) updateRiskSummary(); }, 600); }
+      }}
+    ]);
+  }
+
+  // ── Vitals (shared by Nasrin + Priya) — offset delays if Priya block ran first ──
+  var priyaOffset = isPriyaFlow ? 17200 : 0;
+  var vitalsSteps = [
     { delay:400,  text:'"রক্তচাপ মাপলাম — ১৩২ উপরে, ৮৬ নিচে…"' },
     { delay:1800, fn: function() {
       fillVitalInput('vt-bp-sys','132','#FCD34D','#FFFBEB','vt-bp-status','Elevated','#D97706');
@@ -5908,6 +6864,10 @@ function startAncScribe() {
     }},
     { delay:34000, done: true }
   ];
+
+  // apply offset to all vitals/form steps if Priya's registration ran first
+  vitalsSteps.forEach(function(s) { s.delay += priyaOffset; });
+  steps = steps.concat(vitalsSteps);
 
   steps.forEach(function(s) {
     setTimeout(function() {
@@ -6319,13 +7279,6 @@ function go(id) {
 function openFpDrawer() {
   var d = document.getElementById('fpDrawer');
   if(d) {
-    d.style.position = 'fixed';
-    d.style.bottom = '0';
-    d.style.left = '50%';
-    d.style.transform = 'translateX(-50%)';
-    d.style.width = '375px';
-    d.style.maxWidth = '100%';
-    d.style.zIndex = '9999';
     d.classList.add('open');
   }
   // show backdrop
@@ -6394,31 +7347,48 @@ function openQR(mode) {
     return;
   }
   if (mode === 'enrol') {
-    title.textContent = 'Scan e-Health Card to Enrol';
-    sub.textContent = 'Scan the QR on Bangladesh NID or e-Health card';
+    title.textContent = 'Take a Photo of NID Card';
+    sub.textContent = 'Position the card within the frame';
   } else {
-    title.textContent = 'Scan to Search Patient';
-    sub.textContent = 'Align card QR code within the frame';
+    title.textContent = 'Take a Photo to Search Patient';
+    sub.textContent = 'Position the card within the frame';
   }
-  buildQRPattern();
   overlay.classList.add('open');
+  // capture is now manual via captureNID() — no auto-timeout
+}
+
+function captureNID() {
+  var overlay = document.getElementById('qrOverlay');
+  var viewfinder = document.getElementById('nidViewfinder');
+  var title = document.getElementById('qrTitle');
+  var sub = document.getElementById('qrSub');
+  if (!overlay) return;
+
+  // flash + "analyzing" feedback
+  if (viewfinder) {
+    viewfinder.style.transition = 'background .15s';
+    viewfinder.style.background = 'rgba(255,255,255,0.9)';
+    setTimeout(function(){ viewfinder.style.background = 'rgba(255,255,255,0.04)'; }, 150);
+  }
+  if (title) title.textContent = '🔍 Reading card details…';
+  if (sub) sub.textContent = 'AI extracting name, NID number, DOB';
+
   setTimeout(function(){
-    if (!overlay.classList.contains('open')) return;
     overlay.classList.remove('open');
-    if (mode === 'enrol') {
+    if (_qrMode === 'enrol') {
       var sheet = document.getElementById('enrolSheet');
       if (sheet) sheet.classList.add('open');
     } else {
       var inp = document.querySelector('#s2 .search-bar input');
       if (inp) {
         inp.value = 'Anwara Begum — NID 19 9204 5678901';
-        // show the search result card
         var res = document.getElementById('qrSearchResult');
         if (res) res.style.display = 'block';
       }
     }
-  }, 2400);
+  }, 1600);
 }
+
 function closeQR() { document.getElementById('qrOverlay').classList.remove('open'); }
 function closeSearchResult() {
   var r = document.getElementById('qrSearchResult');
@@ -6441,6 +7411,91 @@ function confirmEnrol() {
   closeSearchResult();
   showToast('\u2713 Anwara Begum enrolled successfully');
 }
+
+// ── HOUSEHOLD SELECTOR SCREEN ──
+var _selectedHHId = null;
+
+function openHouseholdSelector() {
+  // reset state each time it opens
+  _selectedHHId = null;
+  document.getElementById('hhSelectorSearch').value = '';
+  document.querySelectorAll('.hh-select-card').forEach(function(c) {
+    c.style.display = 'flex';
+    c.style.background = 'white';
+    c.style.borderColor = '#E5E7EB';
+    var check = c.querySelector('.hh-check');
+    check.style.background = 'transparent';
+    check.style.borderColor = '#D1D5DB';
+    check.innerHTML = '';
+  });
+  document.getElementById('hhSelectorEmpty').style.display = 'none';
+  document.getElementById('hhSelectorCount').textContent = '5 households in your catchment';
+  updateHHConfirmBtn();
+  go('s26');
+}
+
+function filterHouseholdCards() {
+  var query = document.getElementById('hhSelectorSearch').value.trim().toLowerCase();
+  var cards = document.querySelectorAll('.hh-select-card');
+  var visibleCount = 0;
+
+  cards.forEach(function(c) {
+    var match = c.getAttribute('data-search').indexOf(query) > -1;
+    c.style.display = match ? 'flex' : 'none';
+    if (match) visibleCount++;
+  });
+
+  document.getElementById('hhSelectorEmpty').style.display = visibleCount === 0 ? 'block' : 'none';
+  document.getElementById('hhSelectorCount').textContent = query
+    ? visibleCount + ' result' + (visibleCount === 1 ? '' : 's') + ' found'
+    : '5 households in your catchment';
+}
+
+function selectHouseholdCard(el, hhId) {
+  // deselect all
+  document.querySelectorAll('.hh-select-card').forEach(function(c) {
+    c.style.background = 'white';
+    c.style.borderColor = '#E5E7EB';
+    var check = c.querySelector('.hh-check');
+    check.style.background = 'transparent';
+    check.style.borderColor = '#D1D5DB';
+    check.innerHTML = '';
+  });
+
+  // select tapped one
+  el.style.background = '#EEF0FF';
+  el.style.borderColor = '#6B63D4';
+  var check = el.querySelector('.hh-check');
+  check.style.background = '#6B63D4';
+  check.style.borderColor = '#6B63D4';
+  check.innerHTML = '<svg width="11" height="11" fill="white" viewBox="0 0 24 24" style="display:block;margin:3px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+
+  _selectedHHId = hhId;
+  updateHHConfirmBtn();
+}
+
+function updateHHConfirmBtn() {
+  var btn = document.getElementById('hhSelectorConfirmBtn');
+  if (!btn) return;
+  if (_selectedHHId) {
+    btn.disabled = false;
+    btn.style.background = 'var(--navy)';
+    btn.style.cursor = 'pointer';
+    btn.textContent = 'Link & Enrol → ' + _selectedHHId;
+  } else {
+    btn.disabled = true;
+    btn.style.background = '#D1D5DB';
+    btn.style.cursor = 'not-allowed';
+    btn.textContent = 'Select a household to continue';
+  }
+}
+
+function confirmHouseholdLink() {
+  if (!_selectedHHId) return;
+  go('s2');
+  showToast('✓ Anwara Begum linked to ' + _selectedHHId + ' and enrolled');
+}
+
 function toggleProg(el, activeBg, activeColor, activeBorder) {
   var isActive = el.getAttribute('data-active') === '1';
   if (isActive) {

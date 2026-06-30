@@ -1379,7 +1379,7 @@
       </div>
 
       <!-- Patient 1 — Pregnant Nasrin → s11 -->
-      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="if(!visitsDone.nasrin) go('s11'); else showToast('Nasrin\'s visit already done today ✓')" id="card-nasrin-wrap" data-village="Char Bhadra" data-cats="highrisk anc home facility" data-key="nasrin">
+      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goNasrinANC()" id="card-nasrin-wrap" data-village="Char Bhadra" data-cats="highrisk anc home facility" data-key="nasrin">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FDF2F8"/><circle cx="26" cy="17" r="8" fill="#FBCFE8"/><ellipse cx="26" cy="34" rx="11" ry="12" fill="#F9A8D4"/><ellipse cx="30" cy="37" rx="5.5" ry="5.5" fill="#FBCFE8"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -2784,6 +2784,11 @@
           </button>
         </div>
 
+        <!-- Start ANC checkup — existing patient path (Nasrin); hidden when screening section is shown -->
+        <button id="ancStartCheckupBtn" class="pink-btn" onclick="aStep2()" style="background:#EC4899;">
+          Start ANC checkup →
+        </button>
+
       </div><!-- /a-step1 -->
 
       <!-- ── ANC STEP 2 ── -->
@@ -3362,15 +3367,6 @@
       <div class="header-sub">AI checked all findings · ANC Visit 3</div>
     </div>
     <div class="body">
-
-      <!-- AI callout -->
-      <div style="background:#1B2B5E;border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-        <div>
-          <div style="font-size:12px;font-weight:800;color:white;">AI reviewed today's vitals + her history</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;" id="anc-s13-sub">Nasrin · 30 weeks · primigravida · 3-visit trend</div>
-        </div>
-      </div>
 
       <!-- AI Risk Summary — Priya (new PW registration) only -->
       <div id="pdRiskSummary" style="display:none;background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:14px;padding:14px;margin-bottom:12px;">
@@ -6030,7 +6026,22 @@ function saveHouseholdMember() {
 }
 
 // ── ANC PATIENT SWITCHER ──
+function resetAncSteps() {
+  var step1 = document.getElementById('a-step1');
+  var step2 = document.getElementById('a-step2');
+  var step3 = document.getElementById('a-step3');
+  if (step1) step1.style.display = 'block';
+  if (step2) step2.style.display = 'none';
+  if (step3) step3.style.display = 'none';
+  // reset the step progress bar indicators back to step 1
+  var bar2 = document.getElementById('a-bar2');
+  var bar3 = document.getElementById('a-bar3');
+  if (bar2) bar2.style.background = 'rgba(255,255,255,0.3)';
+  if (bar3) bar3.style.background = 'rgba(255,255,255,0.3)';
+}
+
 function goANC(name, sub) {
+  resetAncSteps();
   // reset service selection state for a fresh visit
   pwSelected = false;
   selectedServices = [];
@@ -6077,6 +6088,10 @@ function goANC(name, sub) {
   var screening = document.getElementById('ancScreeningSection');
   if (screening) screening.style.display = 'block';
 
+  // hide the existing-patient "Start ANC checkup" button — Priya uses the service grid + Continue button instead
+  var checkupBtn = document.getElementById('ancStartCheckupBtn');
+  if (checkupBtn) checkupBtn.style.display = 'none';
+
   // swap pregnancy overview (Nasrin) for the full registration form (Priya)
   var nasrinOverview = document.getElementById('ancPregOverviewNasrin');
   if (nasrinOverview) nasrinOverview.style.display = 'none';
@@ -6090,6 +6105,73 @@ function goANC(name, sub) {
   // s2 step banner
   var s2banner = document.getElementById('anc-s2-banner-title');
   if (s2banner) s2banner.textContent = 'ANC Visit 1 form · First registration';
+
+  go('s11');
+}
+
+function goNasrinANC() {
+  if (visitsDone.nasrin) { showToast("Nasrin's visit already done today ✓"); return; }
+  resetAncSteps();
+
+  // header name + sub — restore Nasrin's defaults
+  var n = document.getElementById('anc-patient-name');
+  var s = document.getElementById('anc-patient-sub');
+  if (n) n.textContent = 'Nasrin Begum';
+  if (s) s.textContent = 'Age 24 · House #07';
+
+  // AI brief — restore Nasrin's Visit 3 context
+  var brief = document.getElementById('anc-brief-text');
+  if (brief) brief.textContent = '🤰 Nasrin · ANC Visit 3 · 30 weeks · Primigravida, age 26 · BP slightly up over last 2 visits';
+
+  // s13 sub
+  var s13sub = document.getElementById('anc-s13-sub');
+  if (s13sub) s13sub.textContent = 'Nasrin · 30 weeks · primigravida · 3-visit trend';
+
+  // s14 header sub
+  var s14sub = document.getElementById('anc-s14-sub');
+  if (s14sub) s14sub.textContent = 'Nasrin Begum · ANC Visit 3 saved';
+
+  // s14 completion banner
+  var s14banner = document.getElementById('anc-s14-banner');
+  if (s14banner) s14banner.textContent = 'Nasrin · 30 weeks · UHC notified for review';
+
+  // s14 CCE line
+  var s14cce = document.getElementById('anc-s14-cce');
+  if (s14cce) s14cce.textContent = 'Same-day SLA · Alert if Nasrin not at UHC by this evening · ANC Visit 3 still due at 36 weeks';
+
+  // WhatsApp button
+  var waBtn = document.getElementById('anc-wa-btn');
+  if (waBtn) waBtn.onclick = function(){ showToast('✅ WhatsApp message sent to Nasrin'); };
+
+  // Restore "Before you knock" and "Greet warmly" sections (existing patient flow)
+  var briefCard = document.getElementById('briefAContent');
+  if (briefCard && briefCard.parentElement) briefCard.parentElement.style.display = 'block';
+  var greetWarmly = document.getElementById('ancGreetWarmly');
+  if (greetWarmly) greetWarmly.style.display = 'block';
+  var startBanner = document.getElementById('ancStartBanner');
+  if (startBanner) startBanner.style.display = 'block';
+
+  // hide screening questions (existing patients don't need eligibility screening)
+  var screening = document.getElementById('ancScreeningSection');
+  if (screening) screening.style.display = 'none';
+
+  // show the existing-patient "Start ANC checkup" button
+  var checkupBtn = document.getElementById('ancStartCheckupBtn');
+  if (checkupBtn) checkupBtn.style.display = 'block';
+
+  // restore pregnancy overview card, hide Priya's full registration form
+  var nasrinOverview = document.getElementById('ancPregOverviewNasrin');
+  if (nasrinOverview) nasrinOverview.style.display = 'block';
+  var priyaForm = document.getElementById('ancPregRegoPriya');
+  if (priyaForm) priyaForm.style.display = 'none';
+
+  // hide the AI risk summary (PW-registration only, not relevant to Nasrin's Visit 3)
+  var riskBox = document.getElementById('pdRiskSummary');
+  if (riskBox) riskBox.style.display = 'none';
+
+  // s2 step banner — restore Visit 3 wording
+  var s2banner = document.getElementById('anc-s2-banner-title');
+  if (s2banner) s2banner.textContent = 'ANC Visit 3 form · 30 weeks';
 
   go('s11');
 }

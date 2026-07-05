@@ -106,8 +106,8 @@
   .pink-btn {
     background: var(--pink); color: white;
     border: none; border-radius: 12px;
-    padding: 13px 20px; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 800; cursor: pointer;
+    padding: 12px 16px; font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 800; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background 0.15s, transform 0.1s;
     width: 100%;
@@ -116,8 +116,8 @@
   .btn-green {
     background: #059669; color: white;
     border: none; border-radius: 12px;
-    padding: 13px 20px; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 800; cursor: pointer;
+    padding: 12px 16px; font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 800; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background 0.15s, transform 0.1s;
     width: 100%;
@@ -126,8 +126,8 @@
   .btn-pink {
     background: var(--pink); color: white;
     border: none; border-radius: 12px;
-    padding: 13px 20px; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 800; cursor: pointer;
+    padding: 12px 16px; font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 800; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background 0.15s, transform 0.1s;
     width: 100%;
@@ -137,8 +137,8 @@
   .navy-btn {
     background: var(--navy); color: white;
     border: none; border-radius: 12px;
-    padding: 13px 20px; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 700; cursor: pointer;
+    padding: 12px 16px; font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: background 0.15s, transform 0.1s;
     width: 100%;
@@ -148,8 +148,8 @@
   .outline-btn {
     background: white; color: var(--navy);
     border: 1.5px solid var(--navy); border-radius: 12px;
-    padding: 12px 20px; font-family: 'Nunito', sans-serif;
-    font-size: 14px; font-weight: 700; cursor: pointer;
+    padding: 11px 16px; font-family: 'Nunito', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     transition: all 0.15s;
     width: 100%;
@@ -1121,35 +1121,20 @@
       <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--navy);text-align:center;margin-bottom:4px;">Welcome back</div>
       <div style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;">Sign in to start your day</div>
 
-      <!-- SK identity card -->
-      <div style="width:100%;background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:16px;padding:16px 18px;margin-bottom:20px;color:white;position:relative;overflow:hidden;">
-        <div style="position:absolute;right:-20px;top:-20px;width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-        <div style="position:absolute;right:10px;bottom:-10px;width:50px;height:50px;background:rgba(255,255,255,0.04);border-radius:50%;"></div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Shasthya Kormi</div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;flex-shrink:0;">FB</div>
-          <div>
-            <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;">Fatema Begum</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;">SK-BD-2024-047 · Ward 4, Manikganj</div>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;">
-          <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:7px 10px;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;">NID</div>
-            <div style="font-size:11px;font-weight:700;margin-top:1px;">19 8814 1234567</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:7px 10px;">
-            <div style="font-size:9px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;">Upazila</div>
-            <div style="font-size:11px;font-weight:700;margin-top:1px;">Manikganj Sadar</div>
-          </div>
+      <!-- SK identity card — name and role only -->
+      <div style="width:100%;background:white;border:1.5px solid #E5E7EB;border-radius:16px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;background:#FDF2F8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#831843;flex-shrink:0;">FB</div>
+        <div>
+          <div style="font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px;">Shasthya Kormi</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--navy);">Fatema Begum</div>
         </div>
       </div>
 
-      <!-- BIG OBVIOUS fingerprint CTA button -->
-      <button onclick="openFpDrawer()" style="width:100%;background:var(--navy);border:none;border-radius:16px;padding:18px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;transition:transform .1s;box-shadow:0 4px 16px rgba(27,43,94,0.25);" onmousedown="this.style.transform='scale(.98)'" onmouseup="this.style.transform='scale(1)'">
+      <!-- Fingerprint CTA -->
+      <button onclick="openFpDrawer()" style="width:100%;background:var(--navy);border:none;border-radius:14px;padding:16px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;margin-bottom:0;transition:transform .1s;box-shadow:0 4px 16px rgba(27,43,94,0.25);" onmousedown="this.style.transform='scale(.98)'" onmouseup="this.style.transform='scale(1)'">
         <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:48px;height:48px;background:rgba(255,255,255,0.12);border-radius:14px;display:flex;align-items:center;justify-content:center;animation:fpIdleGlow 2.5s ease-in-out infinite;">
-            <svg width="26" height="26" viewBox="0 0 44 44" fill="none">
+          <div style="width:44px;height:44px;background:rgba(255,255,255,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;animation:fpIdleGlow 2.5s ease-in-out infinite;">
+            <svg width="24" height="24" viewBox="0 0 44 44" fill="none">
               <path d="M22 6 C14 6 8 12 8 20" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
               <path d="M22 6 C30 6 36 12 36 20" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
               <path d="M10 24 C10 30 15 36 22 38 C29 36 34 30 34 24" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
@@ -1158,14 +1143,31 @@
             </svg>
           </div>
           <div style="text-align:left;">
-            <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:white;">Verify fingerprint</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;">Tap to place your finger and sign in</div>
+            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:white;">Verify fingerprint</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;">Touch sensor to sign in instantly</div>
           </div>
         </div>
-        <svg width="20" height="20" fill="rgba(255,255,255,0.5)" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        <svg width="18" height="18" fill="rgba(255,255,255,0.5)" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
       </button>
 
-      <div style="text-align:center;font-size:12px;color:var(--muted);">Or use 6-digit PIN</div>
+      <!-- OR divider -->
+      <div style="display:flex;align-items:center;gap:10px;margin:12px 0;">
+        <div style="flex:1;height:1px;background:#E5E7EB;"></div>
+        <div style="font-size:11px;font-weight:600;color:#9CA3AF;">OR</div>
+        <div style="flex:1;height:1px;background:#E5E7EB;"></div>
+      </div>
+
+      <!-- PIN — secondary outlined button -->
+      <button onclick="showToast('Enter your 6-digit PIN')" style="width:100%;background:white;border:1.5px solid #D1D5DB;border-radius:12px;padding:12px 20px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#374151;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;">
+        🔢 Use 6-digit PIN instead
+      </button>
+
+      <!-- Offline/online status -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:5px;">
+        <span id="loginStatusDot" style="width:7px;height:7px;border-radius:50%;background:#10B981;display:inline-block;"></span>
+        <span id="loginStatusText" style="font-size:11px;font-weight:600;color:#6B7280;">Online</span>
+        <svg width="13" height="13" fill="#9CA3AF" viewBox="0 0 24 24" style="margin-left:2px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+      </div>
     </div>
   </div>
 
@@ -1317,18 +1319,22 @@
 
       <!-- 2-stat dashboard -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-        <div style="background:white;border-radius:14px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,0.06);">
-          <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:var(--navy);">7</div>
-          <div style="font-size:13px;color:var(--muted);margin-top:2px;">Visits today</div>
-          <div style="font-size:11px;color:#10B981;font-weight:600;margin-top:3px;">2 villages · ~4 km</div>
-        </div>
-        <div style="background:white;border-radius:14px;padding:16px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="openNotifDrawer()">
-          <div style="display:flex;align-items:flex-start;gap:5px;">
-            <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:#E8356D;">3</div>
-            <div style="width:8px;height:8px;background:#E8356D;border-radius:50%;animation:notifBadgePulse 2s infinite;margin-top:6px;"></div>
+        <div style="background:white;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,0.06);display:flex;align-items:center;gap:12px;">
+          <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:900;color:var(--navy);line-height:1;flex-shrink:0;">7</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--muted);">Visits today</div>
+            <div style="font-size:10.5px;color:#10B981;font-weight:600;margin-top:2px;">2 villages · ~4 km</div>
           </div>
-          <div style="font-size:13px;color:#E8356D;font-weight:700;margin-top:2px;">Referral alerts</div>
-          <div style="font-size:11px;color:#E8356D;margin-top:3px;">Tap to follow up →</div>
+        </div>
+        <div style="background:white;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;display:flex;align-items:center;gap:10px;" onclick="openNotifDrawer()">
+          <div style="display:flex;align-items:flex-start;gap:3px;flex-shrink:0;">
+            <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:900;color:#E8356D;line-height:1;">3</div>
+            <div style="width:7px;height:7px;background:#E8356D;border-radius:50%;animation:notifBadgePulse 2s infinite;margin-top:4px;"></div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#E8356D;">Referral alerts</div>
+            <div style="font-size:10.5px;color:#E8356D;margin-top:2px;">Tap to follow up →</div>
+          </div>
         </div>
       </div>
 
@@ -1379,7 +1385,7 @@
       </div>
 
       <!-- Patient 1 — Pregnant Nasrin → s11 -->
-      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goNasrinANC()" id="card-nasrin-wrap" data-village="Char Bhadra" data-cats="highrisk anc home facility" data-key="nasrin">
+      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goNasrinANC()" id="card-nasrin-wrap" data-village="Char Bhadra" data-cats="highrisk anc home facility" data-key="nasrin">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FDF2F8"/><circle cx="26" cy="17" r="8" fill="#FBCFE8"/><ellipse cx="26" cy="34" rx="11" ry="12" fill="#F9A8D4"/><ellipse cx="30" cy="37" rx="5.5" ry="5.5" fill="#FBCFE8"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1392,7 +1398,7 @@
       </div>
 
       <!-- Patient 2 — ANC new -->
-      <div class="vcard" id="card-fatema-anc" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="showToast('Fatema Akhter — ANC Visit 1 opening soon')" data-village="Char Bhadra" data-cats="anc home" data-key="fatema-anc">
+      <div class="vcard" id="card-fatema-anc" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="showToast('Fatema Akhter — ANC Visit 1 opening soon')" data-village="Char Bhadra" data-cats="anc home" data-key="fatema-anc">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FDF2F8"/><circle cx="26" cy="17" r="8" fill="#F9A8D4"/><ellipse cx="26" cy="34" rx="11" ry="11" fill="#FBCFE8"/><ellipse cx="30" cy="36" rx="4.5" ry="4.5" fill="#F9A8D4"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1405,7 +1411,7 @@
       </div>
 
       <!-- Patient — Rahim (child, immunisation) → s23 symptoms first -->
-      <div class="vcard" id="card-rahim-wrap" style="background:white;border-radius:14px;border-left:4px solid #F59E0B;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="go('s23')" data-village="Char Bhadra" data-cats="child highrisk home" data-key="rahim">
+      <div class="vcard" id="card-rahim-wrap" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="go('s23')" data-village="Char Bhadra" data-cats="child highrisk home" data-key="rahim">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FFFBEB"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1417,7 +1423,7 @@
       </div>
 
       <!-- Patient — Priya (new enrolment) → s11 ANC directly -->
-      <div class="vcard" id="card-priya-wrap" style="background:white;border-radius:14px;border-left:4px solid #8B5CF6;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')" data-village="Bhadra" data-cats="anc home" data-key="priya">
+      <div class="vcard" id="card-priya-wrap" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')" data-village="Bhadra" data-cats="anc home" data-key="priya">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#F5F3FF"/><circle cx="26" cy="17" r="8" fill="#DDD6FE"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#C4B5FD"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1430,7 +1436,7 @@
       </div>
 
       <!-- Patient 3 — Diabetes → s10 -->
-      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="if(!visitsDone.karim) go('s10'); else showToast('Karim\'s visit already done today ✓')" id="card-karim-wrap" data-village="Bhadra" data-cats="ncd home facility" data-key="karim">
+      <div class="vcard" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" onclick="if(!visitsDone.karim) go('s10'); else showToast('Karim\'s visit already done today ✓')" id="card-karim-wrap" data-village="Bhadra" data-cats="ncd home facility" data-key="karim">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FFF7ED"/><circle cx="26" cy="18" r="9" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1442,7 +1448,7 @@
         <div id="pill-karim" class="v-status" style="color:#6B7280;"><span class="vs-dot" style="background:#9CA3AF;"></span>This week</div>
       </div>
       <!-- Patient 5 — New mother -->
-      <div class="vcard" id="card-saleha" style="background:white;border-radius:14px;border-left:4px solid #D1D5DB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" data-village="Noyapara" data-cats="anc missed home" data-key="saleha">
+      <div class="vcard" id="card-saleha" style="background:white;border-radius:14px;border-left:4px solid #E5E7EB;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);cursor:pointer;" data-village="Noyapara" data-cats="anc missed home" data-key="saleha">
         <svg width="44" height="44" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#F5F3FF"/><circle cx="26" cy="17" r="9" fill="#DDD6FE"/><path d="M11 45c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#C4B5FD"/><ellipse cx="37" cy="35" rx="5.5" ry="7" fill="#A78BFA" opacity=".5"/></svg>
         <div style="flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -1476,8 +1482,8 @@
   <!-- SCREEN 3: AI PATIENT SUMMARY + HOUSEHOLD   -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s3">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>9:51</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>9:51</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s2')">
         <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
         Back to worklist
@@ -1557,8 +1563,8 @@
   <!-- SCREEN 4: VISIT — 3-STEP PATIENT-FIRST     -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s4">
-    <div class="statusbar" style="background:#1E40AF;"><span>10:04</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#1E40AF;">
+    <div class="statusbar" style="background:#831843;"><span>10:04</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
       <div class="header-title">Visit — Rashida, Age 7</div>
       <div class="header-sub">Step <span id="visitStepLabel">1 of 3</span> · AI triage active</div>
@@ -1894,8 +1900,8 @@
   <!-- SCREEN 5: AI CDSS                          -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s5">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>10:09</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>10:09</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s4')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Vitals</button>
       <div class="header-title">AI Clinical Decision</div>
       <div class="header-sub">Works offline · On-device model · No internet needed</div>
@@ -1957,9 +1963,9 @@
       <div class="sukhee-status"><div class="sukhee-dot"></div>Connected · Encrypted</div>
     </div>
 
-    <div class="statusbar" style="background:#0f2544;padding-top:6px;"><span style="color:rgba(255,255,255,0.7);">10:14</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="statusbar" style="background:#831843;"><span style="color:rgba(255,255,255,0.7);">10:14</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
 
-    <div class="header" style="background:#0f2544;">
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s5')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>CDSS</button>
       <div class="header-title">Teleconsultation</div>
       <div class="header-sub">via Sukhee · UHC Manikganj · Secure call</div>
@@ -2046,8 +2052,8 @@
   <!-- SCREEN 7: AI COUNSELLING / WHATSAPP        -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s7">
-    <div class="statusbar" style="background:#064E3B;"><span>10:28</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#064E3B;">
+    <div class="statusbar" style="background:#831843;"><span>10:28</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s6')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Teleconsult</button>
       <div class="header-title">Personalised Counselling</div>
       <div class="header-sub">AI-generated · Bangla · Sent via WhatsApp</div>
@@ -2088,8 +2094,8 @@
   <!-- SCREEN 8: ASSISTANT + TRAINING             -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s8">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>10:45</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>10:45</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s7')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Counselling</button>
       <div class="header-title">SK Assistant</div>
       <div class="header-sub">Training · Clinical Q&A · Next patient</div>
@@ -2153,8 +2159,8 @@
   <!-- SCREEN 9: SK TRAINING HUB                  -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s9">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>10:50</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>10:50</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s8')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Assistant</button>
       <div class="header-title">Training Hub</div>
       <div class="header-sub">Short videos · Learn at your own pace</div>
@@ -2403,8 +2409,8 @@
   <!-- SCREEN 16: RASHIDA VISIT COMPLETE           -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s10">
-    <div class="statusbar" style="background:#854F0B;"><span>10:30</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#854F0B;">
+    <div class="statusbar" style="background:#831843;"><span>10:30</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="#FFF7ED"/><circle cx="26" cy="18" r="9" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
@@ -2637,28 +2643,25 @@
 
       <!-- ── ANC STEP 1 ── -->
       <div id="a-step1">
-        <!-- BEFORE YOU KNOCK -->
-        <div style="background:#F8F9FA;border:1px solid #E5E7EB;border-radius:14px;padding:12px 14px;margin-bottom:12px;">
+        <!-- BEFORE YOU KNOCK — compact -->
+        <div style="background:#F8F9FA;border:1px solid #E5E7EB;border-radius:12px;padding:9px 12px;margin-bottom:8px;">
           <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="toggleBriefA()">
             <div style="display:flex;align-items:center;gap:7px;">
-              <div style="width:28px;height:28px;background:#1B2B5E;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+              <div style="width:24px;height:24px;background:#1B2B5E;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
               <div style="font-size:12px;font-weight:800;color:var(--navy);">Before you knock · AI brief</div>
             </div>
             <span id="briefAChevron" style="font-size:14px;color:var(--muted);">▾</span>
           </div>
-          <div id="briefAContent" style="margin-top:8px;">
-            <div id="anc-brief-text" style="background:#FDF2F8;border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:12px;color:#9D174D;font-weight:600;line-height:1.5;">🤰 Nasrin · ANC Visit 3 · 30 weeks · Primigravida, age 26 · BP slightly up over last 2 visits</div>
-            <div style="font-size:11px;color:#6B7280;font-weight:600;margin-bottom:5px;">Also cover while you're here:</div>
-            <div style="display:flex;gap:5px;flex-wrap:wrap;"><span style="font-size:11px;background:#EFF6FF;color:#1E40AF;padding:3px 9px;border-radius:10px;font-weight:600;">Toddler · Vitamin A 💊</span></div>
+          <div id="briefAContent" style="margin-top:6px;">
+            <div id="anc-brief-text" style="background:#FDF2F8;border-radius:8px;padding:7px 10px;font-size:11.5px;color:#9D174D;font-weight:600;line-height:1.4;">🤰 Nasrin · ANC Visit 3 · 30 weeks · Primigravida, age 26 · BP slightly up over last 2 visits</div>
           </div>
         </div>
 
-        <!-- GREET WARMLY -->
-        <div id="ancGreetWarmly" style="background:#1B2B5E;border-radius:16px;padding:16px;margin-bottom:14px;">
-          <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">👋 Sit with her — greet warmly</div>
-          <div style="font-size:15px;font-weight:700;color:white;line-height:1.6;">"আপু, আপনি কেমন আছেন?<br>বাচ্চা কেমন নড়াচড়া করছে?"</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px;">"Sister, how are you? Is the baby moving well?"</div>
-          <div style="margin-top:10px;background:rgba(255,255,255,0.12);border-radius:10px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,0.85);">💡 Ask how she feels at home, with family, and about her sleep — before the pregnancy checkup</div>
+        <!-- GREET WARMLY — compact -->
+        <div id="ancGreetWarmly" style="background:#1B2B5E;border-radius:12px;padding:11px 14px;margin-bottom:10px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">👋 Greet warmly</div>
+          <div style="font-size:13.5px;font-weight:700;color:white;line-height:1.5;">"আপু, আপনি কেমন আছেন? বাচ্চা কেমন নড়াচড়া করছে?"</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;">"Sister, how are you? Is the baby moving well?"</div>
         </div>
 
         <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">How is she feeling today? 🎙️</div>
@@ -2689,28 +2692,13 @@
 
         <!-- Detected symptoms -->
         <div id="ancS1SymptomsDetected" style="display:none;margin-bottom:12px;">
-          <div style="font-size:11px;font-weight:700;color:#3D3599;margin-bottom:7px;display:flex;align-items:center;gap:5px;">
-            <svg width="13" height="13" fill="#3D3599" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            AI detected from what she said:
-          </div>
           <div id="ancS1SympCards" style="display:flex;flex-direction:column;gap:7px;"></div>
         </div>
 
         <!-- Hint -->
-        <div id="ancS1Hint" style="background:#F8F9FC;border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-          <div style="font-size:16px;">💬</div>
-          <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Tap the scribe above, then ask her how she's been feeling. Symptoms will appear here automatically.</div>
-        </div>
+        <!-- Hint removed — scribe banner above is self-explanatory -->
 
         <!-- Starting ANC indication -->
-        <div id="ancStartBanner" style="background:#FDF2F8;border:1px solid #FBCFE8;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:22px;">🤰</span>
-          <div>
-            <div style="font-size:13px;font-weight:800;color:#9D174D;" id="ancStartTitle">Starting ANC Visit 3</div>
-            <div style="font-size:11px;color:#9D174D;margin-top:1px;">Next: record her vitals &amp; pregnancy checks</div>
-          </div>
-        </div>
-
         <!-- Screening questions — shown only for new patients via goANC() -->
         <div id="ancScreeningSection" style="display:none;margin-bottom:16px;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
@@ -3157,7 +3145,7 @@
         </div>
 
         <!-- TREND across visits — collapsible accordion -->
-        <div style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;margin-bottom:16px;overflow:hidden;">
+        <div id="ancTrendCard" style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;margin-bottom:16px;overflow:hidden;">
           <!-- Accordion header — always visible, tappable -->
           <div onclick="var b=document.getElementById('trendBody');var ch=document.getElementById('trendChevron');var open=b.style.display!=='none';b.style.display=open?'none':'block';ch.style.transform=open?'rotate(0deg)':'rotate(180deg)';" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;">
             <div style="display:flex;align-items:center;gap:7px;">
@@ -3210,7 +3198,7 @@
           </div>
         </div>
 
-        <button class="pink-btn" onclick="go('s13')" style="background:#EC4899;font-size:16px;">See what AI recommends →
+        <button class="pink-btn" onclick="goToS13()" style="background:#EC4899;font-size:16px;">See what AI recommends →
           <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">AI পরামর্শ দেখুন</span>
         </button>
       </div>
@@ -3222,137 +3210,135 @@
   <!-- SCREEN 12: AI RECOMMENDATION — Karim NCD  -->
   <!-- ══════════════════════════════════════════ -->
   <div class="screen" id="s12">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>10:52</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>10:52</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s10')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to form</button>
       <div class="header-title">What to do next</div>
       <div class="header-sub">AI checked all findings · Karim, Age 52</div>
     </div>
-    <div class="body">
-      <div style="background:#1B2B5E;border-radius:14px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-        <div style="width:32px;height:32px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-        <div><div style="font-size:12px;font-weight:800;color:white;">AI reviewed today's vitals + visit history</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Karim · Age 52 · Diabetes + new BP finding · Follows Bangladesh health guidelines</div></div>
-      </div>
+    <div class="body" style="padding:16px 14px 28px;">
 
       <!-- Diabetes OK -->
-      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:14px;padding:13px 14px;margin-bottom:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;"><div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#065F46;">✅ Diabetes — controlled</div><div style="font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;background:#10B981;color:white;">On track</div></div>
-        <div style="font-size:12px;color:#065F46;line-height:1.5;">Blood sugar 7.4 · medicines working · no foot wounds · Continue monthly check.</div>
+      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="font-size:12.5px;color:#065F46;font-weight:600;">✅ Diabetes — controlled · Blood sugar 7.4 · medicines working</div>
+        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;">On track</div>
       </div>
 
-      <div class="diag-box red" style="margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-          <div style="flex:1;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#92400E;">⚠ High blood pressure detected</div>
-          <div style="font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
+      <!-- High BP -->
+      <div style="background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="font-size:12.5px;color:#991B1B;font-weight:600;">⚠ High blood pressure — two readings + headaches + family history</div>
+        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
+      </div>
+
+      <!-- AI Lifestyle Counselling — accordion -->
+      <div style="background:#FDF2F8;border:1.5px solid #FBCFE8;border-radius:16px;padding:14px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+          <div style="width:22px;height:22px;background:linear-gradient(135deg,#E8356D,#6B63D4);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
         </div>
-        <div style="font-size:12px;color:#7F1D1D;">High BP on two readings + morning headaches + family history + high salt.</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🧂</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Reduce salt</strong> — no pickles, dried fish or salty snacks.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🥦</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Eat vegetables &amp; fruits daily</strong> — leafy greens, banana, tomato.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🚶</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Walk 30 min daily</strong> — morning or evening, even 15 min twice.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🚭</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>No tobacco</strong> — raises BP and stroke risk.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">💊</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Don't stop diabetes medicine</strong> — take every day.</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Follow-up Schedule -->
-            <!-- Follow-up schedule — compact -->
-      <div style="background:linear-gradient(135deg,#F0F4FF 0%,#E8F4F0 100%);border:1.5px solid #D4DFF5;border-radius:14px;padding:10px 12px;margin-bottom:12px;">
+      <!-- Follow-up schedule -->
+      <div style="background:linear-gradient(135deg,#F0F4FF 0%,#E8F4F0 100%);border:1.5px solid #D4DFF5;border-radius:14px;padding:10px 12px;margin-bottom:14px;">
         <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">
           <svg width="13" height="13" fill="#3D3599" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
-          <div style="font-size:11px;font-weight:800;color:#1B2B5E;">Follow-up schedule</div>
+          <div style="font-size:11px;font-weight:800;color:#831843;">Follow-up schedule</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:5px;">
           <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #EF4444;">
             <div style="font-size:13px;flex-shrink:0;">🏥</div>
-            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">UHC visit — confirm BP &amp; start medicine</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#831843;">UHC visit — confirm BP &amp; start medicine</div>
             <div style="font-size:11px;font-weight:900;color:#EF4444;white-space:nowrap;">Today <span style="font-size:9px;background:#EF4444;color:white;padding:1px 5px;border-radius:4px;margin-left:2px;">Urgent</span></div>
           </div>
           <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #FCD34D;">
             <div style="font-size:13px;flex-shrink:0;">💊</div>
-            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">BP &amp; blood sugar recheck</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#831843;">BP &amp; blood sugar recheck</div>
             <div style="font-size:11px;font-weight:900;color:#D97706;white-space:nowrap;">2 weeks</div>
           </div>
           <div style="background:rgba(255,255,255,0.8);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #A7F3D0;">
             <div style="font-size:13px;flex-shrink:0;">📋</div>
-            <div style="flex:1;font-size:11.5px;font-weight:700;color:#1B2B5E;">Routine NCD follow-up</div>
+            <div style="flex:1;font-size:11.5px;font-weight:700;color:#831843;">Routine NCD follow-up</div>
             <div style="font-size:11px;font-weight:900;color:#059669;white-space:nowrap;">Monthly</div>
           </div>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #D4DFF5;">
-          <div style="font-size:13px;">🔔</div>
-          <div style="font-size:10.5px;color:#3D3599;font-weight:600;">AI can set a reminder for Karim's next visit</div>
+      </div>
+
+      <!-- WhatsApp — compact row -->
+      <div onclick="toggleWaDraft('ncd')" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
+        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
+        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
+        <div id="wa-ncd-chevron" style="font-size:16px;color:#25D366;font-weight:800;">›</div>
+      </div>
+      <div id="wa-ncd-draft" style="display:none;margin-top:-10px;margin-bottom:14px;background:white;border:1.5px solid #86EFAC;border-radius:12px;overflow:hidden;">
+        <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
+          <div style="width:22px;height:22px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;">👤</div>
+          <div style="font-size:11px;font-weight:700;color:white;">Md. Karim Uddin · +880 18XX XXX XXX</div>
+        </div>
+        <div style="background:#ECE5DD;padding:10px;">
+          <div style="background:white;border-radius:10px;padding:10px 12px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+            <div style="font-size:12px;color:#111;line-height:1.7;">কাকা, আজকের স্বাস্থ্য পরীক্ষা থেকে কিছু গুরুত্বপূর্ণ পরামর্শ পাঠাচ্ছি।<br><br>আপনার <strong>রক্তচাপ বেশি</strong> — আজই UHC-তে যান।<br><br>🧂 লবণ কম খান · 🥦 শাকসবজি খান · 🚶 হাঁটুন · 🚭 তামাক ছাড়ুন<br><br>ডায়াবেটিসের ওষুধ বন্ধ করবেন না। 💊</div>
+            <div style="font-size:9px;color:#999;margin-top:4px;text-align:right;">AI drafted · SK Jahnara</div>
+          </div>
+        </div>
+        <div style="padding:8px 10px;display:flex;gap:7px;">
+          <button onclick="showToast('✅ WhatsApp message sent to Karim')" style="flex:1;background:#25D366;color:white;border:none;border-radius:9px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
+          <button onclick="showToast('Message copied')" style="background:#F3F4F6;border:none;border-radius:9px;padding:9px 12px;font-size:12px;cursor:pointer;font-family:inherit;">📋</button>
         </div>
       </div>
 
-      <!-- AI Lifestyle Counselling — accordion -->
-      <div style="background:linear-gradient(135deg,#1B2B5E 0%,#3D3599 100%);border-radius:14px;padding:12px 14px;margin-bottom:14px;">
-        <!-- Accordion header -->
-        <div onclick="toggleLifestyle()" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-          <div style="width:26px;height:26px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div style="flex:1;">
-            <div style="font-size:12px;font-weight:800;color:white;">AI lifestyle counselling</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:1px;">Tap to expand — share with Karim &amp; family</div>
-          </div>
-          <div id="lifestyle-chevron" style="font-size:18px;color:rgba(255,255,255,0.7);transition:transform .3s;">›</div>
+      <!-- Members in this household -->
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">👪 Members in this household</div>
+      <div onclick="goNasrinANC()" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="width:38px;height:38px;background:#FDF2F8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤰</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:800;color:var(--text);">Nasrin Begum</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 24 · Female · ANC Visit 3</div>
+          <div style="font-size:10px;font-weight:700;color:#B45309;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;display:inline-block;"></span>BP rising</div>
         </div>
-
-        <!-- Accordion body (collapsed by default) -->
-        <div id="lifestyle-body" style="display:none;margin-top:10px;">
-          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;">
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#FEF3C7;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🧂</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Reduce salt</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">No extra salt. Avoid pickles, dried fish, salty snacks.</div></div>
-            </div>
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#D1FAE5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🥦</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Eat vegetables &amp; fruits daily</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Leafy greens, banana, tomato — lower BP naturally.</div></div>
-            </div>
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#EFF6FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚶</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Walk 30 minutes daily</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Morning or evening. Even 15 min twice a day helps.</div></div>
-            </div>
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#FEE2E2;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚭</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Avoid tobacco &amp; alcohol</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Tobacco raises BP and stroke risk. Encourage quitting.</div></div>
-            </div>
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#EEF0FF;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">😴</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Sleep 7–8 hrs &amp; manage stress</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Poor sleep and stress both raise BP.</div></div>
-            </div>
-            <div style="background:rgba(255,255,255,0.1);border-radius:10px;padding:9px 11px;display:flex;align-items:center;gap:9px;">
-              <div style="width:26px;height:26px;background:#ECFDF5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">⚖️</div>
-              <div><div style="font-size:12px;font-weight:700;color:white;">Maintain a healthy weight</div><div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">Losing 2–3 kg can noticeably lower BP.</div></div>
-            </div>
-          </div>
-
-          <!-- WhatsApp -->
-          <div style="padding-top:10px;border-top:1px solid rgba(255,255,255,0.15);">
-            <div id="wa-ncd-strip" onclick="toggleWaDraft('ncd')" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-              <div style="width:22px;height:22px;background:#DCF8C6;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">📲</div>
-              <div style="flex:1;font-size:11px;color:rgba(255,255,255,0.85);font-weight:600;">Send these tips to Karim via WhatsApp in Bangla</div>
-              <div id="wa-ncd-chevron" style="font-size:13px;color:rgba(255,255,255,0.8);">›</div>
-            </div>
-            <div id="wa-ncd-draft" style="display:none;margin-top:10px;background:white;border-radius:12px;overflow:hidden;">
-              <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-                <div style="width:22px;height:22px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;">👤</div>
-                <div style="font-size:11px;font-weight:700;color:white;">Md. Karim Uddin · +880 18XX XXX XXX</div>
-              </div>
-              <div style="background:#ECE5DD;padding:10px;">
-                <div style="background:white;border-radius:10px;padding:10px 12px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-                  <div style="font-size:12px;color:#111;line-height:1.7;">কাকা, আজকের স্বাস্থ্য পরীক্ষা থেকে কিছু গুরুত্বপূর্ণ পরামর্শ পাঠাচ্ছি।<br><br>আপনার <strong>রক্তচাপ বেশি</strong> — আজই UHC-তে যান।<br><br>🧂 লবণ কম খান · 🥦 শাকসবজি খান · 🚶 হাঁটুন · 🚭 তামাক ছাড়ুন<br><br>ডায়াবেটিসের ওষুধ বন্ধ করবেন না। 💊</div>
-                  <div style="font-size:9px;color:#999;margin-top:4px;text-align:right;">AI drafted · SK Jahnara</div>
-                </div>
-              </div>
-              <div style="padding:8px 10px;display:flex;gap:7px;">
-                <button onclick="showToast('✅ WhatsApp message sent to Karim')" style="flex:1;background:#25D366;color:white;border:none;border-radius:9px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
-                <button onclick="showToast('Message copied')" style="background:#F3F4F6;border:none;border-radius:9px;padding:9px 12px;font-size:12px;cursor:pointer;font-family:inherit;">📋</button>
-              </div>
-            </div>
-          </div>
+        <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+      <div onclick="go('s23')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:14px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="width:38px;height:38px;background:#FEF3C7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👶</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:800;color:var(--text);">Rahim Hossain</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 2 · Male · Child health</div>
+          <div style="font-size:10px;font-weight:700;color:#B45309;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;display:inline-block;"></span>Vaccines overdue</div>
         </div>
+        <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
       </div>
 
-      <button class="pink-btn" style="background:#EF4444;font-size:16px;margin-bottom:8px;" onclick="go('s6')">
-        📱 Call a doctor now
-        <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">ডাক্তারকে ভিডিও কল করুন</span>
+      <!-- Action buttons — compact -->
+      <button class="pink-btn" style="background:#EF4444;padding:10px 14px;font-size:13px;margin-bottom:6px;" onclick="go('s6')">
+        📱 Call a doctor now · ডাক্তারকে ভিডিও কল করুন
       </button>
-      <button class="outline-btn" onclick="openBookingSheet()">🏥 Book hospital visit &amp; refer →</button>
+      <button class="outline-btn" style="padding:10px 14px;font-size:13px;" onclick="openBookingSheet()">
+        🏥 Book hospital visit &amp; refer →
+      </button>
+
     </div>
   </div>
 
@@ -3360,11 +3346,11 @@
   <!-- SCREEN 13: AI RECOMMENDATION — Nasrin ANC 3 -->
   <!-- ════════════════════════════════════════════ -->
   <div class="screen" id="s13">
-    <div class="statusbar" style="background:var(--purple-dark);"><span>11:28</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:var(--purple-dark);">
+    <div class="statusbar" style="background:#831843;"><span>11:28</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s11')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to form</button>
       <div class="header-title">What to do next</div>
-      <div class="header-sub">AI checked all findings · ANC Visit 3</div>
+      <div class="header-sub" id="s13HeaderSub">AI checked all findings · ANC Visit 3</div>
     </div>
     <div class="body">
 
@@ -3380,12 +3366,12 @@
 
       <!-- Today's readings — compact single line -->
       <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#065F46;font-weight:600;">✅ BP 132/86, weight, urine, baby movement — all within normal limits</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;">Normal</div>
+        <div style="font-size:12.5px;color:#065F46;font-weight:600;" id="s13ReadingsText">✅ BP 132/86, weight, urine, baby movement — all within normal limits</div>
+        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;" id="s13ReadingsBadge">Normal</div>
       </div>
 
-      <!-- Elevated risk — single sentence -->
-      <div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+      <!-- Elevated risk — Nasrin 3-visit trend warning (hidden for Priya) -->
+      <div id="s13TrendWarning" style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
         <div style="font-size:12.5px;color:#92400E;font-weight:600;">⚠️ BP, weight &amp; urine protein rising across 3 visits — pre-eclampsia risk. Refer within 48 hrs.</div>
         <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
       </div>
@@ -3401,7 +3387,8 @@
           <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px;">
+        <!-- Nasrin counselling points (hidden for Priya) -->
+        <div id="s13CounselNasrin" style="display:flex;flex-direction:column;gap:7px;margin-bottom:12px;">
           <div style="display:flex;align-items:center;gap:9px;">
             <div style="width:24px;height:24px;background:#FEE2E2;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🩺</div>
             <div style="font-size:12px;color:#9D174D;line-height:1.45;"><strong>Baby and mother are okay today</strong> — no emergency.</div>
@@ -3420,41 +3407,142 @@
           </div>
         </div>
 
-        <!-- WhatsApp interactive draft -->
-        <div style="margin-top:12px;border-top:1px dashed #FBCFE8;padding-top:11px;">
-          <div id="wa-anc-strip" onclick="toggleWaDraft('anc')" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-            <div style="width:28px;height:28px;background:#DCF8C6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">📲</div>
-            <div style="flex:1;font-size:12px;color:#BE185D;font-weight:700;">AI can draft this as a WhatsApp message in Bangla</div>
-            <div id="wa-anc-chevron" style="font-size:13px;color:#BE185D;">›</div>
+        <!-- Priya counselling points — first visit, all normal (hidden by default) -->
+        <div id="s13CounselPriya" style="display:none;flex-direction:column;gap:5px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">✅</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>All normal</strong> — great start at 8 weeks.</div>
           </div>
-          <div id="wa-anc-draft" style="display:none;margin-top:10px;background:white;border:1.5px solid #FBCFE8;border-radius:12px;overflow:hidden;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">📅</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Next ANC at 16 weeks</strong> — don't skip.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">💊</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Iron &amp; folic acid</strong> daily — after meals.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🚨</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Come at once</strong> if bleeding, pain, fever or blurred vision.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🥗</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Eat well</strong> — eggs, lentils, greens, milk daily.</div>
+          </div>
+        </div>
+
+      </div><!-- /counselling card -->
+
+      <!-- WhatsApp draft — compact tappable row -->
+      <div id="wa-anc-strip" onclick="toggleWaDraft('anc')" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
+        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
+        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
+        <div id="wa-anc-chevron" style="font-size:16px;color:#25D366;font-weight:800;">›</div>
+      </div>
+            <div id="wa-anc-draft" style="display:none;margin-top:8px;background:white;border:1.5px solid #86EFAC;border-radius:12px;overflow:hidden;margin-bottom:14px;">
             <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
               <div style="width:24px;height:24px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">👤</div>
-              <div style="font-size:12px;font-weight:700;color:white;">Nasrin Begum · +880 17XX XXX XXX</div>
+              <div id="waPatientName" style="font-size:12px;font-weight:700;color:white;">Nasrin Begum · +880 17XX XXX XXX</div>
             </div>
             <div style="background:#ECE5DD;padding:12px;">
               <div style="background:white;border-radius:10px;padding:11px 13px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-                <div style="font-size:12.5px;color:#111;line-height:1.7;">আপু, আজকের স্বাস্থ্য পরীক্ষার পর কিছু গুরুত্বপূর্ণ কথা জানাচ্ছি। আপনার ও শিশুর অবস্থা আজ ভালো আছে। তবে আপনার রক্তচাপ ধীরে ধীরে বাড়ছে — তাই <strong>২ দিনের মধ্যে</strong> উপজেলা স্বাস্থ্য কমপ্লেক্সে ডাক্তার দেখাতে হবে।<br><br>যদি হঠাৎ মাথাব্যথা, চোখ ঝাপসা, পেটে ব্যথা বা হাত-পা ফুলে যায় — তাহলে <strong>সঙ্গে সঙ্গে</strong> হাসপাতালে যান।<br><br>প্রতিদিন আয়রন ও ক্যালসিয়াম ট্যাবলেট খাওয়া বন্ধ করবেন না। 💊</div>
+                <div id="waMsgNasrin" style="font-size:12.5px;color:#111;line-height:1.7;">আপু, আজকের স্বাস্থ্য পরীক্ষার পর কিছু গুরুত্বপূর্ণ কথা জানাচ্ছি। আপনার ও শিশুর অবস্থা আজ ভালো আছে। তবে আপনার রক্তচাপ ধীরে ধীরে বাড়ছে — তাই <strong>২ দিনের মধ্যে</strong> উপজেলা স্বাস্থ্য কমপ্লেক্সে ডাক্তার দেখাতে হবে।<br><br>যদি হঠাৎ মাথাব্যথা, চোখ ঝাপসা, পেটে ব্যথা বা হাত-পা ফুলে যায় — তাহলে <strong>সঙ্গে সঙ্গে</strong> হাসপাতালে যান।<br><br>প্রতিদিন আয়রন ও ক্যালসিয়াম ট্যাবলেট খাওয়া বন্ধ করবেন না। 💊</div>
+                <div id="waMsgPriya" style="display:none;font-size:12.5px;color:#111;line-height:1.7;">আপু, আজকে আপনার প্রথম গর্ভকালীন স্বাস্থ্য পরীক্ষা হলো। সব কিছু স্বাভাবিক আছে — আপনি ও শিশু ভালো আছেন! 🌸<br><br>✅ পরবর্তী ANC ভিজিট <strong>১৬ সপ্তাহে</strong> করতে ভুলবেন না।<br>💊 প্রতিদিন আয়রন ও ফলিক এসিড ট্যাবলেট খান।<br>🥗 পুষ্টিকর খাবার খান: ডিম, ডাল, সবুজ শাকসবজি, দুধ।<br><br>যদি হঠাৎ রক্তপাত, তীব্র ব্যথা, জ্বর বা চোখ ঝাপসা হয় — সঙ্গে সঙ্গে চলে আসুন।</div>
                 <div style="font-size:10px;color:#999;margin-top:5px;text-align:right;">AI drafted · Shasthya Kormi Jahnara</div>
               </div>
             </div>
             <div style="padding:10px 12px;display:flex;gap:8px;">
-              <button id="anc-wa-btn" onclick="showToast('✅ WhatsApp message sent to Nasrin')" style="flex:1;background:#25D366;color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
+              <button id="anc-wa-btn" onclick="showToast('✅ WhatsApp message sent')" style="flex:1;background:#25D366;color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
               <button onclick="showToast('Message copied to clipboard')" style="background:#F3F4F6;border:none;border-radius:10px;padding:10px 14px;font-size:13px;cursor:pointer;font-family:inherit;">📋</button>
             </div>
           </div>
-        </div>
 
+      <!-- Action buttons — Nasrin: Call doctor + Refer to UHC; Priya: Submit only -->
+      <!-- Members in this household — Nasrin -->
+      <div id="s13HouseholdMembersNasrin" style="display:none;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">👪 Members in this household</div>
+        <div onclick="goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#FDF2F8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤰</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Priya Rani Das</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 20 · Female · ANC</div>
+            <div style="font-size:10px;font-weight:700;color:#EC4899;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#EC4899;display:inline-block;"></span>First visit due</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+        <div onclick="go('s10')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#FEF9EC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👨</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Karim Mia</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 52 · Male · NCD</div>
+            <div style="font-size:10px;font-weight:700;color:#92400E;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block;"></span>BP check due</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+        <div onclick="go('s15')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#ECFDF5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👩</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Saleha Begum</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 28 · Female · PNC</div>
+            <div style="font-size:10px;font-weight:700;color:#065F46;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#10B981;display:inline-block;"></span>Visit 2 due today</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
       </div>
 
-      <!-- Two action buttons (reuse existing flow) -->
-      <button class="pink-btn" style="background:#EF4444;font-size:16px;margin-bottom:8px;" onclick="go('s17')">
-        📱 Call a doctor now
-        <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">ডাক্তারকে এখনই ফোন করুন</span>
-      </button>
-      <button class="outline-btn" onclick="bookAndComplete('s14')">
-        🏥 Refer to UHC (within 48 hrs) →
-      </button>
+      <!-- Action buttons — Nasrin -->
+      <div id="s13ActionsNasrin">
+        <button class="pink-btn" style="background:#EF4444;padding:10px 14px;font-size:13px;margin-bottom:6px;" onclick="go('s17')">
+          📱 Call a doctor now <span style="font-weight:400;opacity:.85;">· ডাক্তারকে ফোন করুন</span>
+        </button>
+        <button class="outline-btn" style="padding:10px 14px;font-size:13px;" onclick="bookAndComplete('s14')">
+          🏥 Refer to UHC (within 48 hrs) →
+        </button>
+      </div>
+
+      <!-- Others in this household needing a visit — Priya only -->
+      <div id="s13HouseholdMembers" style="display:none;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">👪 Members in this household</div>
+
+        <!-- Rahim — Child, immunisation overdue -->
+        <div onclick="go('s23')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#FEF3C7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👶</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Rahim Hossain</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 2 · Male · Child health</div>
+            <div style="font-size:10px;font-weight:700;color:#B45309;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;display:inline-block;"></span> Vaccines overdue</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+
+        <!-- Karim — NCD follow-up -->
+        <div onclick="go('s10')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#FEF9EC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👨</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Karim Mia</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 52 · Male · NCD follow-up</div>
+            <div style="font-size:10px;font-weight:700;color:#92400E;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block;"></span> BP check due</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+
+        <!-- Saleha — PNC -->
+        <div onclick="go('s15')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="width:38px;height:38px;background:#ECFDF5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👩</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--text);">Saleha Begum</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 28 · Female · PNC</div>
+            <div style="font-size:10px;font-weight:700;color:#065F46;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#10B981;display:inline-block;"></span> Visit 2 due today</div>
+          </div>
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+        </div>
+      </div>
+
+      <div id="s13ActionsPriya" style="display:none;">
+        <button class="pink-btn" style="background:#831843;" onclick="visitsDone.priya=true;showToast('✅ Priya\'s first ANC visit saved');setTimeout(function(){go('s2');},1200);">
+          Submit
+        </button>
+      </div>
 
     </div>
   </div>
@@ -3530,8 +3618,8 @@
   </div>
 
 <div class="screen" id="s15">
-    <div class="statusbar" style="background:#085041;"><span>10:58</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#085041;">
+    <div class="statusbar" style="background:#831843;"><span>10:58</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s12')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>AI advice</button>
       <div class="header-title">Visit complete</div>
       <div class="header-sub">Md. Karim Uddin · Referred to UHC</div>
@@ -3592,11 +3680,11 @@
   </div>
 
   <div class="screen" id="s16">
-    <div class="statusbar" style="background:#991B1B;"><span>10:22</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#991B1B;">
+    <div class="statusbar" style="background:#831843;"><span>10:22</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s5')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>AI advice</button>
       <div class="header-title">Visit complete</div>
-      <div class="header-sub">Rashida Khanam · Referred to UHC</div>
+      <div class="header-sub">Nasrin Begum · Referred to UHC</div>
     </div>
     <div class="body">
       <!-- completion banner -->
@@ -3662,10 +3750,10 @@
   <!-- SCREEN 17: NASRIN TELECONSULT (Sukhee) — malaria/pregnancy -->
   <!-- ═══════════════════════════════════════════ -->
   <div class="screen" id="s17">
-    <div class="statusbar" style="background:#0F766E;"><span>11:32</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="statusbar" style="background:#831843;"><span>11:32</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
 
     <!-- Sukhee system bar -->
-    <div style="background:#0F766E;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="background:#831843;padding:8px 16px;display:flex;align-items:center;justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:7px;">
         <div style="width:22px;height:22px;background:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:12px;font-weight:900;color:#0F766E;">S</div>
         <span style="font-size:13px;font-weight:800;color:white;font-family:'Nunito',sans-serif;">Sukhee</span>
@@ -3674,7 +3762,7 @@
       <div style="display:flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;background:#4ADE80;border-radius:50%;animation:blink 1.2s infinite;"></span><span style="font-size:10px;color:white;font-weight:600;">Connected · Encrypted</span></div>
     </div>
 
-    <div class="header" style="background:#0F766E;padding-top:10px;">
+    <div class="header" style="background:#831843;padding-top:10px;">
       <button class="back-btn" onclick="go('s13')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back</button>
       <div class="header-title">Doctor video call</div>
       <div class="header-sub">via Sukhee · Nasrin Begum · 32 weeks pregnant</div>
@@ -3698,7 +3786,7 @@
 
       <!-- auto-shared data pill -->
       <div style="background:#F0FDFA;border:1px solid #99F6E4;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;">
-        <div style="width:28px;height:28px;background:#0F766E;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+        <div style="width:28px;height:28px;background:#831843;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
         <div>
           <div style="font-size:12px;font-weight:800;color:#134E4A;">Apon Sushashthya shared the full record with Sukhee</div>
           <div style="font-size:11px;color:#0F766E;margin-top:2px;">ANC Visit 3 notes · BP trend 120→126→132 · urine trace protein · 30 weeks — doctor saw it before the call</div>
@@ -3727,7 +3815,7 @@
         </div>
       </div>
 
-      <button class="pink-btn" onclick="go('s18')" style="background:#0F766E;font-size:15px;">
+      <button class="pink-btn" onclick="go('s18')" style="background:#831843;font-size:15px;">
         Send counselling to family →
         <span style="display:block;font-size:11px;font-weight:500;opacity:.85;margin-top:3px;">পরিবারকে পরামর্শ পাঠান</span>
       </button>
@@ -3950,7 +4038,7 @@
           <div class="cce-avatar" style="background:#FEE2E2;color:#991B1B;">RK</div>
           <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              <div class="cce-name">Rashida Khanam, Age 7</div>
+              <div class="cce-name">Nasrin Begum, Age 24</div>
               <span class="cce-sla-pill sla-breach">SLA BREACHED +4d</span>
             </div>
             <div class="cce-meta">
@@ -3986,11 +4074,11 @@
           </div>
         </div>
         <div class="cce-card-actions">
-          <button class="cce-btn cce-btn-call" onclick="showCallSheet('Rashida Khanam','Nasrin Akter (Mother)','+880 17XX XXXXXX')">
+          <button class="cce-btn cce-btn-call" onclick="showCallSheet('Nasrin Begum','Nasrin Akter (Mother)','+880 17XX XXXXXX')">
             <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
             Call family
           </button>
-          <button class="cce-btn cce-btn-update" onclick="showUpdateSheet('Rashida Khanam')">
+          <button class="cce-btn cce-btn-update" onclick="showUpdateSheet('Nasrin Begum')">
             <svg width="14" height="14" fill="#3D3599" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
             Update status
           </button>
@@ -4084,7 +4172,7 @@
   <div class="update-sheet" id="callSheet">
     <div style="width:40px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 16px;"></div>
     <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px;" id="callSheetTitle">Call family</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;" id="callSheetSub">Contact for Rashida Khanam</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;" id="callSheetSub">Contact for Nasrin Begum</div>
     <div style="background:var(--lavender);border-radius:12px;padding:14px;margin-bottom:16px;display:flex;align-items:center;gap:12px;">
       <div style="width:42px;height:42px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
         <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
@@ -4109,7 +4197,7 @@
   <div class="update-sheet" id="updateSheet">
     <div style="width:40px;height:4px;background:#E5E7EB;border-radius:2px;margin:0 auto 14px;"></div>
     <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px;">Update patient status</div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:4px;" id="updateSheetName">Rashida Khanam</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:4px;" id="updateSheetName">Nasrin Begum</div>
     <div style="font-size:11px;color:var(--purple);font-weight:700;margin-bottom:12px;">CCE will sync this update to the facility and supervisor</div>
     <div class="status-opts">
       <div class="status-opt" onclick="selectStatus(this,'Patient reached facility','#10B981')">
@@ -4153,7 +4241,7 @@
       <div style="background:var(--lavender);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;background:#FEE2E2;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:'Nunito',sans-serif;color:#991B1B;flex-shrink:0;">RK</div>
         <div>
-          <div style="font-size:13px;font-weight:700;color:var(--text);">Rashida Khanam · Age 7</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);">Nasrin Begum · Age 24</div>
           <div style="font-size:11px;color:var(--muted);">Condition: Suspected pneumonia · AI CDSS: Severe</div>
         </div>
       </div>
@@ -4202,7 +4290,7 @@
       <div style="background:#EFF9F7;border:1px solid #A7F3D0;border-radius:10px;padding:10px 14px;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;">
         <svg width="16" height="16" fill="#10B981" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         <div style="font-size:11px;color:#065F46;line-height:1.6;">
-          <strong>CCE will track this appointment.</strong> If Rashida does not check in at OPD within the SLA window, CCE will alert Fatema to follow up with the family.
+          <strong>CCE will track this appointment.</strong> If Nasrin does not check in at OPD within the SLA window, CCE will alert Fatema to follow up with the family.
         </div>
       </div>
 
@@ -4410,8 +4498,8 @@
   <!-- SCREEN 28: HOUSEHOLD CREATED + MEMBERS LIST          -->
   <!-- ═══════════════════════════════════════════════════ -->
   <div class="screen" id="s28">
-    <div class="statusbar" style="background:#059669;"><span>10:18</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#059669;">
+    <div class="statusbar" style="background:#831843;"><span>10:18</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <div class="header-title">✓ Household Created</div>
       <div class="header-sub" id="hhCreatedSub">HH-2024-0047 · Char Bhadra</div>
     </div>
@@ -4902,9 +4990,9 @@
   <!-- SCREEN 21: SERVICE SELECTION — Priya Rani Das       -->
   <!-- ═══════════════════════════════════════════════════ -->
   <div class="screen" id="s21">
-    <div class="statusbar" style="background:#1B2B5E;"><span>10:35</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="statusbar" style="background:#831843;"><span>10:35</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
 
-    <div class="header" style="background:#1B2B5E;">
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#DDD6FE"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#C4B5FD"/></svg>
@@ -4986,8 +5074,8 @@
   <!-- SCREEN 23: RAHIM — HOW ARE YOU FEELING TODAY        -->
   <!-- ═══════════════════════════════════════════════════ -->
   <div class="screen" id="s23">
-    <div class="statusbar" style="background:#1B2B5E;"><span>10:30</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
-    <div class="header" style="background:#1B2B5E;">
+    <div class="statusbar" style="background:#831843;"><span>10:30</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="2" fill="white"/></svg></div></div>
+    <div class="header" style="background:#831843;">
       <button class="back-btn" onclick="go('s2')"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Back to visits</button>
       <div style="display:flex;align-items:center;gap:12px;">
         <svg width="46" height="46" viewBox="0 0 52 52" fill="none" style="flex-shrink:0;"><circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/><circle cx="26" cy="17" r="8" fill="#FDE68A"/><path d="M11 46c0-8.3 6.7-15 15-15s15 6.7 15 15" fill="#FCD34D"/></svg>
@@ -5010,9 +5098,7 @@
           <span id="briefRahimChevron" style="font-size:14px;color:var(--muted);">▾</span>
         </div>
         <div id="briefRahimContent" style="margin-top:8px;">
-          <div style="background:#FFFBEB;border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:12px;color:#92400E;font-weight:600;line-height:1.5;">👶 Rahim · Age 2 · Child immunisation due · 2 vaccines overdue at last check</div>
-          <div style="font-size:11px;color:#6B7280;font-weight:600;margin-bottom:5px;">Also cover while you're here:</div>
-          <div style="display:flex;gap:5px;flex-wrap:wrap;"><span style="font-size:11px;background:#FEF3C7;color:#92400E;padding:3px 9px;border-radius:10px;font-weight:600;">Growth check · Vitamin A 💊</span></div>
+          <div style="background:#FFFBEB;border-radius:10px;padding:9px 12px;font-size:12px;color:#92400E;font-weight:600;line-height:1.5;">👶 Rahim · Age 2 · Child immunisation due · 2 vaccines overdue at last check</div>
         </div>
       </div>
 
@@ -5191,70 +5277,80 @@
 
     <div class="body" style="padding:16px 14px 28px;">
 
-      <!-- Visit snapshot -->
-      <div style="background:white;border-radius:14px;border:1.5px solid #E5E7EB;padding:12px 14px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="flex:1;">
-          <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Today's visit</div>
-          <div style="font-size:13px;font-weight:800;color:var(--navy);">Child immunisation · 28 Jun 2026</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px;">SK Jahnara Begum · Char Bhadra</div>
-        </div>
-        <div style="background:#ECFDF5;border-radius:10px;padding:6px 10px;text-align:center;">
-          <div style="font-size:18px;font-weight:900;color:#059669;">2</div>
-          <div style="font-size:9px;color:#059669;font-weight:700;">yrs old</div>
-        </div>
-      </div>
-
-      <!-- AI Counselling — main card -->
-      <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:16px;padding:16px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-          <div style="width:28px;height:28px;background:rgba(255,255,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div style="font-size:12px;font-weight:800;color:white;">AI Counselling · Rahim's family</div>
-        </div>
-        <div style="font-size:12.5px;line-height:1.7;color:rgba(255,255,255,0.9);margin-bottom:12px;">
-          Rahim is 2 years old and on track so far. <strong style="color:#FCA5A5;">MR, DPT &amp; OPV boosters (16–24 month window) are due now</strong> — these are key to keeping his early protection strong.
-        </div>
-        <!-- Insight boxes -->
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
-            <div style="font-size:11px;font-weight:700;color:#FDE68A;margin-bottom:3px;">💡 Did you know</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">These booster doses top up immunity from his earlier vaccines. At 2 years, toddlers are highly active and exposed to more germs — this is the ideal window to complete them.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
-            <div style="font-size:11px;font-weight:700;color:#93C5FD;margin-bottom:3px;">🎯 What to tell the family</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">No hospital needed — the nearest EPI centre can give all three in one visit. Bring Rahim this week along with his Vitamin A dose.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;">
-            <div style="font-size:11px;font-weight:700;color:#6EE7B7;margin-bottom:3px;">📅 Mark your calendar</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.8);line-height:1.5;">Next milestone: 5-year booster (DPT &amp; OPV) — not due for another 3 years. No action needed until then.</div>
-          </div>
-        </div>
+      <!-- All normal reading strip -->
+      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="font-size:12.5px;color:#065F46;font-weight:600;">✅ 9 vaccines completed on time — great progress so far</div>
+        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;">On track</div>
       </div>
 
       <!-- Overdue action card -->
-      <div style="background:#FEF2F2;border-left:3px solid #EF4444;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:14px;">
-        <div style="font-size:12px;font-weight:800;color:#991B1B;margin-bottom:6px;">⚠ Action needed this week</div>
-        <div style="display:flex;flex-direction:column;gap:5px;">
-          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">MR Booster</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
-          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">DPT Booster · OPV Booster</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
-          <div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:#991B1B;font-weight:600;">Vitamin A</span><span style="font-size:10px;color:#B91C1C;">Due now · 16–24 mo</span></div>
+      <div style="background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="font-size:12.5px;color:#991B1B;font-weight:600;">⚠ MR, DPT, OPV boosters &amp; Vitamin A — due now (16–24 months)</div>
+        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
+      </div>
+
+      <!-- AI Counselling card -->
+      <div style="background:#FDF2F8;border:1.5px solid #FBCFE8;border-radius:16px;padding:14px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+          <div style="width:22px;height:22px;background:linear-gradient(135deg,#E8356D,#6B63D4);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
         </div>
-        <div style="font-size:11px;color:#EF4444;font-weight:600;margin-top:8px;">✓ All three can be given in one EPI visit today</div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">💉</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>All 3 boosters in one EPI visit</strong> — no hospital needed.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🛡️</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;">These top up his earlier vaccines — toddlers are most exposed now.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">📅</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Next milestone: 5-year boosters</strong> — not due for 3 years.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-size:15px;flex-shrink:0;">🚨</div>
+            <div style="font-size:12px;color:#9D174D;line-height:1.35;">Return at once if: high fever after vaccine, rash, or breathing difficulty.</div>
+          </div>
+        </div>
       </div>
 
-      <!-- Positive reinforcement -->
-      <div style="background:#ECFDF5;border-left:3px solid #10B981;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:800;color:#065F46;margin-bottom:4px;">✅ Great progress so far</div>
-        <div style="font-size:11.5px;color:#059669;line-height:1.6;">Rahim has received all 9 scheduled vaccines on time up to 15 months. His family has shown great commitment to his health. Completing today's boosters keeps him fully protected.</div>
+      <!-- WhatsApp — compact row -->
+      <div onclick="openWADraft()" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
+        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
+        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
+        <div style="font-size:16px;color:#25D366;font-weight:800;">›</div>
       </div>
 
-      <!-- WhatsApp -->
-      <button onclick="openWADraft()" style="width:100%;background:#25D366;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Preview &amp; Send via WhatsApp
+      <!-- Members in this household -->
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">👪 Members in this household</div>
+
+      <div onclick="goNasrinANC()" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="width:38px;height:38px;background:#FDF2F8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤰</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:800;color:var(--text);">Nasrin Begum</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 24 · Female · ANC</div>
+          <div style="font-size:10px;font-weight:700;color:#B45309;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#EF4444;display:inline-block;"></span>BP rising — visit 3 due</div>
+        </div>
+        <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+
+      <div onclick="go('s10')" style="background:white;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:14px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="width:38px;height:38px;background:#FEF9EC;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👨</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:800;color:var(--text);">Karim Mia</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px;">Age 52 · Male · NCD</div>
+          <div style="font-size:10px;font-weight:700;color:#92400E;margin-top:3px;display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block;"></span>BP check due</div>
+        </div>
+        <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+
+      <!-- Submit -->
+      <button onclick="showToast('Visit saved');setTimeout(function(){go('s2');},1200);" style="width:100%;background:#831843;color:white;border:none;border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
+        Submit
       </button>
-      <button onclick="go('s2')" style="width:100%;background:white;color:var(--navy);border:1.5px solid var(--navy);border-radius:12px;padding:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">← Back to dashboard</button>
 
     </div>
   </div>
@@ -6026,6 +6122,46 @@ function saveHouseholdMember() {
 }
 
 // ── ANC PATIENT SWITCHER ──
+var _isPriyaVisit = false;
+
+function goToS13() {
+  if (_isPriyaVisit) {
+    document.getElementById('s13HeaderSub').textContent = 'AI checked all findings · ANC Visit 1';
+    document.getElementById('s13ReadingsText').textContent = '✅ All first-visit readings normal — healthy start to pregnancy';
+    document.getElementById('s13TrendWarning').style.display = 'none';
+    document.getElementById('s13CounselNasrin').style.display = 'none';
+    document.getElementById('s13CounselPriya').style.display = 'flex';
+    document.getElementById('s13ActionsNasrin').style.display = 'none';
+    document.getElementById('s13ActionsPriya').style.display = 'block';
+    document.getElementById('s13HouseholdMembers').style.display = 'block';
+    var nasrinHH = document.getElementById('s13HouseholdMembersNasrin');
+    if (nasrinHH) nasrinHH.style.display = 'none';
+    document.getElementById('waPatientName').textContent = 'Priya Rani Das · +880 18XX XXX XXX';
+    document.getElementById('waMsgNasrin').style.display = 'none';
+    document.getElementById('waMsgPriya').style.display = 'block';
+    var riskList = document.getElementById('pdRiskList');
+    var riskBox = document.getElementById('pdRiskSummary');
+    if (riskBox) riskBox.style.display = (riskList && riskList.children.length > 0) ? 'block' : 'none';
+  } else {
+    document.getElementById('s13HeaderSub').textContent = 'AI checked all findings · ANC Visit 3';
+    document.getElementById('s13ReadingsText').textContent = '✅ BP 132/86, weight, urine, baby movement — all within normal limits';
+    document.getElementById('s13TrendWarning').style.display = 'flex';
+    document.getElementById('s13CounselNasrin').style.display = 'flex';
+    document.getElementById('s13CounselPriya').style.display = 'none';
+    document.getElementById('s13ActionsNasrin').style.display = 'block';
+    document.getElementById('s13ActionsPriya').style.display = 'none';
+    document.getElementById('s13HouseholdMembers').style.display = 'none';
+    var nasrinHH = document.getElementById('s13HouseholdMembersNasrin');
+    if (nasrinHH) nasrinHH.style.display = 'block';
+    document.getElementById('waPatientName').textContent = 'Nasrin Begum · +880 17XX XXX XXX';
+    document.getElementById('waMsgNasrin').style.display = 'block';
+    document.getElementById('waMsgPriya').style.display = 'none';
+    var riskBox2 = document.getElementById('pdRiskSummary');
+    if (riskBox2) riskBox2.style.display = 'none';
+  }
+  go('s13');
+}
+
 function resetAncSteps() {
   var step1 = document.getElementById('a-step1');
   var step2 = document.getElementById('a-step2');
@@ -6042,6 +6178,7 @@ function resetAncSteps() {
 
 function goANC(name, sub) {
   resetAncSteps();
+  _isPriyaVisit = true;
   // reset service selection state for a fresh visit
   pwSelected = false;
   selectedServices = [];
@@ -6098,9 +6235,9 @@ function goANC(name, sub) {
   var priyaForm = document.getElementById('ancPregRegoPriya');
   if (priyaForm) priyaForm.style.display = 'block';
 
-  // reveal AI risk summary on the s13 "what to do next" screen for Priya
-  var riskBox = document.getElementById('pdRiskSummary');
-  if (riskBox) riskBox.style.display = 'block';
+  // hide the 3-visit trend card — Priya is a first visit, no historical trend
+  var trendCard = document.getElementById('ancTrendCard');
+  if (trendCard) trendCard.style.display = 'none';
 
   // s2 step banner
   var s2banner = document.getElementById('anc-s2-banner-title');
@@ -6112,6 +6249,7 @@ function goANC(name, sub) {
 function goNasrinANC() {
   if (visitsDone.nasrin) { showToast("Nasrin's visit already done today ✓"); return; }
   resetAncSteps();
+  _isPriyaVisit = false;
 
   // header name + sub — restore Nasrin's defaults
   var n = document.getElementById('anc-patient-name');
@@ -6165,9 +6303,9 @@ function goNasrinANC() {
   var priyaForm = document.getElementById('ancPregRegoPriya');
   if (priyaForm) priyaForm.style.display = 'none';
 
-  // hide the AI risk summary (PW-registration only, not relevant to Nasrin's Visit 3)
-  var riskBox = document.getElementById('pdRiskSummary');
-  if (riskBox) riskBox.style.display = 'none';
+  // restore 3-visit trend card for Nasrin
+  var trendCard = document.getElementById('ancTrendCard');
+  if (trendCard) trendCard.style.display = 'block';
 
   // s2 step banner — restore Visit 3 wording
   var s2banner = document.getElementById('anc-s2-banner-title');
@@ -7768,6 +7906,23 @@ function sendMsg () {
   }, 900);
   chat.scrollTop = chat.scrollHeight;
 }
+
+// Online/offline status indicator on login screen
+function updateLoginStatus() {
+  var dot = document.getElementById('loginStatusDot');
+  var text = document.getElementById('loginStatusText');
+  if (!dot || !text) return;
+  if (navigator.onLine) {
+    dot.style.background = '#10B981';
+    text.textContent = 'Online';
+  } else {
+    dot.style.background = '#FBBF24';
+    text.textContent = 'Offline login available';
+  }
+}
+window.addEventListener('online', updateLoginStatus);
+window.addEventListener('offline', updateLoginStatus);
+window.addEventListener('load', updateLoginStatus);
 
 document.addEventListener('keydown', function(e){
   if(e.key === 'Enter' && document.getElementById('chatIn') === document.activeElement) sendMsg();

@@ -1025,6 +1025,38 @@
     box-shadow:0 -8px 32px rgba(0,0,0,0.2);
   }
   .update-sheet.open { display:block;animation:slideUp 0.3s cubic-bezier(0.34,1.2,0.64,1); }
+
+  /* Performance drawer tabs */
+  .perf-tab { flex:1;text-align:center;padding:8px;border-radius:10px;background:#EEF0FF;color:#4C1D95;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s; }
+  .perf-tab.active { background:var(--navy);color:white; }
+
+  /* Settings sheet */
+  .settings-opts { display:flex;flex-direction:column;gap:2px; }
+  .settings-opt { display:flex;align-items:center;gap:9px;padding:8px 2px;border-bottom:1px solid #F3F4F6; }
+  .settings-opt:last-child { border-bottom:none; }
+  .settings-opt-title { font-size:12px;font-weight:700;color:var(--text); }
+  .settings-opt-sub { font-size:9.5px;color:var(--muted);margin-top:1px; }
+  .toggle-switch { position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0; }
+  .toggle-switch input { opacity:0;width:0;height:0; }
+  .toggle-slider { position:absolute;cursor:pointer;inset:0;background:#D1D5DB;border-radius:22px;transition:.2s; }
+  .toggle-slider::before { position:absolute;content:"";height:16px;width:16px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s; }
+  .toggle-switch input:checked + .toggle-slider { background:#10B981; }
+  .toggle-switch input:checked + .toggle-slider::before { transform:translateX(18px); }
+
+  /* Anchored dropdown popup (Settings) */
+  .dropdown-backdrop { display:none;position:absolute;inset:0;z-index:390;background:transparent; }
+  .dropdown-backdrop.open { display:block; }
+  .dropdown-popup {
+    display:none;position:absolute;top:66px;right:14px;z-index:400;
+    background:white;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,0.2);
+    width:230px;max-width:78%;padding:12px 14px;
+  }
+  .dropdown-popup.open { display:block;animation:popIn .18s ease; }
+  .dropdown-popup::before {
+    content:'';position:absolute;top:-6px;right:22px;width:12px;height:12px;
+    background:white;transform:rotate(45deg);
+  }
+  @keyframes popIn { from{opacity:0;transform:translateY(-6px) scale(.96);} to{opacity:1;transform:translateY(0) scale(1);} }
   .fp-drawer-fixed { position:fixed !important; bottom:0 !important; left:50% !important; margin-left:-187.5px !important; width:375px !important; max-width:calc(100vw - 16px) !important; z-index:9999 !important; }
   @media (max-width: 391px) { .fp-drawer-fixed { margin-left:calc(-50vw + 8px) !important; } }
   .status-opts { display:flex;flex-direction:column;gap:8px;margin:14px 0; }
@@ -1264,7 +1296,13 @@
     <div class="header">
       <div class="header-row">
         <div><div class="header-title">Good morning, Fatema</div><div class="header-sub">Manikganj Sadar · Ward 4</div></div>
-        <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="cursor:pointer;" onclick="openPerformance()" title="Performance">
+            <svg width="21" height="21" fill="white" viewBox="0 0 24 24"><path d="M3 13h4v8H3v-8zm7-8h4v16h-4V5zm7 5h4v11h-4V10z"/></svg>
+          </div>
+          <div style="cursor:pointer;" onclick="openSettingsMenu()" title="Settings">
+            <svg width="21" height="21" fill="white" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          </div>
           <div style="position:relative;cursor:pointer;" onclick="openNotifDrawer()">
             <svg width="22" height="22" fill="white" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
             <span style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:#E8356D;border-radius:50%;border:2px solid #1B2B5E;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;font-family:'Nunito',sans-serif;color:white;animation:notifBadgePulse 2s ease-in-out infinite;">3</span>
@@ -1448,7 +1486,7 @@
     </div>
     <div class="bottom-nav">
       <div class="nav-tab active" onclick="go('s2')" style="cursor:pointer;"><svg width="20" height="20" fill="#1B2B5E" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="nav-tab-lbl">Home</span></div>
-      <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
+      <div class="nav-tab" onclick="go('householdsScreen')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
       <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="nav-tab-lbl">Tasks</span></div>
       <div class="nav-tab" onclick="go('s8')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="nav-tab-lbl">Assistant</span></div>
     </div>
@@ -2117,7 +2155,7 @@
     </div>
     <div class="bottom-nav">
       <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="nav-tab-lbl">Home</span></div>
-      <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
+      <div class="nav-tab" onclick="go('householdsScreen')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
       <div class="nav-tab active"><svg width="20" height="20" fill="#1B2B5E" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span class="nav-tab-lbl">Assistant</span></div>
       <div class="nav-tab" onclick="go('s9')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="nav-tab-lbl">Training</span></div>
     </div>
@@ -4156,6 +4194,201 @@
 
     </div><!-- /notif-panel -->
   </div><!-- /notif-drawer -->
+
+  <!-- ════════ SCREEN: MY PERFORMANCE (full screen) ════════ -->
+  <div class="screen" id="perfScreen">
+    <div class="statusbar"><span>9:44</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1" opacity="0.3"/></svg><svg width="15" height="12" fill="white" viewBox="0 0 15 12"><path d="M7.5 2.5C9.8 2.5 11.9 3.5 13.4 5L15 3.4C13.1 1.3 10.4 0 7.5 0S1.9 1.3 0 3.4L1.6 5C3.1 3.5 5.2 2.5 7.5 2.5z"/><circle cx="7.5" cy="10" r="2"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/><rect x="23" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+    <div class="header" style="background:#1B2B5E;padding:10px 20px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button onclick="go('s2')" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;"><svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+        <div><div class="header-title" style="font-size:17px;margin-bottom:0;">📊 My Performance</div><div class="header-sub" style="margin-top:1px;">Jahnara Begum · SK ID 4521 · Manikganj Sadar</div></div>
+      </div>
+    </div>
+    <div class="body" style="padding:14px;">
+
+      <!-- Period toggle -->
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <div id="perfTabWeek" class="perf-tab active" onclick="showPerfPeriod('week')">This Week</div>
+        <div id="perfTabMonth" class="perf-tab" onclick="showPerfPeriod('month')">This Month</div>
+      </div>
+
+      <!-- Hero: Performance Score -->
+      <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:18px;padding:18px;position:relative;overflow:hidden;margin-bottom:10px;">
+        <svg style="position:absolute;right:-20px;top:-20px;opacity:0.08;" width="140" height="140" viewBox="0 0 120 120"><circle cx="60" cy="60" r="55" fill="none" stroke="white" stroke-width="14"/></svg>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="position:relative;flex-shrink:0;">
+            <svg width="92" height="92" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="12"/>
+              <circle id="perfScoreRing" cx="60" cy="60" r="52" fill="none" stroke="#EC4899" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 0.6s ease, stroke 0.3s ease;"/>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div id="perfScoreNum" style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:white;line-height:1;">0</div>
+              <div style="font-size:8px;color:rgba(255,255,255,0.6);margin-top:1px;">/ 100</div>
+            </div>
+          </div>
+          <div style="flex:1;position:relative;z-index:1;">
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.06em;">Performance Score</div>
+            <div id="perfScoreLabel" style="font-family:'Nunito',sans-serif;font-size:19px;font-weight:900;color:white;line-height:1.15;margin-top:2px;">Excellent 🌟</div>
+            <div id="perfScoreSub" style="font-size:10.5px;color:#A7F3D0;font-weight:700;margin-top:4px;">Blends visit completion, referral follow-through &amp; SLA compliance</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:14px;position:relative;z-index:1;">
+          <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 10px;">
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;">SLA Compliance</div>
+            <div id="perfSlaCompliance" style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:white;margin-top:2px;">0%</div>
+          </div>
+          <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:10px;padding:8px 10px;">
+            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;">High-Risk Response</div>
+            <div id="perfResponseTime" style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:white;margin-top:2px;">0d</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend mini chart -->
+      <div style="background:white;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,0.05);margin-bottom:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:11px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:.05em;">Visit Trend</div>
+          <div id="perfTrendNote" style="font-size:10px;font-weight:700;color:#10B981;">↑ steady</div>
+        </div>
+        <div id="perfTrendChart" style="display:flex;align-items:flex-end;gap:6px;height:64px;"></div>
+        <div id="perfTrendLabels" style="display:flex;gap:6px;margin-top:5px;"></div>
+      </div>
+
+      <!-- Key metrics grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">✔️</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Visits Completed</div></div>
+          <div style="display:flex;align-items:baseline;gap:4px;">
+            <div id="perfVisitsCount" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--navy);">0</div>
+            <div id="perfVisitsTarget" style="font-size:10.5px;color:var(--muted);font-weight:700;">/ 0</div>
+          </div>
+        </div>
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">📋</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Referrals Made</div></div>
+          <div id="perfReferralsMade" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--navy);">0</div>
+        </div>
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">✅</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Referrals Completed</div></div>
+          <div style="display:flex;align-items:baseline;gap:5px;">
+            <div id="perfReferralsDone" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--navy);">0</div>
+            <div id="perfReferralsPct" style="font-size:10px;font-weight:800;color:#10B981;">0%</div>
+          </div>
+        </div>
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">🏠</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Households Covered</div></div>
+          <div id="perfHouseholds" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--navy);">0</div>
+        </div>
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">⚡</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Avg Visits / Day</div></div>
+          <div id="perfAvgPerDay" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:var(--navy);">0</div>
+        </div>
+        <div style="background:white;border-radius:12px;padding:11px 12px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:14px;">⏰</div><div style="font-size:10px;font-weight:700;color:var(--muted);">Missed / Overdue</div></div>
+          <div id="perfMissed" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#DC2626;">0</div>
+        </div>
+      </div>
+
+      <!-- Service-wise breakdown -->
+      <div style="background:white;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,0.05);margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Service-wise Breakdown</div>
+        <div id="perfServiceBars" style="display:flex;flex-direction:column;gap:10px;"></div>
+      </div>
+
+      <!-- Comparison / percentile -->
+      <div id="perfCompareNote" style="background:#EEF0FF;border-radius:12px;padding:11px 13px;display:flex;align-items:center;gap:9px;margin-bottom:16px;">
+        <div style="font-size:16px;flex-shrink:0;">📈</div>
+        <div style="font-size:11.5px;color:#3D3599;font-weight:600;line-height:1.4;">You completed <strong>12% more visits</strong> than the Manikganj Sadar area average this week.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════ SCREEN: HOUSEHOLDS & PATIENTS ════════ -->
+  <div class="screen" id="householdsScreen">
+    <div class="statusbar"><span>9:44</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1" opacity="0.3"/></svg><svg width="15" height="12" fill="white" viewBox="0 0 15 12"><path d="M7.5 2.5C9.8 2.5 11.9 3.5 13.4 5L15 3.4C13.1 1.3 10.4 0 7.5 0S1.9 1.3 0 3.4L1.6 5C3.1 3.5 5.2 2.5 7.5 2.5z"/><circle cx="7.5" cy="10" r="2"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/><rect x="23" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+    <div class="header" style="background:#1B2B5E;padding:10px 20px 14px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <button onclick="go('s2')" style="background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;"><svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
+        <div><div class="header-title" style="font-size:17px;margin-bottom:0;">🏠 Households &amp; Patients</div><div class="header-sub" style="margin-top:1px;" id="hhCountLabel">6 households · 6 patients</div></div>
+      </div>
+      <div class="search-bar" style="gap:8px;background:white;">
+        <svg width="16" height="16" fill="#9CA3AF" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="hhSearchInput" placeholder="Search by name, house no. or village…" oninput="filterHouseholds(this.value)" style="border:none;outline:none;flex:1;font-family:inherit;font-size:13px;background:transparent;">
+      </div>
+    </div>
+    <div class="body" style="padding:14px;">
+      <div style="display:flex;gap:18px;overflow-x:auto;border-bottom:1.5px solid #E5E7EB;margin-bottom:14px;" id="hhVillageRow">
+        <div class="village-tab active" onclick="selectHHVillage(this,'all')">All villages</div>
+        <div class="village-tab" onclick="selectHHVillage(this,'Char Bhadra')">Char Bhadra</div>
+        <div class="village-tab" onclick="selectHHVillage(this,'Bhadra')">Bhadra</div>
+        <div class="village-tab" onclick="selectHHVillage(this,'Noyapara')">Noyapara</div>
+      </div>
+      <div id="hhList" style="display:flex;flex-direction:column;gap:10px;"></div>
+      <div id="hhNoResults" style="display:none;text-align:center;padding:40px 20px;color:var(--muted);">
+        <div style="font-size:32px;margin-bottom:8px;">🔍</div>
+        <div style="font-size:13px;font-weight:700;">No matches found</div>
+        <div style="font-size:11.5px;margin-top:4px;">Try a different name, house number, or village.</div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-tab" onclick="go('s2')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="nav-tab-lbl">Home</span></div>
+      <div class="nav-tab active"><svg width="20" height="20" fill="#1B2B5E" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
+      <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="nav-tab-lbl">Tasks</span></div>
+      <div class="nav-tab" onclick="go('s8')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="nav-tab-lbl">Assistant</span></div>
+    </div>
+  </div>
+
+  <!-- ════════ SETTINGS DROPDOWN POPUP ════════ -->
+  <div class="dropdown-backdrop" id="settingsBackdrop" onclick="closeSettingsMenu()"></div>
+  <div class="dropdown-popup" id="settingsSheet">
+    <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;">⚙️ Settings</div>
+
+    <div class="settings-opts">
+      <div class="settings-opt">
+        <div style="width:28px;height:28px;background:#EEF0FF;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🔓</div>
+        <div style="flex:1;">
+          <div class="settings-opt-title">Enable device unlock</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="deviceUnlockToggle" onchange="showToast(this.checked ? 'Device unlock enabled' : 'Device unlock disabled')">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-opt" onclick="showToast('Opening PIN setup…')" style="cursor:pointer;">
+        <div style="width:28px;height:28px;background:#FDF2F8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🔢</div>
+        <div style="flex:1;">
+          <div class="settings-opt-title">Setup PIN</div>
+        </div>
+        <svg width="12" height="12" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+
+      <div class="settings-opt" onclick="showToast('System mode: Light')" style="cursor:pointer;">
+        <div style="width:28px;height:28px;background:#FFFBEB;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🌓</div>
+        <div style="flex:1;">
+          <div class="settings-opt-title">System mode</div>
+          <div class="settings-opt-sub">Light</div>
+        </div>
+        <svg width="12" height="12" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+
+      <div class="settings-opt" onclick="showToast('Language: বাংলা (Bangla)')" style="cursor:pointer;">
+        <div style="width:28px;height:28px;background:#ECFDF5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🌐</div>
+        <div style="flex:1;">
+          <div class="settings-opt-title">Language preference</div>
+          <div class="settings-opt-sub">বাংলা (Bangla)</div>
+        </div>
+        <svg width="12" height="12" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+      </div>
+
+      <div class="settings-opt" onclick="closeSettingsMenu();showToast('Signed out')" style="cursor:pointer;">
+        <div style="width:28px;height:28px;background:#FEF2F2;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚪</div>
+        <div style="flex:1;">
+          <div class="settings-opt-title" style="color:#DC2626;">Sign out</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ════════ CALL CONFIRMATION SHEET ════════ -->
   <div class="update-sheet" id="callSheet">
@@ -7473,6 +7706,13 @@ function go(id) {
   document.getElementById(id).classList.add('active');
   document.querySelector('.device-shell').scrollTop = 0;
   if (id === 's13' || id === 's12' || id === 's24') { setFollowupDates(id); }
+  if (id === 'householdsScreen') {
+    document.getElementById('hhSearchInput').value = '';
+    _hhSelVillage = 'all';
+    document.querySelectorAll('#hhVillageRow .village-tab').forEach(function(c){ c.classList.remove('active'); });
+    document.querySelector('#hhVillageRow .village-tab').classList.add('active');
+    renderHouseholds('');
+  }
 }
 
 // ── FOLLOW-UP VISIT SCHEDULING ──
@@ -7813,6 +8053,306 @@ function closeNotifDrawer() {
 }
 function closeNotifOnBackdrop(e) {
   if(e.target === document.getElementById('notifDrawer')) closeNotifDrawer();
+}
+
+// ── PERFORMANCE DRAWER ──
+var PERF_DATA = {
+  week: {
+    score: 91, scoreLabel: 'Excellent 🌟', scoreColor: '#10B981',
+    slaCompliance: 100, avgResponseDays: 1.2,
+    visits: 34, target: 40, missed: 1,
+    referralsMade: 5, referralsDone: 4,
+    households: 21, avgPerDay: 5.7,
+    trend: [4, 6, 5, 7, 3, 6, 3], trendLabels: ['M','T','W','T','F','S','S'],
+    trendNote: '↑ steady',
+    services: [
+      { label: 'ANC', count: 12, color: '#EC4899' },
+      { label: 'NCD', count: 9, color: '#F59E0B' },
+      { label: 'Child / Immunisation', count: 7, color: '#3B82F6' },
+      { label: 'PNC', count: 4, color: '#8B5CF6' },
+      { label: 'Household enrolment', count: 2, color: '#10B981' }
+    ],
+    badges: [
+      { icon: '🔥', label: '5-day visit streak' },
+      { icon: '⭐', label: 'Zero missed follow-ups' },
+      { icon: '🏅', label: 'Top 10% in Manikganj Sadar' }
+    ],
+    compare: 'You completed <strong>12% more visits</strong> than the Manikganj Sadar area average this week.'
+  },
+  month: {
+    score: 88, scoreLabel: 'Great 👍', scoreColor: '#3B82F6',
+    slaCompliance: 96, avgResponseDays: 1.5,
+    visits: 142, target: 160, missed: 4,
+    referralsMade: 19, referralsDone: 16,
+    households: 68, avgPerDay: 5.9,
+    trend: [30, 38, 36, 38], trendLabels: ['Wk1','Wk2','Wk3','Wk4'],
+    trendNote: '↑ growing',
+    services: [
+      { label: 'ANC', count: 48, color: '#EC4899' },
+      { label: 'NCD', count: 39, color: '#F59E0B' },
+      { label: 'Child / Immunisation', count: 31, color: '#3B82F6' },
+      { label: 'PNC', count: 16, color: '#8B5CF6' },
+      { label: 'Household enrolment', count: 8, color: '#10B981' }
+    ],
+    badges: [
+      { icon: '🏆', label: 'Most visits in Ward 4' },
+      { icon: '📈', label: '4th month of growth' },
+      { icon: '💯', label: '96% SLA compliance' }
+    ],
+    compare: 'You completed <strong>8% more visits</strong> than the Manikganj Sadar area average this month.'
+  }
+};
+
+function openPerformance() {
+  go('perfScreen');
+  showPerfPeriod('week');
+}
+
+function showPerfPeriod(period) {
+  document.getElementById('perfTabWeek').classList.toggle('active', period === 'week');
+  document.getElementById('perfTabMonth').classList.toggle('active', period === 'month');
+
+  var d = PERF_DATA[period];
+  var circumference = 326.7;
+  var scoreOffset = circumference * (1 - d.score / 100);
+
+  var ring = document.getElementById('perfScoreRing');
+  ring.style.strokeDashoffset = scoreOffset;
+  ring.style.stroke = d.scoreColor;
+  document.getElementById('perfScoreNum').textContent = d.score;
+  document.getElementById('perfScoreLabel').textContent = d.scoreLabel;
+  document.getElementById('perfSlaCompliance').textContent = d.slaCompliance + '%';
+  document.getElementById('perfResponseTime').textContent = d.avgResponseDays + 'd';
+
+  document.getElementById('perfVisitsCount').textContent = d.visits;
+  document.getElementById('perfVisitsTarget').textContent = '/ ' + d.target;
+  document.getElementById('perfMissed').textContent = d.missed;
+
+  document.getElementById('perfReferralsMade').textContent = d.referralsMade;
+  document.getElementById('perfReferralsDone').textContent = d.referralsDone;
+  document.getElementById('perfReferralsPct').textContent = Math.round((d.referralsDone / d.referralsMade) * 100) + '%';
+  document.getElementById('perfHouseholds').textContent = d.households;
+  document.getElementById('perfAvgPerDay').textContent = d.avgPerDay;
+  document.getElementById('perfTrendNote').textContent = d.trendNote;
+
+  var maxTrend = Math.max.apply(null, d.trend);
+  var barsHtml2 = d.trend.map(function(v) {
+    var h = Math.max(6, Math.round((v / maxTrend) * 56));
+    return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;">' +
+      '<div style="font-size:9px;font-weight:800;color:var(--navy);margin-bottom:3px;">' + v + '</div>' +
+      '<div style="width:100%;max-width:22px;height:' + h + 'px;background:linear-gradient(180deg,#6B63D4,#3D3599);border-radius:5px 5px 2px 2px;"></div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('perfTrendChart').innerHTML = barsHtml2;
+  document.getElementById('perfTrendLabels').innerHTML = d.trendLabels.map(function(l) {
+    return '<div style="flex:1;text-align:center;font-size:9px;font-weight:700;color:var(--muted);">' + l + '</div>';
+  }).join('');
+
+  var maxCount = Math.max.apply(null, d.services.map(function(s){ return s.count; }));
+  var barsHtml = d.services.map(function(s) {
+    var widthPct = Math.round((s.count / maxCount) * 100);
+    return '<div>' +
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px;">' +
+        '<div style="font-size:11.5px;font-weight:700;color:var(--text);">' + s.label + '</div>' +
+        '<div style="font-size:11.5px;font-weight:800;color:' + s.color + ';">' + s.count + '</div>' +
+      '</div>' +
+      '<div style="height:7px;background:#F3F4F6;border-radius:4px;overflow:hidden;">' +
+        '<div style="height:100%;width:' + widthPct + '%;background:' + s.color + ';border-radius:4px;"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+  document.getElementById('perfServiceBars').innerHTML = barsHtml;
+
+  document.getElementById('perfCompareNote').querySelector('div:last-child').innerHTML = d.compare;
+}
+
+// ── HOUSEHOLDS & PATIENTS ──
+var HOUSEHOLDS = [
+  {
+    hh: 'HH-2024-0142', house: 'House #07', village: 'Char Bhadra', size: 4, extra: 3,
+    members: [
+      { name: 'Nasrin Begum', ageGender: '24/F', badge: 'ANC Visit 3 due', badgeBg: '#FDF2F8', badgeColor: '#9D174D',
+        address: 'House 07, Flat 2A, Char Bhadra', phone: '+880 17XX XXX XXX',
+        status: 'Today', statusColor: '#059669', dotColor: '#10B981', action: "goNasrinANC()" }
+    ],
+    otherMembers: [
+      { name: 'Rafiqul Islam', relation: 'Husband', ageGender: '28/M' },
+      { name: 'Amena Khatun', relation: 'Mother-in-law', ageGender: '55/F' },
+      { name: 'Rohan', relation: 'Son', ageGender: '3/M' }
+    ]
+  },
+  {
+    hh: 'HH-2024-0098', house: 'House #04', village: 'Char Bhadra', size: 3, extra: 2,
+    members: [
+      { name: 'Fatema Akhter', ageGender: '22/F', badge: 'Enrolled', badgeBg: '#FDF2F8', badgeColor: '#9D174D',
+        address: 'House 04, Flat 1B, Char Bhadra', phone: '+880 16XX XXX XXX',
+        status: 'Today', statusColor: '#059669', dotColor: '#10B981', action: "showToast('Fatema Akhter — ANC Visit 1 opening soon')" }
+    ],
+    otherMembers: [
+      { name: 'Abdul Karim', relation: 'Husband', ageGender: '26/M' },
+      { name: 'Halima Begum', relation: 'Mother', ageGender: '50/F' }
+    ]
+  },
+  {
+    hh: 'HH-2024-0231', house: 'House #13', village: 'Char Bhadra', size: 5, extra: 4,
+    members: [
+      { name: 'Rahim Hossain', ageGender: '6mo/M', badge: 'Child immunisation', badgeBg: '#FFFBEB', badgeColor: '#92400E',
+        address: 'House 13, Flat 3A, Char Bhadra', phone: '+880 19XX XXX XXX',
+        status: 'Overdue', statusColor: '#DC2626', dotColor: '#EF4444', action: "go('s23')" }
+    ],
+    otherMembers: [
+      { name: 'Selina Akter', relation: 'Mother', ageGender: '24/F' },
+      { name: 'Habibur Rahman', relation: 'Father', ageGender: '30/M' },
+      { name: 'Anika Akter', relation: 'Sister', ageGender: '5/F' },
+      { name: 'Fatima Begum', relation: 'Grandmother', ageGender: '60/F' }
+    ]
+  },
+  {
+    hh: 'HH-2024-0176', house: 'House #06', village: 'Bhadra', size: 4, extra: 3,
+    members: [
+      { name: 'Priya Rani Das', ageGender: '20/F', badge: 'New visit', badgeBg: '#EEF0FF', badgeColor: '#1B2B5E',
+        address: 'House 06, Flat 1C, Bhadra', phone: '+880 18XX XXX XXX',
+        status: 'Today', statusColor: '#059669', dotColor: '#10B981', action: "goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')" }
+    ],
+    otherMembers: [
+      { name: 'Sujon Das', relation: 'Husband', ageGender: '24/M' },
+      { name: 'Kalpana Das', relation: 'Mother-in-law', ageGender: '52/F' },
+      { name: 'Bijoy Das', relation: 'Brother-in-law', ageGender: '19/M' }
+    ]
+  },
+  {
+    hh: 'HH-2024-0059', house: 'House #21', village: 'Bhadra', size: 4, extra: 3,
+    members: [
+      { name: 'Md. Karim Uddin', ageGender: '52/M', badge: 'NCD checkup', badgeBg: '#FFFBEB', badgeColor: '#92400E',
+        address: 'House 21, Flat 4B, Bhadra', phone: '+880 18XX XXX XXX',
+        status: 'This week', statusColor: '#B45309', dotColor: '#F59E0B', action: "if(!visitsDone.karim) go('s10'); else showToast('Karim\\'s visit already done today ✓')" }
+    ],
+    otherMembers: [
+      { name: 'Rashida Uddin', relation: 'Wife', ageGender: '48/F' },
+      { name: 'Sohel Uddin', relation: 'Son', ageGender: '22/M' },
+      { name: 'Rina Uddin', relation: 'Daughter', ageGender: '19/F' }
+    ]
+  },
+  {
+    hh: 'HH-2024-0287', house: 'House #09', village: 'Noyapara', size: 3, extra: 2,
+    members: [
+      { name: 'Saleha Khatun', ageGender: '38/F', badge: 'PNC Visit 3 Due', badgeBg: '#EEF0FF', badgeColor: '#4C1D95',
+        address: 'House 09, Flat 2D, Noyapara', phone: '+880 15XX XXX XXX',
+        status: 'Overdue', statusColor: '#DC2626', dotColor: '#EF4444', action: "showToast('Opening Saleha\\'s PNC visit…')" }
+    ],
+    otherMembers: [
+      { name: 'Jamal Sheikh', relation: 'Husband', ageGender: '40/M' },
+      { name: 'Nur', relation: 'Newborn', ageGender: '21 days/F' }
+    ]
+  }
+];
+
+var _hhSelVillage = 'all';
+
+function toggleOtherMembers(safeId) {
+  var panel = document.getElementById('hh-others-' + safeId);
+  var chevron = document.getElementById('hh-chevron-' + safeId);
+  if (!panel) return;
+  var open = panel.style.display === 'block';
+  panel.style.display = open ? 'none' : 'block';
+  if (chevron) chevron.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+function selectHHVillage(el, village) {
+  _hhSelVillage = village;
+  document.querySelectorAll('#hhVillageRow .village-tab').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  renderHouseholds(document.getElementById('hhSearchInput').value);
+}
+
+function renderHouseholds(filterText) {
+  var q = (filterText || '').trim().toLowerCase();
+  var list = document.getElementById('hhList');
+  var noResults = document.getElementById('hhNoResults');
+  var html = '';
+  var shownCount = 0;
+  var shownPatients = 0;
+
+  HOUSEHOLDS.forEach(function(h) {
+    if (_hhSelVillage !== 'all' && h.village !== _hhSelVillage) return;
+    var haystack = (h.house + ' ' + h.village + ' ' + h.hh + ' ' + h.members.map(function(m){return m.name;}).join(' ')).toLowerCase();
+    if (q && haystack.indexOf(q) === -1) return;
+    shownCount++;
+    shownPatients += h.members.length;
+
+    var headName = h.members[0].name;
+
+    var membersHtml = h.members.map(function(m) {
+      return '<div onclick="' + m.action.replace(/"/g,'&quot;') + '" style="background:white;padding:12px 0;display:flex;align-items:center;gap:12px;cursor:pointer;">' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;">' +
+            '<div style="font-size:13.5px;font-weight:800;color:var(--text);">' + m.name + '</div>' +
+            '<div style="font-size:11.5px;font-weight:800;color:#111827;">' + m.ageGender + '</div>' +
+            '<span style="font-size:10px;font-weight:700;background:' + m.badgeBg + ';color:' + m.badgeColor + ';padding:2px 7px;border-radius:5px;">' + m.badge + '</span>' +
+          '</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-top:2px;">' + m.address + '</div>' +
+          '<div style="font-size:11.5px;color:var(--muted);margin-top:2px;">' + m.phone + '</div>' +
+        '</div>' +
+        '<div class="v-status" style="color:' + m.statusColor + ';"><span class="vs-dot" style="background:' + m.dotColor + ';"></span>' + m.status + '</div>' +
+      '</div>';
+    }).join('<div style="height:1px;background:#F3F4F6;"></div>');
+
+    var safeId = h.hh.replace(/[^a-zA-Z0-9]/g, '');
+    var otherHtml = (h.otherMembers || []).map(function(o) {
+      var initials = o.name.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+      return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;">' +
+        '<div style="width:32px;height:32px;border-radius:50%;background:#F3F4F6;color:#6B7280;display:flex;align-items:center;justify-content:center;font-family:\'Nunito\',sans-serif;font-size:11px;font-weight:800;flex-shrink:0;">' + initials + '</div>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-size:12.5px;font-weight:700;color:var(--text);">' + o.name + '</div>' +
+          '<div style="font-size:10.5px;color:var(--muted);margin-top:1px;">' + o.relation + ' · ' + o.ageGender + '</div>' +
+        '</div>' +
+        '<div style="font-size:9px;font-weight:700;color:#059669;background:#ECFDF5;padding:2px 7px;border-radius:8px;white-space:nowrap;">Enrolled</div>' +
+      '</div>';
+    }).join('');
+
+    html += '<div style="background:white;border-radius:14px;box-shadow:0 1px 6px rgba(0,0,0,0.06);overflow:hidden;">' +
+      '<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F8F9FC;border-bottom:1px solid #F3F4F6;">' +
+        '<div style="font-size:14px;">🏠</div>' +
+        '<div style="flex:1;">' +
+          '<div style="font-size:12px;font-weight:800;color:var(--navy);">' + headName + '</div>' +
+          '<div style="font-size:9.5px;color:var(--muted);margin-top:1px;">' + h.house + ', ' + h.village + '</div>' +
+        '</div>' +
+        '<div style="font-size:9.5px;font-weight:700;background:#EEF0FF;color:#3D3599;padding:2px 8px;border-radius:10px;white-space:nowrap;">' + h.size + ' members</div>' +
+      '</div>' +
+      '<div style="padding:0 14px;">' + membersHtml + '</div>' +
+      (h.extra > 0 ?
+        '<div onclick="toggleOtherMembers(\'' + safeId + '\')" style="display:flex;align-items:center;gap:5px;padding:8px 14px 10px;cursor:pointer;">' +
+          '<div style="font-size:10.5px;font-weight:700;color:var(--purple);">+' + h.extra + ' other household member' + (h.extra > 1 ? 's' : '') + '</div>' +
+          '<svg id="hh-chevron-' + safeId + '" width="10" height="10" fill="var(--purple)" viewBox="0 0 24 24" style="transition:transform .2s;"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>' +
+        '</div>' +
+        '<div id="hh-others-' + safeId + '" style="display:none;padding:0 14px 12px;border-top:1px solid #F3F4F6;">' + otherHtml + '</div>'
+      : '') +
+    '</div>';
+  });
+
+  list.innerHTML = html;
+  list.style.display = shownCount ? 'flex' : 'none';
+  noResults.style.display = shownCount ? 'none' : 'block';
+
+  document.getElementById('hhCountLabel').textContent = shownCount + ' household' + (shownCount === 1 ? '' : 's') + ' · ' + shownPatients + ' patient' + (shownPatients === 1 ? '' : 's');
+}
+
+function filterHouseholds(text) {
+  renderHouseholds(text);
+}
+
+
+function openSettingsMenu() {
+  var s = document.getElementById('settingsSheet');
+  var b = document.getElementById('settingsBackdrop');
+  if (s) s.classList.add('open');
+  if (b) b.classList.add('open');
+}
+function closeSettingsMenu() {
+  var s = document.getElementById('settingsSheet');
+  var b = document.getElementById('settingsBackdrop');
+  if (s) s.classList.remove('open');
+  if (b) b.classList.remove('open');
 }
 function showCallSheet(patientName, contactName, contactNum) {
   closeNotifDrawer();

@@ -1030,6 +1030,16 @@
   .perf-tab { flex:1;text-align:center;padding:8px;border-radius:10px;background:#EEF0FF;color:#4C1D95;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s; }
   .perf-tab.active { background:var(--navy);color:white; }
 
+  /* Standard symptom picker chips */
+  .symptom-chip {
+    display: flex; align-items: center; padding: 7px 12px; border-radius: 18px;
+    background: white; border: 1.5px solid #E5E7EB; font-size: 11.5px; font-weight: 700;
+    color: var(--muted); cursor: pointer; transition: all .15s; white-space: nowrap;
+  }
+  .symptom-chip:active { transform: scale(.96); }
+  .symptom-chip.active { background: #EEF0FF; border-color: #6B63D4; color: #3D3599; }
+  .symptom-chip.active::before { content: '✓ '; }
+
   /* Settings sheet */
   .settings-opts { display:flex;flex-direction:column;gap:2px; }
   .settings-opt { display:flex;align-items:center;gap:9px;padding:8px 2px;border-bottom:1px solid #F3F4F6; }
@@ -2715,10 +2725,14 @@
           </div>
         </div>
 
-        <!-- Manual symptom entry -->
-        <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;">
-          <textarea id="manualSympInput" rows="1" placeholder="Or type a symptom manually…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
-          <button onclick="addManualSymptom()" style="background:var(--navy);color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
+        <!-- Standard symptom picker — search + multi-select chips -->
+        <div style="margin-bottom:10px;">
+          <div style="position:relative;margin-bottom:8px;">
+            <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="symptomSearchNasrin" placeholder="Search symptoms…" oninput="filterSymptomChips('nasrin', this.value)" style="width:100%;padding:9px 12px 9px 32px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:12.5px;color:var(--text);outline:none;background:white;">
+          </div>
+          <div id="symptomChipsNasrin" style="display:flex;flex-wrap:wrap;gap:7px;"></div>
+          <div id="symptomExtendedNasrin" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;"></div>
         </div>
 
         <!-- Live transcript -->
@@ -2741,12 +2755,6 @@
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div style="font-size:12px;font-weight:800;color:var(--navy);">✦ Eligible services</div>
             <div style="font-size:9.5px;font-weight:700;color:#6B63D4;background:#EEF0FF;padding:3px 9px;border-radius:20px;">Age &amp; gender based</div>
-          </div>
-
-          <!-- Eligibility reasoning strip -->
-          <div style="background:linear-gradient(135deg,#1B2B5E,#2d3f7a);border-radius:14px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:9px;">
-            <span style="font-size:16px;">👩</span>
-            <div style="font-size:11px;color:rgba(255,255,255,0.9);">Female · 20 yrs — eligible for these programmes</div>
           </div>
 
           <!-- ONE uniform grid — all services, same card design, multi-select -->
@@ -3382,10 +3390,17 @@
       </div>
 
       <!-- Follow-up Visit — auto-scheduled -->
-      <div style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1.5px solid #FDE68A;border-radius:12px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:center;gap:9px;">
-        <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
-        <div style="font-size:12px;font-weight:700;color:#92400E;white-space:nowrap;">Follow-up</div>
-        <input type="text" id="ncdFollowupDate" placeholder="DD-MM-YYYY" style="flex:1;min-width:0;padding:6px 9px;border:1.5px solid #FDE68A;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;">
+      <div style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1.5px solid #FDE68A;border-radius:12px;padding:9px 12px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="font-size:12px;font-weight:700;color:#92400E;white-space:nowrap;">Follow-up</div>
+          <div style="position:relative;flex:1;min-width:0;">
+            <input type="text" id="ncdFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #FDE68A;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
+            <svg width="14" height="14" fill="#D97706" viewBox="0 0 24 24" style="position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+            <input type="date" id="ncdFollowupDatePicker" onchange="syncFollowupDate('ncdFollowupDate', this.value)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;">
+          </div>
+        </div>
+        <div id="ncdFollowupStatus" style="font-size:9.5px;color:#B45309;margin-top:5px;margin-left:35px;">Auto-scheduled · already saved</div>
       </div>
 
       <!-- Action buttons — compact -->
@@ -3424,6 +3439,19 @@
       </div>
     </div>
     <div class="body" style="padding:14px 8px 28px;">
+
+      <!-- Referral status banner — driven by 3-visit rising trend -->
+      <div id="s13ReferBanner" style="display:flex;align-items:center;gap:10px;cursor:default;background:#DC2626;padding:10px 16px;margin:-14px -8px 12px;box-shadow:0 2px 6px rgba(220,38,38,0.25);">
+        <div style="width:26px;height:26px;background:rgba(255,255,255,0.22);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+          <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#FEF08A;border-radius:50%;animation:notifBadgePulse 2s infinite;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:white;">Referred — rising trend across 3 visits</div>
+          <div style="font-size:10.5px;color:rgba(255,255,255,0.85);margin-top:2px;line-height:1.35;">BP, weight &amp; urine protein climbing steadily.</div>
+        </div>
+        <div style="font-size:9.5px;font-weight:800;background:rgba(255,255,255,0.22);color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Referred</div>
+      </div>
 
       <!-- Household avatar strip — top of summary -->
       <div id="s13AvatarStrip" style="margin-bottom:10px;">
@@ -3470,12 +3498,6 @@
       <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
         <div style="font-size:12.5px;color:#065F46;font-weight:600;" id="s13ReadingsText">✅ BP 132/86, weight, urine, baby movement — all within normal limits</div>
         <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;" id="s13ReadingsBadge">Normal</div>
-      </div>
-
-      <!-- Elevated risk — Nasrin 3-visit trend warning (hidden for Priya) -->
-      <div id="s13TrendWarning" style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#92400E;font-weight:600;">⚠️ BP, weight &amp; urine protein rising across 3 visits — pre-eclampsia risk. Refer within 48&nbsp;hrs.</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
       </div>
 
       <!-- AI Counselling + Follow-up merged card -->
@@ -3546,20 +3568,27 @@
           </div>
 
       <!-- Follow-up Visit — auto-scheduled -->
-      <div style="background:linear-gradient(135deg,#FDF2F8,#F5F3FF);border:1.5px solid #FBCFE8;border-radius:12px;padding:9px 12px;margin-bottom:12px;display:flex;align-items:center;gap:9px;">
-        <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
-        <div style="font-size:12px;font-weight:700;color:#9D174D;white-space:nowrap;">Follow-up</div>
-        <input type="text" id="ancFollowupDate" placeholder="DD-MM-YYYY" style="flex:1;min-width:0;padding:6px 9px;border:1.5px solid #FBCFE8;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;">
+      <div style="background:linear-gradient(135deg,#FDF2F8,#F5F3FF);border:1.5px solid #FBCFE8;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="font-size:12px;font-weight:700;color:#9D174D;white-space:nowrap;">Follow-up</div>
+          <div style="position:relative;flex:1;min-width:0;">
+            <input type="text" id="ancFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #FBCFE8;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
+            <svg width="14" height="14" fill="#DB2777" viewBox="0 0 24 24" style="position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+          <input type="date" id="ancFollowupDatePicker" onchange="syncFollowupDate('ancFollowupDate', this.value)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;">
+          </div>
+        </div>
+        <div id="ancFollowupStatus" style="font-size:9.5px;color:#9D174D;margin-top:5px;margin-left:35px;">Auto-scheduled · already saved</div>
       </div>
 
-      <!-- Action buttons — Nasrin: Call doctor + Refer to UHC; Priya: Submit only -->
+      <!-- Action buttons — Nasrin: Call doctor + Go to home; Priya: Go to home only -->
       <!-- Action buttons — Nasrin -->
       <div id="s13ActionsNasrin">
         <button class="pink-btn" style="background:#EC4899;padding:10px 14px;font-size:13px;margin-bottom:6px;" onclick="go('s17')">
           📱 Call a doctor now <span style="font-weight:400;opacity:.85;">· ডাক্তারকে ফোন করুন</span>
         </button>
-        <button class="outline-btn" style="padding:10px 14px;font-size:13px;" onclick="bookAndComplete('s14')">
-          🏥 Refer to UHC (within 48 hrs) →
+        <button class="outline-btn" style="padding:10px 14px;font-size:13px;" onclick="visitsDone.nasrin=true;showToast('✅ Visit saved');setTimeout(function(){go('s2');},1200);">
+          Save and go to home
         </button>
       </div>
 
@@ -4335,6 +4364,108 @@
       <div class="nav-tab active"><svg width="20" height="20" fill="#1B2B5E" viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg><span class="nav-tab-lbl">Patients</span></div>
       <div class="nav-tab"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg><span class="nav-tab-lbl">Tasks</span></div>
       <div class="nav-tab" onclick="go('s8')" style="cursor:pointer;"><svg width="20" height="20" fill="#9CA3AF" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg><span class="nav-tab-lbl">Assistant</span></div>
+    </div>
+  </div>
+
+  <!-- ════════ SCREEN: REFERRAL CONFIRMATION ════════ -->
+  <div class="screen" id="referConfirmScreen">
+    <div class="statusbar"><span>9:44</span><div class="icons"><svg width="16" height="12" fill="white" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1" opacity="0.3"/></svg><svg width="15" height="12" fill="white" viewBox="0 0 15 12"><path d="M7.5 2.5C9.8 2.5 11.9 3.5 13.4 5L15 3.4C13.1 1.3 10.4 0 7.5 0S1.9 1.3 0 3.4L1.6 5C3.1 3.5 5.2 2.5 7.5 2.5z"/><circle cx="7.5" cy="10" r="2"/></svg><svg width="25" height="12" fill="white" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="18" height="7" rx="2" fill="white"/><rect x="23" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+
+    <div style="background:linear-gradient(135deg,#DC2626,#EF4444);padding:28px 20px 22px;text-align:center;position:relative;overflow:hidden;">
+      <svg style="position:absolute;left:-20px;top:-20px;opacity:0.12;" width="120" height="120" viewBox="0 0 120 120"><circle cx="20" cy="20" r="60" fill="none" stroke="white" stroke-width="16"/></svg>
+      <svg style="position:absolute;right:-24px;bottom:-30px;opacity:0.1;" width="130" height="130" viewBox="0 0 120 120"><circle cx="90" cy="90" r="60" fill="none" stroke="white" stroke-width="16"/></svg>
+      <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;position:relative;z-index:1;">✅</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:19px;font-weight:800;color:white;position:relative;z-index:1;">Patient Referred</div>
+      <div id="referConfirmText" style="font-size:12.5px;color:rgba(255,255,255,0.9);margin-top:6px;line-height:1.5;position:relative;z-index:1;">Nasrin Begum has been referred for further assessment at UHC within 48 hrs.</div>
+    </div>
+
+    <div class="body" style="padding:16px;">
+
+      <!-- What happens next — innovative timeline -->
+      <div style="background:white;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,0.05);margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">What happens next</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:11px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+              <div style="width:22px;height:22px;border-radius:50%;background:#10B981;display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+              <div style="width:1.5px;flex:1;background:#D1FAE5;margin-top:2px;"></div>
+            </div>
+            <div style="padding-bottom:2px;">
+              <div style="font-size:12.5px;font-weight:800;color:var(--text);">Referral logged</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:1px;">Saved to Nasrin's record just now.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:11px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+              <div style="width:22px;height:22px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:11px;">📲</div>
+              <div style="width:1.5px;flex:1;background:#D1FAE5;margin-top:2px;"></div>
+            </div>
+            <div style="padding-bottom:2px;">
+              <div style="font-size:12.5px;font-weight:800;color:var(--text);">Family notified</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:1px;">WhatsApp advice sent in Bangla to +880 17XX XXX XXX.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:11px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+              <div style="width:22px;height:22px;border-radius:50%;background:#3B82F6;display:flex;align-items:center;justify-content:center;font-size:11px;">🏥</div>
+              <div style="width:1.5px;flex:1;background:#D1FAE5;margin-top:2px;"></div>
+            </div>
+            <div style="padding-bottom:2px;">
+              <div style="font-size:12.5px;font-weight:800;color:var(--text);">UHC alerted</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:1px;">Upazila Health Complex notified of incoming referral.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:11px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+              <div style="width:22px;height:22px;border-radius:50%;background:#EC4899;display:flex;align-items:center;justify-content:center;font-size:11px;">📅</div>
+            </div>
+            <div>
+              <div style="font-size:12.5px;font-weight:800;color:var(--text);">Follow-up scheduled</div>
+              <div id="referFollowupDateText" style="font-size:11px;color:var(--muted);margin-top:1px;">SK will check in on the scheduled follow-up date.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Also cover while you're here -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" style="flex-shrink:0;">
+            <circle cx="9" cy="7" r="3.4" fill="#EC4899"/>
+            <path d="M9 12c-3.3 0-6 2-6 4.5V19h12v-2.5c0-2.5-2.7-4.5-6-4.5z" fill="#EC4899"/>
+            <circle cx="17" cy="8" r="2.8" fill="#3B82F6"/>
+            <path d="M17 12.5c-2.6 0-4.8 1.6-4.8 3.6V19h9.6v-2.9c0-2-2.2-3.6-4.8-3.6z" fill="#3B82F6"/>
+          </svg>
+          Also cover while you're here
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;" onclick="goANC('Priya Rani Das','Age 20 · House #06 · Bhadra')">
+            <div style="width:46px;height:46px;border-radius:50%;background:#FDF2F8;border:1.5px solid #FBCFE8;display:flex;align-items:center;justify-content:center;font-size:20px;">🤰</div>
+            <span style="font-size:10px;font-weight:600;color:var(--text);">Priya</span>
+            <span style="font-size:9px;font-weight:600;color:#EC4899;">First visit</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;" onclick="go('s23')">
+            <div style="width:46px;height:46px;border-radius:50%;background:#FEF3C7;border:1.5px solid #FDE68A;display:flex;align-items:center;justify-content:center;font-size:20px;">👶</div>
+            <span style="font-size:10px;font-weight:600;color:var(--text);">Rahim</span>
+            <span style="font-size:9px;font-weight:600;color:#F59E0B;">Vaccines</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;" onclick="if(!visitsDone.karim) go('s10'); else showToast('Karim\'s visit already done today ✓')">
+            <div style="width:46px;height:46px;border-radius:50%;background:#FEF9EC;border:1.5px solid #FDE68A;display:flex;align-items:center;justify-content:center;font-size:20px;">👨</div>
+            <span style="font-size:10px;font-weight:600;color:var(--text);">Karim</span>
+            <span style="font-size:9px;font-weight:600;color:#92400E;">BP check</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;" onclick="showToast('Opening Saleha\'s PNC visit…')">
+            <div style="width:46px;height:46px;border-radius:50%;background:#ECFDF5;border:1.5px solid #A7F3D0;display:flex;align-items:center;justify-content:center;font-size:20px;">👩</div>
+            <span style="font-size:10px;font-weight:600;color:var(--text);">Saleha</span>
+            <span style="font-size:9px;font-weight:600;color:#10B981;">PNC due</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="pink-btn" style="background:#EC4899;" onclick="visitsDone.nasrin=true;go('s2');">
+        Go to home
+      </button>
+
     </div>
   </div>
 
@@ -5275,10 +5406,14 @@
         </div>
       </div>
 
-      <!-- Manual input -->
-      <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:12px;">
-        <textarea id="rahimManualInput" rows="1" placeholder="Type a symptom…" style="flex:1;padding:7px 10px;border:1.5px solid #E5E7EB;border-radius:9px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;line-height:1.4;background:white;"></textarea>
-        <button onclick="addRahimSymptom()" style="background:#1B2B5E;color:white;border:none;border-radius:9px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0;height:36px;">+ Add</button>
+      <!-- Standard symptom picker — search + multi-select chips -->
+      <div style="margin-bottom:12px;">
+        <div style="position:relative;margin-bottom:8px;">
+          <svg width="14" height="14" fill="#9CA3AF" viewBox="0 0 24 24" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" id="symptomSearchRahim" placeholder="Search symptoms…" oninput="filterSymptomChips('rahim', this.value)" style="width:100%;padding:9px 12px 9px 32px;border:1.5px solid #E5E7EB;border-radius:10px;font-family:inherit;font-size:12.5px;color:var(--text);outline:none;background:white;">
+        </div>
+        <div id="symptomChipsRahim" style="display:flex;flex-wrap:wrap;gap:7px;"></div>
+        <div id="symptomExtendedRahim" style="display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;"></div>
       </div>
 
       <!-- Live transcript -->
@@ -5512,10 +5647,17 @@
       </div>
 
       <!-- Follow-up Visit — auto-scheduled from immunisation schedule -->
-      <div style="background:linear-gradient(135deg,#FFFBEB,#ECFDF5);border:1.5px solid #A7F3D0;border-radius:12px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:center;gap:9px;">
-        <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
-        <div style="font-size:12px;font-weight:700;color:#065F46;white-space:nowrap;">Follow-up</div>
-        <input type="text" id="immFollowupDate" placeholder="DD-MM-YYYY" style="flex:1;min-width:0;padding:6px 9px;border:1.5px solid #A7F3D0;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;">
+      <div style="background:linear-gradient(135deg,#FFFBEB,#ECFDF5);border:1.5px solid #A7F3D0;border-radius:12px;padding:9px 12px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="font-size:12px;font-weight:700;color:#065F46;white-space:nowrap;">Follow-up</div>
+          <div style="position:relative;flex:1;min-width:0;">
+            <input type="text" id="immFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #A7F3D0;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
+            <svg width="14" height="14" fill="#059669" viewBox="0 0 24 24" style="position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none;"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+            <input type="date" id="immFollowupDatePicker" onchange="syncFollowupDate('immFollowupDate', this.value)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;border:none;">
+          </div>
+        </div>
+        <div id="immFollowupStatus" style="font-size:9.5px;color:#065F46;margin-top:5px;margin-left:35px;">Auto-scheduled · already saved</div>
       </div>
 
       <!-- Submit -->
@@ -5701,26 +5843,80 @@ var scribeScript = [
 
 
 // ── MANUAL SYMPTOM ENTRY ──
-function addManualSymptom() {
-  var input = document.getElementById('manualSympInput');
-  var text = input ? input.value.trim() : '';
-  if (!text) return;
+// ── STANDARD SYMPTOM PICKER — search + multi-select chips ──
+var SYMPTOM_LISTS = {
+  nasrin: ['Headache', 'Blurred vision', 'Swelling — face/hands/feet', 'Abdominal pain', 'Reduced fetal movement', 'Vaginal bleeding', 'Fever', 'Nausea / vomiting', 'Dizziness', 'Contractions'],
+  rahim: ['Fever', 'Cough', 'Diarrhea', 'Vomiting', 'Skin rash', 'Poor feeding', 'Difficulty breathing', 'Unusually drowsy', 'Ear pain', 'Reduced urination']
+};
 
-  var container = document.getElementById('ancS1SympCards');
-  var detected = document.getElementById('ancS1SymptomsDetected');
+// Less common / danger-sign symptoms — not shown by default, surface only when searched
+var SYMPTOM_LISTS_EXTENDED = {
+  nasrin: ['Chest pain', 'One-sided weakness', 'Swelling of both feet', 'Palpitations', 'Shortness of breath'],
+  rahim: ['Convulsions', 'Unable to drink or breastfeed', 'Bulging fontanelle', 'Blood in stool', 'Yellowing of skin or eyes']
+};
+
+var SYMPTOM_CONF = {
+  nasrin: { container: 'ancS1SympCards', detected: 'ancS1SymptomsDetected' },
+  rahim: { container: 'rahimSympCards', detected: 'rahimSympDetected', extra: 'rahimAssessmentSection' }
+};
+
+function renderSymptomChips(screen) {
+  var chipsWrap = document.getElementById('symptomChips' + (screen === 'nasrin' ? 'Nasrin' : 'Rahim'));
+  if (!chipsWrap || chipsWrap.children.length > 0) return;
+  chipsWrap.innerHTML = SYMPTOM_LISTS[screen].map(function(label) {
+    return makeSymptomChipHTML(screen, label);
+  }).join('');
+}
+
+function makeSymptomChipHTML(screen, label) {
+  return '<div class="symptom-chip" data-chip-screen="' + screen + '" data-chip-label="' + label + '" onclick="toggleSymptomChip(this,\'' + screen + '\',\'' + label.replace(/'/g, "\\'") + '\')">' + label + '</div>';
+}
+
+function filterSymptomChips(screen, query) {
+  var q = query.trim().toLowerCase();
+  var suffix = (screen === 'nasrin' ? 'Nasrin' : 'Rahim');
+  var chips = document.querySelectorAll('#symptomChips' + suffix + ' .symptom-chip');
+  chips.forEach(function(chip) {
+    var match = !q || chip.getAttribute('data-chip-label').toLowerCase().indexOf(q) !== -1;
+    chip.style.display = match ? 'flex' : 'none';
+  });
+
+  // Extended (danger-sign) symptoms only surface once at least 3 characters are typed
+  var extWrap = document.getElementById('symptomExtended' + suffix);
+  if (!extWrap) return;
+  if (q.length < 3) {
+    extWrap.innerHTML = '';
+    return;
+  }
+  var matches = SYMPTOM_LISTS_EXTENDED[screen].filter(function(label) {
+    return label.toLowerCase().indexOf(q) !== -1;
+  });
+  extWrap.innerHTML = matches.map(function(label) {
+    return makeSymptomChipHTML(screen, label);
+  }).join('');
+}
+
+function toggleSymptomChip(chipEl, screen, label) {
+  var isActive = chipEl.classList.contains('active');
+  if (isActive) {
+    chipEl.classList.remove('active');
+    removeSymptomCard(screen, label);
+  } else {
+    chipEl.classList.add('active');
+    addSymptomCard(screen, label, 'Standard');
+  }
+}
+
+function addSymptomCard(screen, text, tagLabel) {
+  var conf = SYMPTOM_CONF[screen];
+  var container = document.getElementById(conf.container);
   if (!container) return;
+  if (conf.detected) { var d = document.getElementById(conf.detected); if (d) d.style.display = 'block'; }
+  if (conf.extra) { var e = document.getElementById(conf.extra); if (e) e.style.display = 'block'; }
 
-  if (detected) detected.style.display = 'block';
-
-  var cid = 'msc-' + Date.now();
   var card = document.createElement('div');
-  card.id = cid;
+  card.setAttribute('data-symptom', text);
   card.style.cssText = 'background:#EEF0FF;border:1.5px solid #C4B5FD;border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease;';
-
-  var delBtn = document.createElement('button');
-  delBtn.style.cssText = 'background:rgba(239,68,68,0.1);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
-  delBtn.innerHTML = '<svg width="9" height="9" fill="#EF4444" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
-  delBtn.onclick = function() { card.remove(); };
 
   var label = document.createElement('div');
   label.style.cssText = 'flex:1;font-size:12px;font-weight:700;color:#3D3599;';
@@ -5728,13 +5924,29 @@ function addManualSymptom() {
 
   var tag = document.createElement('div');
   tag.style.cssText = 'font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:#3D3599;padding:2px 6px;border-radius:5px;flex-shrink:0;';
-  tag.textContent = 'Manual';
+  tag.textContent = tagLabel;
+
+  var delBtn = document.createElement('button');
+  delBtn.style.cssText = 'background:rgba(239,68,68,0.1);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;';
+  delBtn.innerHTML = '<svg width="9" height="9" fill="#EF4444" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+  delBtn.onclick = function() {
+    card.remove();
+    var chip = document.querySelector('[data-chip-screen="' + screen + '"][data-chip-label="' + text + '"]');
+    if (chip) chip.classList.remove('active');
+  };
 
   card.appendChild(label);
   card.appendChild(tag);
   card.appendChild(delBtn);
   container.appendChild(card);
-  input.value = '';
+}
+
+function removeSymptomCard(screen, text) {
+  var conf = SYMPTOM_CONF[screen];
+  var container = document.getElementById(conf.container);
+  if (!container) return;
+  var card = container.querySelector('[data-symptom="' + text + '"]');
+  if (card) card.remove();
 }
 
 // ── SCREENING QUESTIONS ──
@@ -6269,7 +6481,8 @@ function goToS13() {
     document.getElementById('s13PatientName').textContent = 'Priya Rani Das';
     document.getElementById('s13PatientSub').textContent = 'Age 20 · House #06 · Bhadra';
     document.getElementById('s13ReadingsText').textContent = '✅ All first-visit readings normal — healthy start to pregnancy';
-    document.getElementById('s13TrendWarning').style.display = 'none';
+    var referBanner = document.getElementById('s13ReferBanner');
+    if (referBanner) referBanner.style.display = 'none';
     document.getElementById('s13CounselNasrin').style.display = 'none';
     document.getElementById('s13CounselPriya').style.display = 'flex';
     document.getElementById('s13ActionsNasrin').style.display = 'none';
@@ -6286,7 +6499,8 @@ function goToS13() {
     document.getElementById('s13PatientName').textContent = 'Nasrin Begum';
     document.getElementById('s13PatientSub').textContent = 'Age 24 · House #07';
     document.getElementById('s13ReadingsText').textContent = '✅ BP 132/86, weight, urine, baby movement — all within normal limits';
-    document.getElementById('s13TrendWarning').style.display = 'flex';
+    var referBanner2 = document.getElementById('s13ReferBanner');
+    if (referBanner2) referBanner2.style.display = 'flex';
     document.getElementById('s13CounselNasrin').style.display = 'flex';
     document.getElementById('s13CounselPriya').style.display = 'none';
     document.getElementById('s13ActionsNasrin').style.display = 'block';
@@ -6630,25 +6844,6 @@ function startRahimScribe() {
     }, 1200);
   }
   typePhrase();
-}
-
-function addRahimSymptom() {
-  var input = document.getElementById('rahimManualInput');
-  var text = input ? input.value.trim() : '';
-  if (!text) return;
-  var container = document.getElementById('rahimSympCards');
-  var detected = document.getElementById('rahimSympDetected');
-  if (!container) return;
-  if (detected) detected.style.display = 'block';
-  var assessment = document.getElementById('rahimAssessmentSection');
-  if (assessment) assessment.style.display = 'block';
-  var card = document.createElement('div');
-  card.style.cssText = 'background:#EEF0FF;border:1.5px solid #C4B5FD;border-radius:10px;padding:8px 11px;display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease;';
-  var labelEl = document.createElement('div'); labelEl.style.cssText='flex:1;font-size:12px;font-weight:700;color:#3D3599;'; labelEl.textContent=text;
-  var tagEl = document.createElement('div'); tagEl.style.cssText='font-size:9px;font-weight:700;background:rgba(255,255,255,0.6);color:#3D3599;padding:2px 6px;border-radius:5px;flex-shrink:0;'; tagEl.textContent='Manual';
-  var delBtn = document.createElement('button'); delBtn.style.cssText='background:rgba(239,68,68,0.1);border:none;border-radius:7px;width:22px;height:22px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;'; delBtn.innerHTML='<svg width="9" height="9" fill="#EF4444" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>'; delBtn.onclick=function(){card.remove();};
-  card.appendChild(labelEl); card.appendChild(tagEl); card.appendChild(delBtn);
-  container.appendChild(card); input.value='';
 }
 
 function showImmToast() {
@@ -7706,6 +7901,9 @@ function go(id) {
   document.getElementById(id).classList.add('active');
   document.querySelector('.device-shell').scrollTop = 0;
   if (id === 's13' || id === 's12' || id === 's24') { setFollowupDates(id); }
+  if (id === 's11') { renderSymptomChips('nasrin'); }
+  if (id === 's23') { renderSymptomChips('rahim'); }
+  if (id === 'referConfirmScreen') { populateReferFollowup(); }
   if (id === 'householdsScreen') {
     document.getElementById('hhSearchInput').value = '';
     _hhSelVillage = 'all';
@@ -7723,6 +7921,12 @@ function formatDDMMYYYY(d) {
   return dd + '-' + mm + '-' + yyyy;
 }
 
+function formatISO(d) {
+  var mm = String(d.getMonth() + 1).padStart(2, '0');
+  var dd = String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + mm + '-' + dd;
+}
+
 function addDays(days) {
   var d = new Date();
   d.setDate(d.getDate() + days);
@@ -7731,17 +7935,79 @@ function addDays(days) {
 
 function setFollowupDates(screenId) {
   if (screenId === 's13') {
+    var d1 = addDays(28); // 4 weeks
     var el = document.getElementById('ancFollowupDate');
-    if (el && !el.value) el.value = formatDDMMYYYY(addDays(28)); // 4 weeks
+    if (el && !el.value) el.value = formatDDMMYYYY(d1);
+    var p1 = document.getElementById('ancFollowupDatePicker');
+    if (p1 && !p1.value) p1.value = formatISO(d1);
   }
   if (screenId === 's12') {
+    var d2 = addDays(14); // 2 weeks
     var el2 = document.getElementById('ncdFollowupDate');
-    if (el2 && !el2.value) el2.value = formatDDMMYYYY(addDays(14)); // 2 weeks
+    if (el2 && !el2.value) el2.value = formatDDMMYYYY(d2);
+    var p2 = document.getElementById('ncdFollowupDatePicker');
+    if (p2 && !p2.value) p2.value = formatISO(d2);
   }
   if (screenId === 's24') {
+    var d3 = addDays(90); // ~3 months, next milestone (9 months) per immunisation schedule
     var el3 = document.getElementById('immFollowupDate');
-    if (el3 && !el3.value) el3.value = formatDDMMYYYY(addDays(90)); // ~3 months, next milestone (9 months) per immunisation schedule
+    if (el3 && !el3.value) el3.value = formatDDMMYYYY(d3);
+    var p3 = document.getElementById('immFollowupDatePicker');
+    if (p3 && !p3.value) p3.value = formatISO(d3);
   }
+}
+
+function ddmmyyyyToISO(str) {
+  var parts = str.split('-');
+  return parts[2] + '-' + parts[1] + '-' + parts[0];
+}
+
+function syncFollowupDate(displayId, isoValue) {
+  if (!isoValue) return;
+  var el = document.getElementById(displayId);
+  var statusEl = document.getElementById(displayId.replace('Date', 'Status'));
+  var previousValue = el.value;
+  var previousISO = previousValue ? ddmmyyyyToISO(previousValue) : '';
+
+  var parts = isoValue.split('-');
+  var d = new Date(parts[0], parts[1] - 1, parts[2]);
+  var newValue = formatDDMMYYYY(d);
+  el.value = newValue;
+
+  // brief green pulse to confirm the change landed
+  el.style.transition = 'background-color .3s ease';
+  el.style.backgroundColor = '#D1FAE5';
+  setTimeout(function(){ el.style.backgroundColor = 'white'; }, 700);
+
+  if (statusEl) statusEl.textContent = '✓ Updated just now · saved';
+
+  // auto-saved — offer a quick undo
+  showUndoToast('Follow-up set to ' + newValue, function() {
+    el.value = previousValue;
+    var picker = document.getElementById(displayId + 'Picker');
+    if (picker) picker.value = previousISO;
+    el.style.backgroundColor = '#FEF3C7';
+    setTimeout(function(){ el.style.backgroundColor = 'white'; }, 700);
+    if (statusEl) statusEl.textContent = 'Auto-scheduled · already saved';
+  });
+}
+
+function showUndoToast(msg, undoFn) {
+  var existing = document.getElementById('undoToast');
+  if (existing) existing.remove();
+  var t = document.createElement('div');
+  t.id = 'undoToast';
+  t.style.cssText = 'position:absolute;bottom:90px;left:50%;transform:translateX(-50%);background:#1B2B5E;color:white;padding:10px 8px 10px 16px;border-radius:20px;font-size:12px;font-weight:700;font-family:Nunito,sans-serif;white-space:nowrap;z-index:400;animation:fadeIn .2s ease;box-shadow:0 4px 16px rgba(0,0,0,0.3);display:flex;align-items:center;gap:4px;';
+  var label = document.createElement('span');
+  label.textContent = '✓ ' + msg;
+  var undoBtn = document.createElement('button');
+  undoBtn.textContent = 'Undo';
+  undoBtn.style.cssText = 'background:rgba(255,255,255,0.15);border:none;color:white;font-weight:800;font-size:11px;cursor:pointer;font-family:inherit;padding:5px 10px;border-radius:14px;';
+  undoBtn.onclick = function() { undoFn(); t.remove(); };
+  t.appendChild(label);
+  t.appendChild(undoBtn);
+  document.querySelector('.device-shell').appendChild(t);
+  setTimeout(function(){ if (t.parentNode) t.remove(); }, 4000);
 }
 
 function openFpDrawer() {
@@ -8341,6 +8607,15 @@ function filterHouseholds(text) {
   renderHouseholds(text);
 }
 
+
+// ── REFERRAL CONFIRMATION SCREEN ──
+function populateReferFollowup() {
+  var dateVal = document.getElementById('ancFollowupDate') ? document.getElementById('ancFollowupDate').value : '';
+  var el = document.getElementById('referFollowupDateText');
+  if (el) {
+    el.textContent = dateVal ? ('SK will check in around ' + dateVal + '.') : 'SK will check in on the scheduled follow-up date.';
+  }
+}
 
 function openSettingsMenu() {
   var s = document.getElementById('settingsSheet');

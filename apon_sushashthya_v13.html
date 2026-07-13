@@ -2818,6 +2818,10 @@
         </div>
 
         <!-- Start ANC checkup — existing patient path (Nasrin); hidden when screening section is shown -->
+        <div id="ncdCrossNoteNasrin" style="display:none;margin-bottom:8px;align-items:center;gap:6px;">
+          <div style="font-size:12px;flex-shrink:0;">💡</div>
+          <div style="font-size:10.5px;color:#92400E;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">This visit will now cover NCD screening in addition to the ANC care.</div>
+        </div>
         <button id="ancStartCheckupBtn" class="pink-btn" onclick="aStep2()" style="background:#EC4899;">
           Start Checkup →
         </button>
@@ -3274,6 +3278,19 @@
     </div>
     <div class="body" style="padding:16px 14px 28px;">
 
+      <!-- Referred banner — High BP referral condition -->
+      <div style="display:flex;align-items:center;gap:10px;cursor:default;background:#FEF2F2;border-bottom:2.5px solid #FCA5A5;padding:10px 16px;margin:-16px -14px 12px;">
+        <div style="width:26px;height:26px;background:#DC2626;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+          <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#F59E0B;border-radius:50%;animation:notifBadgePulse 2s infinite;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#991B1B;">Referred — high blood pressure</div>
+          <div style="font-size:10.5px;color:#B91C1C;margin-top:2px;line-height:1.35;">Two readings, headaches &amp; family history.</div>
+        </div>
+        <div style="font-size:9.5px;font-weight:800;background:#DC2626;color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Referred</div>
+      </div>
+
       <!-- AI findings line -->
       <div style="font-size:11.5px;font-weight:700;color:#831843;background:#FDF2F8;border-radius:9px;padding:6px 12px;margin-bottom:12px;display:inline-block;">AI checked all findings · Karim, Age 52</div>
 
@@ -3322,77 +3339,47 @@
         </div>
       </div>
 
-      <!-- Diabetes OK -->
-      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#065F46;font-weight:600;">✅ Diabetes — controlled · Blood sugar 7.4 · medicines working</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;">On track</div>
-      </div>
+      <!-- AI Counselling Guide — shown as a WhatsApp message preview, single source of truth -->
+      <div style="background:#FFFBEB;border:1.5px solid #FDE68A;border-radius:14px;overflow:hidden;margin-bottom:12px;">
 
-      <!-- High BP -->
-      <div style="background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#991B1B;font-weight:600;">⚠ High blood pressure — two readings + headaches + family history</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EF4444;color:white;white-space:nowrap;flex-shrink:0;">Refer</div>
-      </div>
+        <!-- Header — real WhatsApp brand green, white text, slim/compact -->
+        <div style="background:#008069;padding:5px 10px;display:flex;align-items:center;gap:6px;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+          <div style="flex:1;">
+            <div style="font-size:10px;font-weight:800;color:white;">AI Counselling Guide</div>
+            <div style="font-size:7.5px;color:rgba(255,255,255,0.75);">To: Md. Karim Uddin · +880 18XX XXX XXX</div>
+          </div>
+        </div>
 
-      <!-- AI Lifestyle Counselling — accordion -->
-      <div style="background:#FDF2F8;border:1.5px solid #FBCFE8;border-radius:16px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-          <div style="width:22px;height:22px;background:linear-gradient(135deg,#E8356D,#6B63D4);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🧂</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Reduce salt</strong> — no pickles, dried fish or salty snacks.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🥦</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Eat vegetables &amp; fruits daily</strong> — leafy greens, banana, tomato.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🚶</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Walk 30 min daily</strong> — morning or evening, even 15 min twice.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🚭</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>No tobacco</strong> — raises BP and stroke risk.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">💊</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Don't stop diabetes medicine</strong> — take every day.</div>
-          </div>
-        </div>
-      </div>
+        <!-- Message area — WhatsApp tan wallpaper background -->
+        <div style="background:#ECE5DD;padding:12px;background-image:radial-gradient(#D9D2C7 0.5px, transparent 0.5px);background-size:10px 10px;">
 
-      <!-- WhatsApp — compact row -->
-      <div onclick="toggleWaDraft('ncd')" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
-        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
-        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
-        <div id="wa-ncd-chevron" style="font-size:16px;color:#25D366;font-weight:800;">›</div>
-      </div>
-      <div id="wa-ncd-draft" style="display:none;margin-top:-10px;margin-bottom:14px;background:white;border:1.5px solid #86EFAC;border-radius:12px;overflow:hidden;">
-        <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-          <div style="width:22px;height:22px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;">👤</div>
-          <div style="font-size:11px;font-weight:700;color:white;">Md. Karim Uddin · +880 18XX XXX XXX</div>
-        </div>
-        <div style="background:#ECE5DD;padding:10px;">
-          <div style="background:white;border-radius:10px;padding:10px 12px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-            <div style="font-size:12px;color:#111;line-height:1.7;">কাকা, আজকের স্বাস্থ্য পরীক্ষা থেকে কিছু গুরুত্বপূর্ণ পরামর্শ পাঠাচ্ছি।<br><br>আপনার <strong>রক্তচাপ বেশি</strong> — আজই UHC-তে যান।<br><br>🧂 লবণ কম খান · 🥦 শাকসবজি খান · 🚶 হাঁটুন · 🚭 তামাক ছাড়ুন<br><br>ডায়াবেটিসের ওষুধ বন্ধ করবেন না। 💊</div>
-            <div style="font-size:9px;color:#999;margin-top:4px;text-align:right;">AI drafted · SK Jahnara</div>
+          <div style="background:white;border-radius:9px 9px 9px 2px;padding:9px 11px;box-shadow:0 1px 2px rgba(0,0,0,0.1);position:relative;">
+            <div style="font-size:12px;color:#111;line-height:1.55;">
+              Diabetes is <strong>controlled</strong> — blood sugar 7.4, medicines working. But blood pressure is <strong>high</strong> — please visit UHC today. <strong>Reduce salt</strong> — no pickles, dried fish or salty snacks. <strong>Eat vegetables &amp; fruits daily.</strong> <strong>Walk 30 min daily.</strong> <strong>No tobacco</strong> — raises BP and stroke risk. Don't stop diabetes medicine — take every day.
+            </div>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:3px;margin-top:5px;">
+              <span style="font-size:9px;color:#8696A0;">10:52</span>
+              <svg width="12" height="8" viewBox="0 0 16 11" fill="none"><path d="M1 5.5L4.5 9L11 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 5.5L8.5 9L15 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
           </div>
+
+          <!-- Send action — centered floating chip below the bubble -->
+          <div style="display:flex;justify-content:center;margin-top:10px;">
+            <button id="ncd-wa-btn" data-patient="Md. Karim Uddin · +880 18XX XXX XXX" onclick="sendCounsellingWA('ncd', this)" style="display:flex;align-items:center;gap:7px;background:#25D366;border:none;border-radius:20px;padding:7px 16px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,0.2);">
+              <svg width="12" height="12" viewBox="0 0 448 512" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L2 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-69.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.7-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-1-9.7-1.9-2.8-8.8-21.3-13.6-32.9-3.6-8.7-7.3-7.5-10-7.5-3.4 0-6.2-.4-9.4-.4-3.2 0-8.4 1.2-12.9 5.9-4.5 4.7-17.2 16.9-17.2 41.2 0 24.3 17.7 47.8 20.2 51.1 2.5 3.3 33.3 51.9 82.4 70.8 40.8 15.6 49 12.6 57.9 11.6 8.9-1 25.9-10.6 29.5-20.9 3.6-10.3 3.6-19.1 2.5-20.9-1.1-1.8-4.1-2.8-8.6-4.9z"/></svg>
+              <span id="ncd-wa-btn-label" style="font-size:10.5px;font-weight:800;color:white;white-space:nowrap;">Send this message</span>
+            </button>
+          </div>
+
         </div>
-        <div style="padding:8px 10px;display:flex;gap:7px;">
-          <button onclick="showToast('✅ WhatsApp message sent to Karim')" style="flex:1;background:#25D366;color:white;border:none;border-radius:9px;padding:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
-          <button onclick="showToast('Message copied')" style="background:#F3F4F6;border:none;border-radius:9px;padding:9px 12px;font-size:12px;cursor:pointer;font-family:inherit;">📋</button>
-        </div>
-      </div>
+
+      </div><!-- /WhatsApp-style counselling card -->
 
       <!-- Follow-up Visit — auto-scheduled -->
-      <div style="background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1.5px solid #FDE68A;border-radius:12px;padding:9px 12px;margin-bottom:10px;">
+      <div style="padding:4px 2px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:9px;">
-          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">🔔</div>
           <div style="font-size:12px;font-weight:700;color:#92400E;white-space:nowrap;">Follow-up</div>
           <div style="position:relative;flex:1;min-width:0;">
             <input type="text" id="ncdFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #FDE68A;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
@@ -3441,16 +3428,28 @@
     <div class="body" style="padding:14px 8px 28px;">
 
       <!-- Referral status banner — driven by 3-visit rising trend -->
-      <div id="s13ReferBanner" style="display:flex;align-items:center;gap:10px;cursor:default;background:#DC2626;padding:10px 16px;margin:-14px -8px 12px;box-shadow:0 2px 6px rgba(220,38,38,0.25);">
-        <div style="width:26px;height:26px;background:rgba(255,255,255,0.22);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+      <div id="s13ReferBanner" style="display:flex;align-items:center;gap:10px;cursor:default;background:#FEF2F2;border-bottom:2.5px solid #FCA5A5;padding:10px 16px;margin:-14px -8px 12px;">
+        <div style="width:26px;height:26px;background:#DC2626;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
           <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#FEF08A;border-radius:50%;animation:notifBadgePulse 2s infinite;"></div>
+          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#F59E0B;border-radius:50%;animation:notifBadgePulse 2s infinite;"></div>
         </div>
         <div style="flex:1;">
-          <div style="font-size:13px;font-weight:800;color:white;">Referred — rising trend across 3 visits</div>
-          <div style="font-size:10.5px;color:rgba(255,255,255,0.85);margin-top:2px;line-height:1.35;">BP, weight &amp; urine protein climbing steadily.</div>
+          <div style="font-size:13px;font-weight:800;color:#991B1B;">Referred — rising trend across 3 visits</div>
+          <div style="font-size:10.5px;color:#B91C1C;margin-top:2px;line-height:1.35;">BP, weight &amp; urine protein climbing steadily.</div>
         </div>
-        <div style="font-size:9.5px;font-weight:800;background:rgba(255,255,255,0.22);color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Referred</div>
+        <div style="font-size:9.5px;font-weight:800;background:#DC2626;color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Referred</div>
+      </div>
+
+      <!-- Normal banner — Priya's first-visit, all-normal case -->
+      <div id="s13NormalBanner" style="display:none;align-items:center;gap:10px;cursor:default;background:#F0FDF4;border-bottom:2.5px solid #A7F3D0;padding:10px 16px;margin:-14px -8px 12px;">
+        <div style="width:26px;height:26px;background:#10B981;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#065F46;">All normal — healthy start to pregnancy</div>
+          <div style="font-size:10.5px;color:#0D7A4F;margin-top:2px;line-height:1.35;">First ANC visit, 8 weeks. No concerns found today.</div>
+        </div>
+        <div style="font-size:9.5px;font-weight:800;background:#10B981;color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Normal</div>
       </div>
 
       <!-- Household avatar strip — top of summary -->
@@ -3494,83 +3493,59 @@
         <div id="pdRiskNone" style="display:none;font-size:11.5px;color:rgba(255,255,255,0.85);">✓ No additional risk factors identified from registration.</div>
       </div>
 
-      <!-- Today's readings — compact single line -->
-      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#065F46;font-weight:600;" id="s13ReadingsText">✅ BP 132/86, weight, urine, baby movement — all within normal limits</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;" id="s13ReadingsBadge">Normal</div>
-      </div>
+      <!-- AI Counselling Guide — shown as a WhatsApp message preview, single source of truth -->
+      <div style="background:#F0FDF4;border:1.5px solid #A7F3D0;border-radius:14px;overflow:hidden;margin-bottom:12px;">
 
-      <!-- AI Counselling + Follow-up merged card -->
-      <div style="background:#FDF2F8;border:1.5px solid #FBCFE8;border-radius:16px;padding:12px 14px 10px;margin-bottom:10px;">
-
-        <!-- AI label -->
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#E8356D"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
-          <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
-        </div>
-
-        <!-- Nasrin counselling points (hidden for Priya) -->
-        <div id="s13CounselNasrin" style="display:flex;flex-direction:column;gap:6px;margin-bottom:2px;">
-          <div style="font-size:12px;color:#9D174D;line-height:1.3;"><strong>Baby and mother are okay today</strong> — no emergency.</div>
-          <div style="font-size:12px;color:#9D174D;line-height:1.3;">Doctor check <strong>within 2 days</strong> — refer to UHC, don't wait.</div>
-          <div style="font-size:12px;color:#9D174D;line-height:1.3;">Return <strong>immediately</strong> if: headache, blurred vision, tummy pain, sudden swelling.</div>
-          <div style="font-size:12px;color:#9D174D;line-height:1.3;">Continue <strong>iron &amp; calcium</strong> daily. Don't miss next ANC visit.</div>
-        </div>
-
-        <!-- Priya counselling points — first visit, all normal (hidden by default) -->
-        <div id="s13CounselPriya" style="display:none;flex-direction:column;gap:5px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">✅</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>All normal</strong> — great start at 8 weeks.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">📅</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Next ANC at 16 weeks</strong> — don't skip.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">💊</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Iron &amp; folic acid</strong> daily — after meals.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🚨</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Come at once</strong> if bleeding, pain, fever or blurred vision.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🥗</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Eat well</strong> — eggs, lentils, greens, milk daily.</div>
+        <!-- Header — real WhatsApp brand green, white text, still slim/compact -->
+        <div style="background:#008069;padding:5px 10px;display:flex;align-items:center;gap:6px;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+          <div style="flex:1;">
+            <div style="font-size:10px;font-weight:800;color:white;">AI Counselling Guide</div>
+            <div id="anc-wa-recipient" style="font-size:7.5px;color:rgba(255,255,255,0.75);">To: Nasrin Begum · +880 17XX XXX XXX</div>
           </div>
         </div>
 
-      </div><!-- /counselling card -->
+        <!-- Message area — WhatsApp tan wallpaper background -->
+        <div style="background:#ECE5DD;padding:12px;background-image:radial-gradient(#D9D2C7 0.5px, transparent 0.5px);background-size:10px 10px;">
 
-      <!-- WhatsApp draft — compact tappable row -->
-      <div id="wa-anc-strip" onclick="toggleWaDraft('anc')" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
-        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
-        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
-        <div id="wa-anc-chevron" style="font-size:16px;color:#25D366;font-weight:800;">›</div>
-      </div>
-            <div id="wa-anc-draft" style="display:none;margin-top:8px;background:white;border:1.5px solid #86EFAC;border-radius:12px;overflow:hidden;margin-bottom:14px;">
-            <div style="background:#075E54;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-              <div style="width:24px;height:24px;background:#DCF8C6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">👤</div>
-              <div id="waPatientName" style="font-size:12px;font-weight:700;color:white;">Nasrin Begum · +880 17XX XXX XXX</div>
+          <!-- Nasrin message bubble (hidden for Priya) -->
+          <div id="s13CounselNasrin" style="background:white;border-radius:9px 9px 9px 2px;padding:9px 11px;box-shadow:0 1px 2px rgba(0,0,0,0.1);position:relative;">
+            <div style="font-size:12px;color:#111;line-height:1.55;">
+              <strong>Baby and mother are okay today</strong> — no emergency. Doctor check <strong>within 2 days</strong> — refer to UHC, don't wait. Return <strong>immediately</strong> if: headache, blurred vision, tummy pain, sudden swelling. Continue <strong>iron &amp; calcium</strong> daily. Don't miss next ANC visit.
             </div>
-            <div style="background:#ECE5DD;padding:12px;">
-              <div style="background:white;border-radius:10px;padding:11px 13px;max-width:90%;box-shadow:0 1px 3px rgba(0,0,0,0.1);">
-                <div id="waMsgNasrin" style="font-size:12.5px;color:#111;line-height:1.7;">আপু, আজকের স্বাস্থ্য পরীক্ষার পর কিছু গুরুত্বপূর্ণ কথা জানাচ্ছি। আপনার ও শিশুর অবস্থা আজ ভালো আছে। তবে আপনার রক্তচাপ ধীরে ধীরে বাড়ছে — তাই <strong>২ দিনের মধ্যে</strong> উপজেলা স্বাস্থ্য কমপ্লেক্সে ডাক্তার দেখাতে হবে।<br><br>যদি হঠাৎ মাথাব্যথা, চোখ ঝাপসা, পেটে ব্যথা বা হাত-পা ফুলে যায় — তাহলে <strong>সঙ্গে সঙ্গে</strong> হাসপাতালে যান।<br><br>প্রতিদিন আয়রন ও ক্যালসিয়াম ট্যাবলেট খাওয়া বন্ধ করবেন না। 💊</div>
-                <div id="waMsgPriya" style="display:none;font-size:12.5px;color:#111;line-height:1.7;">আপু, আজকে আপনার প্রথম গর্ভকালীন স্বাস্থ্য পরীক্ষা হলো। সব কিছু স্বাভাবিক আছে — আপনি ও শিশু ভালো আছেন! 🌸<br><br>✅ পরবর্তী ANC ভিজিট <strong>১৬ সপ্তাহে</strong> করতে ভুলবেন না।<br>💊 প্রতিদিন আয়রন ও ফলিক এসিড ট্যাবলেট খান।<br>🥗 পুষ্টিকর খাবার খান: ডিম, ডাল, সবুজ শাকসবজি, দুধ।<br><br>যদি হঠাৎ রক্তপাত, তীব্র ব্যথা, জ্বর বা চোখ ঝাপসা হয় — সঙ্গে সঙ্গে চলে আসুন।</div>
-                <div style="font-size:10px;color:#999;margin-top:5px;text-align:right;">AI drafted · Shasthya Kormi Jahnara</div>
-              </div>
-            </div>
-            <div style="padding:10px 12px;display:flex;gap:8px;">
-              <button id="anc-wa-btn" onclick="showToast('✅ WhatsApp message sent')" style="flex:1;background:#25D366;color:white;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">📤 Send via WhatsApp</button>
-              <button onclick="showToast('Message copied to clipboard')" style="background:#F3F4F6;border:none;border-radius:10px;padding:10px 14px;font-size:13px;cursor:pointer;font-family:inherit;">📋</button>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:3px;margin-top:5px;">
+              <span style="font-size:9px;color:#8696A0;">11:28</span>
+              <svg width="12" height="8" viewBox="0 0 16 11" fill="none"><path d="M1 5.5L4.5 9L11 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 5.5L8.5 9L15 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
+
+          <!-- Priya message bubble — first visit, all normal (hidden by default) -->
+          <div id="s13CounselPriya" style="display:none;background:white;border-radius:9px 9px 9px 2px;padding:9px 11px;box-shadow:0 1px 2px rgba(0,0,0,0.1);position:relative;">
+            <div style="font-size:12px;color:#111;line-height:1.55;">
+              ✅ <strong>All normal</strong> — great start at 8 weeks. 📅 <strong>Next ANC at 16 weeks</strong> — don't skip. 💊 <strong>Iron &amp; folic acid</strong> daily — after meals. 🚨 <strong>Come at once</strong> if bleeding, pain, fever or blurred vision. 🥗 <strong>Eat well</strong> — eggs, lentils, greens, milk daily.
+            </div>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:3px;margin-top:5px;">
+              <span style="font-size:9px;color:#8696A0;">11:28</span>
+              <svg width="12" height="8" viewBox="0 0 16 11" fill="none"><path d="M1 5.5L4.5 9L11 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 5.5L8.5 9L15 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Send action — centered floating chip below the bubble -->
+          <div style="display:flex;justify-content:center;margin-top:10px;">
+            <button id="anc-wa-btn" data-patient="Nasrin Begum · +880 17XX XXX XXX" onclick="sendCounsellingWA('anc', this)" style="display:flex;align-items:center;gap:7px;background:#25D366;border:none;border-radius:20px;padding:7px 16px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,0.2);">
+              <svg width="12" height="12" viewBox="0 0 448 512" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L2 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-69.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.7-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-1-9.7-1.9-2.8-8.8-21.3-13.6-32.9-3.6-8.7-7.3-7.5-10-7.5-3.4 0-6.2-.4-9.4-.4-3.2 0-8.4 1.2-12.9 5.9-4.5 4.7-17.2 16.9-17.2 41.2 0 24.3 17.7 47.8 20.2 51.1 2.5 3.3 33.3 51.9 82.4 70.8 40.8 15.6 49 12.6 57.9 11.6 8.9-1 25.9-10.6 29.5-20.9 3.6-10.3 3.6-19.1 2.5-20.9-1.1-1.8-4.1-2.8-8.6-4.9z"/></svg>
+              <span id="anc-wa-btn-label" style="font-size:10.5px;font-weight:800;color:white;white-space:nowrap;">Send this message</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div><!-- /WhatsApp-style counselling card -->
 
       <!-- Follow-up Visit — auto-scheduled -->
-      <div style="background:linear-gradient(135deg,#FDF2F8,#F5F3FF);border:1.5px solid #FBCFE8;border-radius:12px;padding:9px 12px;margin-bottom:12px;">
+      <div style="padding:4px 2px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:9px;">
-          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">🔔</div>
           <div style="font-size:12px;font-weight:700;color:#9D174D;white-space:nowrap;">Follow-up</div>
           <div style="position:relative;flex:1;min-width:0;">
             <input type="text" id="ancFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #FBCFE8;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
@@ -5560,6 +5535,19 @@
 
     <div class="body" style="padding:16px 14px 28px;">
 
+      <!-- Referred banner — 14-week doses overdue -->
+      <div style="display:flex;align-items:center;gap:10px;cursor:default;background:#FEF2F2;border-bottom:2.5px solid #FCA5A5;padding:10px 16px;margin:-16px -14px 12px;">
+        <div style="width:26px;height:26px;background:#DC2626;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+          <svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:#F59E0B;border-radius:50%;animation:notifBadgePulse 2s infinite;"></div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#991B1B;">Referred — 14-week doses overdue</div>
+          <div style="font-size:10.5px;color:#B91C1C;margin-top:2px;line-height:1.35;">Pentavalent, OPV, PCV &amp; fIPV are due now.</div>
+        </div>
+        <div style="font-size:9.5px;font-weight:800;background:#DC2626;color:white;padding:4px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;">Referred</div>
+      </div>
+
       <!-- This household · while you're here -->
       <div style="margin-bottom:14px;">
         <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
@@ -5605,51 +5593,47 @@
         </div>
       </div>
 
-      <!-- All normal reading strip -->
-      <div style="background:#ECFDF5;border:1.5px solid #A7F3D0;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <div style="font-size:12.5px;color:#065F46;font-weight:600;">⚠ 3 vaccines overdue · 14-week doses (Pentavalent, OPV, PCV, fIPV) are due now</div>
-        <div style="font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:#10B981;color:white;white-space:nowrap;flex-shrink:0;">On track</div>
-      </div>
+      <!-- AI Counselling Guide — shown as a WhatsApp message preview, single source of truth -->
+      <div style="background:#F0FDF4;border:1.5px solid #A7F3D0;border-radius:14px;overflow:hidden;margin-bottom:12px;">
 
-      <!-- AI Counselling card -->
-      <div style="background:#FDF2F8;border:1.5px solid #FBCFE8;border-radius:16px;padding:14px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-          <div style="width:22px;height:22px;background:linear-gradient(135deg,#E8356D,#6B63D4);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div style="font-size:10px;font-weight:800;color:#BE185D;text-transform:uppercase;letter-spacing:.05em;">AI counselling guide</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">✅</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>3 vaccines overdue</strong> — 14-week doses are due now.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🛡️</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;">All 3 can be given in ONE visit — Pentavalent, OPV, PCV &amp; fIPV Dose 1.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">📅</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;"><strong>Next milestone: 9 months</strong> — MR, TCV, fIPV-2 &amp; Vitamin A.</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="font-size:15px;flex-shrink:0;">🚨</div>
-            <div style="font-size:12px;color:#9D174D;line-height:1.35;">Return at once if: high fever, rash, or breathing difficulty of any kind.</div>
+        <!-- Header — real WhatsApp brand green, white text, slim/compact -->
+        <div style="background:#008069;padding:5px 10px;display:flex;align-items:center;gap:6px;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="white"><path d="M12 0l2.5 9.5L24 12l-9.5 2.5L12 24l-2.5-9.5L0 12l9.5-2.5z"/></svg>
+          <div style="flex:1;">
+            <div style="font-size:10px;font-weight:800;color:white;">AI Counselling Guide</div>
+            <div style="font-size:7.5px;color:rgba(255,255,255,0.75);">To: Rahim's guardian · +880 19XX XXX XXX</div>
           </div>
         </div>
-      </div>
 
-      <!-- WhatsApp — compact row -->
-      <div onclick="openWADraft()" style="display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #86EFAC;border-radius:12px;padding:10px 13px;margin-bottom:14px;cursor:pointer;">
-        <div style="width:30px;height:30px;background:#25D366;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📲</div>
-        <div style="flex:1;font-size:12px;font-weight:700;color:#14532D;">Send today's advice as a WhatsApp message in Bangla</div>
-        <div style="font-size:16px;color:#25D366;font-weight:800;">›</div>
-      </div>
+        <!-- Message area — WhatsApp tan wallpaper background -->
+        <div style="background:#ECE5DD;padding:12px;background-image:radial-gradient(#D9D2C7 0.5px, transparent 0.5px);background-size:10px 10px;">
+
+          <div style="background:white;border-radius:9px 9px 9px 2px;padding:9px 11px;box-shadow:0 1px 2px rgba(0,0,0,0.1);position:relative;">
+            <div style="font-size:12px;color:#111;line-height:1.55;">
+              <strong>3 vaccines overdue</strong> — 14-week doses are due now. All 3 can be given in <strong>ONE visit</strong> — Pentavalent, OPV, PCV &amp; fIPV Dose 1. <strong>Next milestone: 9 months</strong> — MR, TCV, fIPV-2 &amp; Vitamin A. Return at once if: high fever, rash, or breathing difficulty of any kind.
+            </div>
+            <div style="display:flex;justify-content:flex-end;align-items:center;gap:3px;margin-top:5px;">
+              <span style="font-size:9px;color:#8696A0;">10:50</span>
+              <svg width="12" height="8" viewBox="0 0 16 11" fill="none"><path d="M1 5.5L4.5 9L11 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 5.5L8.5 9L15 1" stroke="#53BDEB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <!-- Send action — centered floating chip below the bubble -->
+          <div style="display:flex;justify-content:center;margin-top:10px;">
+            <button id="imm-wa-btn" data-patient="Rahim's guardian · +880 19XX XXX XXX" onclick="sendCounsellingWA('imm', this)" style="display:flex;align-items:center;gap:7px;background:#25D366;border:none;border-radius:20px;padding:7px 16px;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,0.2);">
+              <svg width="12" height="12" viewBox="0 0 448 512" fill="white"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L2 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-69.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.7-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-1-9.7-1.9-2.8-8.8-21.3-13.6-32.9-3.6-8.7-7.3-7.5-10-7.5-3.4 0-6.2-.4-9.4-.4-3.2 0-8.4 1.2-12.9 5.9-4.5 4.7-17.2 16.9-17.2 41.2 0 24.3 17.7 47.8 20.2 51.1 2.5 3.3 33.3 51.9 82.4 70.8 40.8 15.6 49 12.6 57.9 11.6 8.9-1 25.9-10.6 29.5-20.9 3.6-10.3 3.6-19.1 2.5-20.9-1.1-1.8-4.1-2.8-8.6-4.9z"/></svg>
+              <span id="imm-wa-btn-label" style="font-size:10.5px;font-weight:800;color:white;white-space:nowrap;">Send this message</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div><!-- /WhatsApp-style counselling card -->
 
       <!-- Follow-up Visit — auto-scheduled from immunisation schedule -->
-      <div style="background:linear-gradient(135deg,#FFFBEB,#ECFDF5);border:1.5px solid #A7F3D0;border-radius:12px;padding:9px 12px;margin-bottom:10px;">
+      <div style="padding:4px 2px;margin-bottom:12px;">
         <div style="display:flex;align-items:center;gap:9px;">
-          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">📅</div>
+          <div style="width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,0.06);">🔔</div>
           <div style="font-size:12px;font-weight:700;color:#065F46;white-space:nowrap;">Follow-up</div>
           <div style="position:relative;flex:1;min-width:0;">
             <input type="text" id="immFollowupDate" placeholder="DD-MM-YYYY" readonly style="width:100%;padding:6px 30px 6px 9px;border:1.5px solid #A7F3D0;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:800;color:var(--navy);outline:none;background:white;text-align:center;cursor:pointer;">
@@ -5896,6 +5880,19 @@ function filterSymptomChips(screen, query) {
   }).join('');
 }
 
+// Symptoms that can also signal an underlying NCD condition (shown only on Nasrin's screen)
+var NCD_CROSS_SYMPTOMS = ['Chest pain', 'One-sided weakness', 'Swelling of both feet', 'Palpitations', 'Shortness of breath'];
+
+function updateNcdCrossNote() {
+  var note = document.getElementById('ncdCrossNoteNasrin');
+  if (!note) return;
+  var anyActive = NCD_CROSS_SYMPTOMS.some(function(label) {
+    var chip = document.querySelector('[data-chip-screen="nasrin"][data-chip-label="' + label + '"]');
+    return chip && chip.classList.contains('active');
+  });
+  note.style.display = anyActive ? 'flex' : 'none';
+}
+
 function toggleSymptomChip(chipEl, screen, label) {
   var isActive = chipEl.classList.contains('active');
   if (isActive) {
@@ -5905,6 +5902,7 @@ function toggleSymptomChip(chipEl, screen, label) {
     chipEl.classList.add('active');
     addSymptomCard(screen, label, 'Standard');
   }
+  if (screen === 'nasrin') updateNcdCrossNote();
 }
 
 function addSymptomCard(screen, text, tagLabel) {
@@ -5933,6 +5931,7 @@ function addSymptomCard(screen, text, tagLabel) {
     card.remove();
     var chip = document.querySelector('[data-chip-screen="' + screen + '"][data-chip-label="' + text + '"]');
     if (chip) chip.classList.remove('active');
+    if (screen === 'nasrin') updateNcdCrossNote();
   };
 
   card.appendChild(label);
@@ -6480,36 +6479,40 @@ function goToS13() {
   if (_isPriyaVisit) {
     document.getElementById('s13PatientName').textContent = 'Priya Rani Das';
     document.getElementById('s13PatientSub').textContent = 'Age 20 · House #06 · Bhadra';
-    document.getElementById('s13ReadingsText').textContent = '✅ All first-visit readings normal — healthy start to pregnancy';
     var referBanner = document.getElementById('s13ReferBanner');
     if (referBanner) referBanner.style.display = 'none';
+    var normalBanner = document.getElementById('s13NormalBanner');
+    if (normalBanner) normalBanner.style.display = 'flex';
     document.getElementById('s13CounselNasrin').style.display = 'none';
-    document.getElementById('s13CounselPriya').style.display = 'flex';
+    document.getElementById('s13CounselPriya').style.display = 'block';
     document.getElementById('s13ActionsNasrin').style.display = 'none';
     document.getElementById('s13ActionsPriya').style.display = 'block';
     var nasrinHH = document.getElementById('s13HouseholdMembersNasrin');
     if (nasrinHH) nasrinHH.style.display = 'none';
-    document.getElementById('waPatientName').textContent = 'Priya Rani Das · +880 18XX XXX XXX';
-    document.getElementById('waMsgNasrin').style.display = 'none';
-    document.getElementById('waMsgPriya').style.display = 'block';
+    var waBtn = document.getElementById('anc-wa-btn');
+    if (waBtn) waBtn.setAttribute('data-patient', 'Priya Rani Das · +880 18XX XXX XXX');
+    var waRecip = document.getElementById('anc-wa-recipient');
+    if (waRecip) waRecip.textContent = 'To: Priya Rani Das · +880 18XX XXX XXX';
     var riskList = document.getElementById('pdRiskList');
     var riskBox = document.getElementById('pdRiskSummary');
     if (riskBox) riskBox.style.display = (riskList && riskList.children.length > 0) ? 'block' : 'none';
   } else {
     document.getElementById('s13PatientName').textContent = 'Nasrin Begum';
     document.getElementById('s13PatientSub').textContent = 'Age 24 · House #07';
-    document.getElementById('s13ReadingsText').textContent = '✅ BP 132/86, weight, urine, baby movement — all within normal limits';
     var referBanner2 = document.getElementById('s13ReferBanner');
     if (referBanner2) referBanner2.style.display = 'flex';
-    document.getElementById('s13CounselNasrin').style.display = 'flex';
+    var normalBanner2 = document.getElementById('s13NormalBanner');
+    if (normalBanner2) normalBanner2.style.display = 'none';
+    document.getElementById('s13CounselNasrin').style.display = 'block';
     document.getElementById('s13CounselPriya').style.display = 'none';
     document.getElementById('s13ActionsNasrin').style.display = 'block';
     document.getElementById('s13ActionsPriya').style.display = 'none';
     var nasrinHH = document.getElementById('s13HouseholdMembersNasrin');
     if (nasrinHH) nasrinHH.style.display = 'block';
-    document.getElementById('waPatientName').textContent = 'Nasrin Begum · +880 17XX XXX XXX';
-    document.getElementById('waMsgNasrin').style.display = 'block';
-    document.getElementById('waMsgPriya').style.display = 'none';
+    var waBtn2 = document.getElementById('anc-wa-btn');
+    if (waBtn2) waBtn2.setAttribute('data-patient', 'Nasrin Begum · +880 17XX XXX XXX');
+    var waRecip2 = document.getElementById('anc-wa-recipient');
+    if (waRecip2) waRecip2.textContent = 'To: Nasrin Begum · +880 17XX XXX XXX';
     var riskBox2 = document.getElementById('pdRiskSummary');
     if (riskBox2) riskBox2.style.display = 'none';
   }
@@ -7085,6 +7088,26 @@ function toggleLifestyle() {
   var open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
   if (chevron) { chevron.textContent = open ? '›' : '˅'; chevron.style.transform = open ? '' : 'rotate(0deg)'; }
+}
+
+// ── Send the counselling guide directly via WhatsApp — no duplicate preview ──
+function sendCounsellingWA(screen, btnEl) {
+  var patient = btnEl.getAttribute('data-patient') || "the patient's number";
+  var labelEl = btnEl.querySelector('span');
+  var originalLabel = labelEl ? labelEl.textContent : 'Send this message';
+  var originalBg = btnEl.style.background;
+
+  if (labelEl) labelEl.textContent = 'Sent ✓';
+  btnEl.style.background = '#059669';
+  btnEl.style.pointerEvents = 'none';
+
+  showToast('✅ Sent via WhatsApp to ' + patient);
+
+  setTimeout(function() {
+    if (labelEl) labelEl.textContent = originalLabel;
+    btnEl.style.background = originalBg || '#25D366';
+    btnEl.style.pointerEvents = 'auto';
+  }, 2200);
 }
 
 function toggleWaDraft(key) {
